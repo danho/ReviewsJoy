@@ -28,10 +28,9 @@ namespace ReviewsJoy.Controllers
             return db.LocationGetByAddress(address);
         }
 
-        [HttpPost]
         public JsonResult GetLocationsByAddressWebService(string address)
         {
-            return Json(LocationsGetByAddress(address));
+            return Json(LocationsGetByAddress(address), JsonRequestBehavior.AllowGet);
         }
     }
 }
