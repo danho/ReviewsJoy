@@ -19,6 +19,7 @@ namespace ReviewsJoy.Controllers
 
         public ActionResult Index()
         {
+            var cats = db.CategoryGetAll();
             return View();
         }
 

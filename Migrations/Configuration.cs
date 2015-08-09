@@ -42,6 +42,44 @@ namespace ReviewsJoy.Migrations
             context.Locations.AddOrUpdate(l => l.LocationId,
                 l1,
                 l2);
+
+            var c1 = new Category
+            {
+                CategoryId = 1,
+                Name = "Food"
+            };
+            var c2 = new Category
+            {
+                CategoryId = 2,
+                Name = "Parking"
+            };
+
+            context.Categories.AddOrUpdate(c => c.CategoryId,
+                c1,
+                c2);
+
+            var r1 = new Review
+            {
+                ReviewId = 1,
+                Author = "A",
+                Category = c1,
+                Location = l1,
+                ReviewText = "Pretty good.",
+                Stars = 8
+            };
+            var r2 = new Review
+            {
+                ReviewId = 2,
+                Author = "B",
+                Category = c2,
+                Location = l2,
+                ReviewText = "Plenty of parking spaces",
+                Stars = 10
+            };
+
+            context.Reviews.AddOrUpdate(r => r.ReviewId,
+                r1,
+                r2);
         }
     }
 }

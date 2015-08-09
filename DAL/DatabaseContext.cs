@@ -10,6 +10,8 @@ namespace ReviewsJoy.DAL
     public class DatabaseContext : DbContext, IDatabaseContext
     {
         public DbSet<Location> Locations { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Review> Reviews { get; set; }
 
         public List<Location> LocationGetByAddress(string address)
         {
@@ -19,6 +21,11 @@ namespace ReviewsJoy.DAL
         public Location LocationGetById(int id)
         {
             return Locations.FirstOrDefault(l => l.LocationId == id);
+        }
+
+        public List<Category> CategoryGetAll()
+        {
+            return Categories.ToList();
         }
     }
 }

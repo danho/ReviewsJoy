@@ -12,6 +12,7 @@ namespace ReviewsJoyTests.TestDAL
     {
 
         private List<Location> locations;
+        private List<Category> categories;
 
         public TestDatabaseContext()
         {
@@ -42,6 +43,11 @@ namespace ReviewsJoyTests.TestDAL
             locations = new List<Location>();
             locations.Add(l1);
             locations.Add(l2);
+        }
+
+        public List<Category> CategoryGetAll()
+        {
+            return categories.ToList();
         }
 
         public List<Location> LocationGetByAddress(string address)
