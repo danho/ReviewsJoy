@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.Title = "ReviewsJoy";
+}
+
+<div>
+
+    <div>
+        <div id="frontPage" class="panel1" style="padding: 100px 0;">
+            <div class="text-center">
+                <h1 style="font-size: 100px;">ReviewsJoy</h1>
+                <br />
+                <h1>Taking Reviews To The Next Level</h1>
+                <br />
+                <br />
+                <button id="searchNowBtn" class="btn btn-danger">Search Now</button>
+                <div id="searchNow" class="hidden">
+                    <form class="form-inline" role="form">
+                        <div class="input-group">
+                            <input id="searchTxtBx" type="text" class="form-control" placeholder="Address" />
+                            <span class="input-group-btn">
+                                <button id="searchBtn" class="btn btn-primary" type="button">Search</button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="searchResults" class="panel1" style="padding: 100px 0;">
+            <ul id="searchResultsList"></ul>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $('#searchNowBtn').click(function () {
+            $('#searchNowBtn').hide();
+            $('#searchNow').removeClass('hidden');
+            $('#searchNow').show();
+        });
+
+        $('#searchBtn').click(function () {
+            var uri = '@Url.Action("GetLocationsByAddressWebService")';
+            var searchString = $('#searchTxtBx').val();
+            $.ajax({
+                url: uri,
+                type: 'POST',
+                data: { 'address': searchString },
+                success: function (result) {
+                    $('#frontPage').hide();
+                    $('#searchResultsList').empty();
+                    $.each(result, function (key, item) {
+                        var uri = "@Url.Action("Details", "Location")";
+                        uri += "/" + item.LocationId;
+                        $('#searchResultsList').append("<li><a href='" + uri + "'>" + item.Address + "</a></li>");
+                });
+            }
+            });
+        });
+    });
+    </script>
+}
