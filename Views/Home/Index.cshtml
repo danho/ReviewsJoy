@@ -51,7 +51,7 @@
                     $('#frontPage').hide();
                     $('#searchResultsList').empty();
                     $.each(result, function (key, item) {
-                        var uri = "@Url.Action("Details", "Location")";
+                        var uri = "@Url.Action("All", "Reviews")";
                         uri += "/" + item.LocationId;
                         $('#searchResultsList').append("<li><a href='" + uri + "'>" + item.Address + "</a></li>");
                 });

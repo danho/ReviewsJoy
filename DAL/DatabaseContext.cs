@@ -27,5 +27,10 @@ namespace ReviewsJoy.DAL
         {
             return Categories.ToList();
         }
+
+        public List<Review> ReviewsGetByLocationId(int locationId)
+        {
+            return Reviews.Where(r => r.Location.LocationId == locationId).ToList();
+        }
     }
 }

@@ -1,0 +1,10 @@
+﻿@model List<ReviewsJoy.Models.Review>
+@{
+    ViewBag.Title = "All";
+}
+
+@foreach (var r in Model)
+{
+    <h1>@r.ReviewText</h1>
+}
+

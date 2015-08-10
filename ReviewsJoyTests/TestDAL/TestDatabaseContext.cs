@@ -13,6 +13,7 @@ namespace ReviewsJoyTests.TestDAL
 
         private List<Location> locations;
         private List<Category> categories;
+        private List<Review> reviews;
 
         public TestDatabaseContext()
         {
@@ -43,6 +44,44 @@ namespace ReviewsJoyTests.TestDAL
             locations = new List<Location>();
             locations.Add(l1);
             locations.Add(l2);
+
+            var c1 = new Category
+            {
+                CategoryId = 1,
+                Name = "Food"
+            };
+            var c2 = new Category
+            {
+                CategoryId = 2,
+                Name = "Parking"
+            };
+
+            categories = new List<Category>();
+            categories.Add(c1);
+            categories.Add(c2);
+
+            var r1 = new Review
+            {
+                ReviewId = 1,
+                Author = "A",
+                Category = c1,
+                Location = l1,
+                ReviewText = "Pretty good.",
+                Stars = 8
+            };
+            var r2 = new Review
+            {
+                ReviewId = 2,
+                Author = "B",
+                Category = c2,
+                Location = l2,
+                ReviewText = "Plenty of parking spaces",
+                Stars = 10
+            };
+
+            reviews = new List<Review>();
+            reviews.Add(r1);
+            reviews.Add(r2);
         }
 
         public List<Category> CategoryGetAll()
@@ -58,6 +97,11 @@ namespace ReviewsJoyTests.TestDAL
         public Location LocationGetById(int id)
         {
             return locations.FirstOrDefault(l => l.LocationId == id);
+        }
+
+        public List<Review> ReviewsGetByLocationId(int locationId)
+        {
+            return reviews.Where(r => r.Location.LocationId == locationId).ToList();
         }
     }
 }

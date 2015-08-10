@@ -74,8 +74,10 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CategoryControllerTests.cs" />
     <Compile Include="HomeControllerTests.cs" />
     <Compile Include="LocationControllerTests.cs" />
+    <Compile Include="ReviewsControllerTests.cs" />
     <Compile Include="TestDAL\TestDatabaseContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
