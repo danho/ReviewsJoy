@@ -32,5 +32,11 @@ namespace ReviewsJoy.DAL
         {
             return Reviews.Where(r => r.Location.LocationId == locationId).ToList();
         }
+
+        public void AddReview(Review review)
+        {
+            Reviews.Add(review);
+            SaveChanges();
+        }
     }
 }

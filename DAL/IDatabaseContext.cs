@@ -12,5 +12,6 @@ namespace ReviewsJoy.DAL
         Location LocationGetById(int id);
         List<Category> CategoryGetAll();
         List<Review> ReviewsGetByLocationId(int locationId);
+        void AddReview(Review review);
     }
 }

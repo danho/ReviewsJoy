@@ -103,5 +103,10 @@ namespace ReviewsJoyTests.TestDAL
         {
             return reviews.Where(r => r.Location.LocationId == locationId).ToList();
         }
+
+        public void AddReview(Review review)
+        {
+            reviews.Add(review);
+        }
     }
 }
