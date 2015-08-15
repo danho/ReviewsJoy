@@ -17,6 +17,7 @@ namespace ReviewsJoy.Controllers
             this.db = db;
         }
 
+        [RequireHttps]
         public ActionResult Index()
         {
             var cats = db.CategoryGetAll();
@@ -32,6 +33,16 @@ namespace ReviewsJoy.Controllers
         public JsonResult GetLocationsByAddressWebService(string address)
         {
             return Json(LocationsGetByAddress(address), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult LandingPage()
+        {
+            return View();
+        }
+
+        public ActionResult Begin()
+        {
+            return View();
         }
     }
 }

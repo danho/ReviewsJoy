@@ -18,6 +18,11 @@ namespace ReviewsJoy.Controllers
             this.db = db;
         }
 
+        public ActionResult One()
+        {
+            return View();
+        }
+
         [ChildActionOnly]
         public List<Review> ReviewsGetByLocationId(int locationId)
         {

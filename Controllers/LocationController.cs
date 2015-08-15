@@ -28,5 +28,16 @@ namespace ReviewsJoy.Controllers
         {
             return View(LocationGetById(id));
         }
+
+        [ChildActionOnly]
+        public List<Location> LocationsGetByAddress(string address)
+        {
+            return db.LocationGetByAddress(address);
+        }
+
+        public ActionResult GetLocationsByAddressWebService(string address)
+        {
+            return View(LocationsGetByAddress(address));
+        }
     }
 }

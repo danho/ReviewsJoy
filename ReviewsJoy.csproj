@@ -229,6 +229,8 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Properties\PublishProfiles\reviewsjoy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\Controllers\BeginController.js" />
+    <Content Include="Scripts\Controllers\HomePageController.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -239,6 +241,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\ReviewsJoy.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Unity.Mvc3.README.txt" />
     <Content Include="Views\Web.config" />
@@ -271,6 +274,10 @@
     <Content Include="Views\Location\Details.cshtml" />
     <Content Include="web.config" />
     <Content Include="Views\Reviews\All.cshtml" />
+    <Content Include="Views\Reviews\One.cshtml" />
+    <Content Include="Views\Location\GetLocationsByAddressWebService.cshtml" />
+    <Content Include="Views\Home\Begin.cshtml" />
+    <Content Include="Views\Home\LandingPage.cshtml" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
       <SubType>Designer</SubType>
