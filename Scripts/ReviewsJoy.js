@@ -5,7 +5,11 @@ app.controller('BeginController', ['$scope', '$window', BeginController]);
 
 var configFunction = function ($routeProvider) {
     $routeProvider.
-        when('/Landing', {
+        when('/', {
+            templateUrl: 'Home/LandingPage',
+            controller: 'HomePageController'
+        })
+        .when('/Landing', {
             templateUrl: 'Home/LandingPage',
             controller: 'HomePageController'
         })
@@ -17,6 +21,9 @@ var configFunction = function ($routeProvider) {
             templateUrl: function (params) {
                 return '/Location/GetLocationsByAddressWebService?address=' + params.address;
             }
+        })
+        .otherwise({
+            redirectTo: '/Landing'
         });
 };
 

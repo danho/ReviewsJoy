@@ -1,38 +1,9 @@
-﻿@{
-    ViewBag.Title = "ReviewsJoy";
-}
-
-<div id="frontPage" class="panel1" style="padding: 100px 0;">
+﻿<div id="frontPage" class="panel1" style="padding: 100px 0;">
     <div ng-view>
     </div>
 </div>
-@*<div id="searchResults" class="panel1" style="padding: 100px 0;">
-    <ul id="searchResultsList"></ul>
-</div>*@
 
 @section Scripts {
-    @*<script type="text/javascript">
-    $(document).ready(function () {
-        $('#searchBtn').click(function () {
-            var uri = '@Url.Action("GetLocationsByAddressWebService")';
-            var searchString = $('#searchTxtBx').val();
-            $.ajax({
-                url: uri,
-                type: 'POST',
-                data: { 'address': searchString },
-                success: function (result) {
-                    $('#frontPage').hide();
-                    $('#searchResultsList').empty();
-                    $.each(result, function (key, item) {
-                        var uri = "@Url.Action("All", "Reviews")";
-                        uri += "/" + item.LocationId;
-                        $('#searchResultsList').append("<li><a href='" + uri + "'>" + item.Address + "</a></li>");
-                });
-            }
-            });
-        });
-    });
-    </script>*@
    <script type="text/javascript">
        $(document).ready(function () {
            if (window.location.href.indexOf('#') < 0) {
@@ -40,5 +11,5 @@
            }
         });
     </script>
-@Scripts.Render("~/bundles/ReviewsJoy")
+    @Scripts.Render("~/bundles/ReviewsJoy")
 }
