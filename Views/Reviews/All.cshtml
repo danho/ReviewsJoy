@@ -1,18 +1,24 @@
 ﻿@model List<ReviewsJoy.Models.Review>
-@{
-    ViewBag.Title = "All";
-}
 
 <div id="generalReviews">
-    @foreach (var r in Model)
+    @if (Model.Count == 0)
     {
-        <h1>@r.ReviewText</h1>
+        <h1>Sorry, there are no reviews at this time. Add one now!</h1>
+    }
+    else
+    {
+        foreach (var r in Model)
+        {
+            <h1>@r.ReviewText</h1>
+            @:&nbsp;&nbsp;@r.Author
+        }
     }
     <br />
-    <a id="addReviewLnk" href="#">Add A Review</a>
+    <br />
+    <button class="btn btn-primary" ng-click="showForm()" ng-hide="hideForm">Add A Review</button>
 </div>
 
-<div id="addReviewDiv">
+<div id="addReviewDiv" ng-hide="!hideForm">
     <div class="row">
         <div class="col-xs-12">
             <input id="nameTxtBx" type="text" placeholder="Name (optional)" class="form-control" />
@@ -27,11 +33,6 @@
 @section Scripts {
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#addReviewDiv").hide();
-        $('#addReviewLnk').click(function () {
-            $('#generalReviews').hide();
-            $('#addReviewDiv').show();
-        });
         $("#submitBtn").click(function () {
             var uri = '@Url.Action("AddNewReview")';
             var name = $('#nameTxtBx').val();

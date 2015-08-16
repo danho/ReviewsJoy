@@ -229,8 +229,10 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Properties\PublishProfiles\reviewsjoy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\Controllers\AllController.js" />
     <Content Include="Scripts\Controllers\BeginController.js" />
     <Content Include="Scripts\Controllers\HomePageController.js" />
+    <Content Include="Scripts\Controllers\SearchController.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />

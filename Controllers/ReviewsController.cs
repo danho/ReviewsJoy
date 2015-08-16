@@ -31,6 +31,7 @@ namespace ReviewsJoy.Controllers
 
         public ActionResult All(int id)
         {
+            var url = Request.RawUrl;
             ViewBag.LocationId = id;
             return View(db.ReviewsGetByLocationId(id));
         }

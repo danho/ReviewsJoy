@@ -4,12 +4,5 @@
 </div>
 
 @section Scripts {
-   <script type="text/javascript">
-       $(document).ready(function () {
-           if (window.location.href.indexOf('#') < 0) {
-               document.location.href = '/#/Landing';
-           }
-        });
-    </script>
     @Scripts.Render("~/bundles/ReviewsJoy")
 }

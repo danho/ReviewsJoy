@@ -2,6 +2,8 @@
 
 app.controller('HomePageController', ['$scope', '$window', HomePageController]);
 app.controller('BeginController', ['$scope', '$window', BeginController]);
+app.controller('SearchController', ['$scope', '$window', SearchController]);
+app.controller('AllController', ['$scope', '$window', AllController]);
 
 var configFunction = function ($routeProvider) {
     $routeProvider.
@@ -20,7 +22,14 @@ var configFunction = function ($routeProvider) {
         .when('/search/:address', {
             templateUrl: function (params) {
                 return '/Location/GetLocationsByAddressWebService?address=' + params.address;
-            }
+            },
+            controller: 'SearchController'
+        })
+        .when('/reviews/:id', {
+            templateUrl: function (params) {
+                return '/Reviews/All?id=' + params.id;
+            },
+            controller: 'AllController'
         })
         .otherwise({
             redirectTo: '/Landing'
