@@ -1,27 +1,52 @@
 ﻿@model List<ReviewsJoy.Models.Review>
 
-<div id="generalReviews">
+<div id="generalReviews" ng-init="locationId = '@ViewBag.id'" ng-hide="hideReviews">
+    <div class="row">
     @if (Model.Count == 0)
     {
         <h1>Sorry, there are no reviews at this time. Add one now!</h1>
     }
     else
     {
+        @:<div class="col-xs-12">
+            @: Get more specific reviews by searching with a category
+            <br />
+            <input type="text" placeholder="Category" class="form-control" />
+        @:</div>
+
         foreach (var r in Model)
         {
-            <h1>@r.ReviewText</h1>
-            @:&nbsp;&nbsp;@r.Author
+            @:<div class="col-xs-12">
+                <h1>@r.ReviewText</h1>
+                @:&nbsp;&nbsp;@r.Author
+            @:</div>
         }
-    }
-    <br />
-    <br />
-    <button class="btn btn-primary" ng-click="showForm()" ng-hide="hideForm">Add a General Review</button>
+}
 </div>
 
-<div id="addReviewDiv" ng-hide="!hideForm">
+    <br />
+    <br />
+</div>
+    <button class="btn btn-primary" ng-click="toggleGenForm()">Add a General Review</button>
+    &nbsp;- OR -&nbsp;
+    <button class="btn btn-danger" ng-click="toggleCatForm()">Add a Categorized Review</button>
+
+<div ng-hide="hideGenForm">
     <div class="row">
         <div class="col-xs-12">
-            <input id="nameTxtBx" type="text" placeholder="Name (optional)" class="form-control" ng-model="nameTxtBx" />
+            <input id="nameTxtBx" type="text" placeholder="Name" class="form-control" ng-model="nameTxtBx" />
+            <textarea id="reviewTxtBx" type="text" placeholder="Review" rows="4" class="form-control" ng-model="reviewTxtArea"></textarea>
+            <button id="submitBtn" class="btn btn-primary" ng-click="submitReview()">
+                Submit
+            </button>
+        </div>
+    </div>
+</div>
+
+<div ng-hide="hideCatForm">
+    <div class="row">
+        <div class="col-xs-12">
+            <input id="nameTxtBx" type="text" placeholder="Category" class="form-control" ng-model="nameTxtBx" />
             <textarea id="reviewTxtBx" type="text" placeholder="Review" rows="4" class="form-control" ng-model="reviewTxtArea"></textarea>
             <button id="submitBtn" class="btn btn-primary" ng-click="submitReview()">
                 Submit
