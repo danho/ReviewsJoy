@@ -15,39 +15,17 @@
     }
     <br />
     <br />
-    <button class="btn btn-primary" ng-click="showForm()" ng-hide="hideForm">Add A Review</button>
+    <button class="btn btn-primary" ng-click="showForm()" ng-hide="hideForm">Add a General Review</button>
 </div>
 
 <div id="addReviewDiv" ng-hide="!hideForm">
     <div class="row">
         <div class="col-xs-12">
-            <input id="nameTxtBx" type="text" placeholder="Name (optional)" class="form-control" />
-            <textarea id="reviewTxtBx" type="text" placeholder="Review" rows="4" class="form-control"></textarea>
-            <button id="submitBtn" class="btn btn-primary">
+            <input id="nameTxtBx" type="text" placeholder="Name (optional)" class="form-control" ng-model="nameTxtBx" />
+            <textarea id="reviewTxtBx" type="text" placeholder="Review" rows="4" class="form-control" ng-model="reviewTxtArea"></textarea>
+            <button id="submitBtn" class="btn btn-primary" ng-click="submitReview()">
                 Submit
             </button>
         </div>
     </div>
 </div>
-
-@section Scripts {
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("#submitBtn").click(function () {
-            var uri = '@Url.Action("AddNewReview")';
-            var name = $('#nameTxtBx').val();
-            var review = $('#reviewTxtBx').val();
-            $.ajax({
-                url: uri,
-                type: 'POST',
-                data: {
-                    'locationId': @ViewBag.LocationId,
-                    'review': review
-                },
-                success: function (result) {
-                }
-            });
-        });
-    });
-</script>
-}

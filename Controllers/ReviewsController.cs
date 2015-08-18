@@ -31,8 +31,6 @@ namespace ReviewsJoy.Controllers
 
         public ActionResult All(int id)
         {
-            var url = Request.RawUrl;
-            ViewBag.LocationId = id;
             return View(db.ReviewsGetByLocationId(id));
         }
 
@@ -43,7 +41,7 @@ namespace ReviewsJoy.Controllers
         }
 
         [HttpPost]
-        public bool AddNewReview(int locationId, string review)
+        public bool AddNewReview(int locationId, string name, string review)
         {
             try
             {
@@ -53,7 +51,12 @@ namespace ReviewsJoy.Controllers
 
                 using (var scope = new TransactionScope())
                 {
-                    var newReview = new Review { ReviewText = review };
+                    var newReview = new Review
+                    {
+                        Location = location,
+                        Author = name,
+                        ReviewText = review
+                    };
                     AddReview(newReview);
                     scope.Complete();
                 }
