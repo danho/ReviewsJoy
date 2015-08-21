@@ -28,7 +28,7 @@ namespace ReviewsJoyTests
         [TestCase(2)]
         public void ReviewsGetByLocationIdShouldGetReviews(int locationId)
         {
-            var locs = db.ReviewsGetByLocationId(locationId);
+            var locs = db.ReviewsGetByLocationId(locationId, null);
             Assert.NotNull(locs);
             Assert.IsTrue(locs.Count > 0);
             foreach (var l in locs) { Assert.IsTrue(l.Location.LocationId == locationId); }

@@ -28,9 +28,41 @@ namespace ReviewsJoy.DAL
             return Categories.ToList();
         }
 
-        public List<Review> ReviewsGetByLocationId(int locationId)
+        public List<Review> ReviewsGetByLocationId(int locationId, int? count)
         {
-            return Reviews.Where(r => r.Location.LocationId == locationId).ToList();
+            if (count != null)
+                return Reviews.Where(r => r.Location.LocationId == locationId)
+                            .ToList();
+            else
+                return Reviews.Where(r => r.Location.LocationId == locationId)
+                            .Take(count.Value)
+                                .ToList();
+        }
+
+        public List<Review> ReviewsGeneralGetByLocationId(int locationId, int? count)
+        {
+            if (count != null)
+                return Reviews.Where(r => r.Location.LocationId == locationId
+                            && r.Category.CategoryId == 0)
+                                .ToList();
+            else
+                return Reviews.Where(r => r.Location.LocationId == locationId
+                            && r.Category.CategoryId == 0)
+                                .Take(count.Value)
+                                    .ToList();
+        }
+
+        public List<Review> ReviewsCategorizedGetByLocationId(int locationId, int? count)
+        {
+            if (count != null)
+                return Reviews.Where(r => r.Location.LocationId == locationId
+                            && r.Category.CategoryId != 0)
+                                .ToList();
+            else
+                return Reviews.Where(r => r.Location.LocationId == locationId
+                            && r.Category.CategoryId != 0)
+                                .Take(count.Value)
+                                    .ToList();
         }
 
         public void AddReview(Review review)

@@ -47,10 +47,16 @@ namespace ReviewsJoyTests.TestDAL
 
             var c1 = new Category
             {
+                CategoryId = 0,
+                Name = "General"
+            };
+
+            var c2 = new Category
+            {
                 CategoryId = 1,
                 Name = "Food"
             };
-            var c2 = new Category
+            var c3 = new Category
             {
                 CategoryId = 2,
                 Name = "Parking"
@@ -59,6 +65,7 @@ namespace ReviewsJoyTests.TestDAL
             categories = new List<Category>();
             categories.Add(c1);
             categories.Add(c2);
+            categories.Add(c3);
 
             var r1 = new Review
             {
@@ -99,9 +106,41 @@ namespace ReviewsJoyTests.TestDAL
             return locations.FirstOrDefault(l => l.LocationId == id);
         }
 
-        public List<Review> ReviewsGetByLocationId(int locationId)
+        public List<Review> ReviewsGetByLocationId(int locationId, int? count)
         {
-            return reviews.Where(r => r.Location.LocationId == locationId).ToList();
+            if (count != null)
+                return reviews.Where(r => r.Location.LocationId == locationId)
+                            .ToList();
+            else
+                return reviews.Where(r => r.Location.LocationId == locationId)
+                            .Take(count.Value)
+                                .ToList();
+        }
+
+        public List<Review> ReviewsGeneralGetByLocationId(int locationId, int? count)
+        {
+            if (count != null)
+                return reviews.Where(r => r.Location.LocationId == locationId
+                        && r.Category.CategoryId == 0)
+                            .ToList();
+            else
+                return reviews.Where(r => r.Location.LocationId == locationId
+                            && r.Category.CategoryId == 0)
+                                .Take(count.Value)
+                                    .ToList();
+        }
+
+        public List<Review> ReviewsCategorizedGetByLocationId(int locationId, int? count)
+        {
+            if (count != null)
+                return reviews.Where(r => r.Location.LocationId == locationId
+                        && r.Category.CategoryId != 0)
+                            .ToList();
+            else
+                return reviews.Where(r => r.Location.LocationId == locationId
+                            && r.Category.CategoryId != 0)
+                                .Take(count.Value)
+                                    .ToList();
         }
 
         public void AddReview(Review review)

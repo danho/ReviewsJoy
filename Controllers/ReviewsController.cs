@@ -24,15 +24,29 @@ namespace ReviewsJoy.Controllers
         }
 
         [ChildActionOnly]
-        public List<Review> ReviewsGetByLocationId(int locationId)
+        public List<Review> ReviewsGetByLocationId(int locationId, int? count)
         {
-            return db.ReviewsGetByLocationId(locationId);
+            return db.ReviewsGetByLocationId(locationId, count);
+        }
+
+        [ChildActionOnly]
+        public List<Review> ReviewsGeneralGetByLocationId(int locationId, int? count)
+        {
+            return db.ReviewsGeneralGetByLocationId(locationId, count);
+        }
+
+        [ChildActionOnly]
+        public List<Review> ReviewsCategorizedGetByLocationId(int locationId, int? count)
+        {
+            return db.ReviewsCategorizedGetByLocationId(locationId, count);
         }
 
         public ActionResult All(int id)
         {
             ViewBag.id = id;
-            return View(db.ReviewsGetByLocationId(id));
+            ViewBag.GeneralReviews = ReviewsGeneralGetByLocationId(id, 10);
+            ViewBag.CategorizedReviews = ReviewsCategorizedGetByLocationId(id, null);
+            return View();
         }
 
         [ChildActionOnly]

@@ -46,23 +46,30 @@ namespace ReviewsJoy.Migrations
             var c1 = new Category
             {
                 CategoryId = 1,
-                Name = "Food"
+                Name = "General"
             };
+
             var c2 = new Category
             {
                 CategoryId = 2,
+                Name = "Food"
+            };
+            var c3 = new Category
+            {
+                CategoryId = 3,
                 Name = "Parking"
             };
 
             context.Categories.AddOrUpdate(c => c.CategoryId,
                 c1,
-                c2);
+                c2,
+                c3);
 
             var r1 = new Review
             {
                 ReviewId = 1,
                 Author = "A",
-                Category = c1,
+                Category = c2,
                 Location = l1,
                 ReviewText = "Pretty good.",
                 Stars = 8
@@ -71,15 +78,26 @@ namespace ReviewsJoy.Migrations
             {
                 ReviewId = 2,
                 Author = "B",
-                Category = c2,
+                Category = c3,
                 Location = l2,
                 ReviewText = "Plenty of parking spaces",
                 Stars = 10
             };
 
+            var r3 = new Review
+            {
+                ReviewId = 3,
+                Author = "C",
+                Category = c1,
+                Location = l2,
+                ReviewText = "This place is pretty good",
+                Stars = 7
+            };
+
             context.Reviews.AddOrUpdate(r => r.ReviewId,
                 r1,
-                r2);
+                r2,
+                r3);
         }
     }
 }
