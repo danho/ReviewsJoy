@@ -1,0 +1,8 @@
+﻿@model List<ReviewsJoy.Models.Review>
+
+@foreach (var r in Model)
+{
+    @r.ReviewText
+    <br />
+    @r.Author
+}

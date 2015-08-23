@@ -82,5 +82,16 @@ namespace ReviewsJoy.Controllers
                 return false;
             }
         }
+
+        [ChildActionOnly]
+        public List<Review> ReviewsGetByCategoryName(int id, string categoryName)
+        {
+            return db.ReviewsGetByCategoryName(id, categoryName);
+        }
+
+        public ActionResult ReviewsByCategoryName(int id, string categoryName)
+        {
+            return View(ReviewsGetByCategoryName(id, categoryName));
+        }
     }
 }

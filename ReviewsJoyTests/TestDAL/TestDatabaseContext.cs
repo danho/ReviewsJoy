@@ -108,7 +108,7 @@ namespace ReviewsJoyTests.TestDAL
 
         public List<Review> ReviewsGetByLocationId(int locationId, int? count)
         {
-            if (count != null)
+            if (count == null)
                 return reviews.Where(r => r.Location.LocationId == locationId)
                             .ToList();
             else
@@ -119,7 +119,7 @@ namespace ReviewsJoyTests.TestDAL
 
         public List<Review> ReviewsGeneralGetByLocationId(int locationId, int? count)
         {
-            if (count != null)
+            if (count == null)
                 return reviews.Where(r => r.Location.LocationId == locationId
                         && r.Category.CategoryId == 0)
                             .ToList();
@@ -132,7 +132,7 @@ namespace ReviewsJoyTests.TestDAL
 
         public List<Review> ReviewsCategorizedGetByLocationId(int locationId, int? count)
         {
-            if (count != null)
+            if (count == null)
                 return reviews.Where(r => r.Location.LocationId == locationId
                         && r.Category.CategoryId != 0)
                             .ToList();
@@ -146,6 +146,32 @@ namespace ReviewsJoyTests.TestDAL
         public void AddReview(Review review)
         {
             reviews.Add(review);
+        }
+
+        public Category CategoryGetByName(string name)
+        {
+            Category cat = null;
+            if (!String.IsNullOrEmpty(name))
+            {
+                name = name.Trim().ToUpper();
+                cat = categories.FirstOrDefault(c => c.Name.ToUpper() == name);
+            }
+            return cat;
+        }
+
+        public List<Review> ReviewsGetByCategoryName(int locationId, string categoryName)
+        {
+            List<Review> catReviews = new List<Review>();
+            if (!String.IsNullOrEmpty(categoryName))
+            {
+                var category = CategoryGetByName(categoryName);
+                if (category != null)
+                {
+                    reviews = reviews.Where(r => r.Category.CategoryId == category.CategoryId)
+                                .ToList();
+                }
+            }
+            return catReviews;
         }
     }
 }

@@ -28,9 +28,20 @@ namespace ReviewsJoy.DAL
             return Categories.ToList();
         }
 
+        public Category CategoryGetByName(string name)
+        {
+            Category cat = null;
+            if (!String.IsNullOrEmpty(name))
+            {
+                name = name.Trim().ToUpper();
+                cat = Categories.FirstOrDefault(c => c.Name.ToUpper() == name);
+            }
+            return cat;
+        }
+
         public List<Review> ReviewsGetByLocationId(int locationId, int? count)
         {
-            if (count != null)
+            if (count == null)
                 return Reviews.Where(r => r.Location.LocationId == locationId)
                             .ToList();
             else
@@ -41,7 +52,7 @@ namespace ReviewsJoy.DAL
 
         public List<Review> ReviewsGeneralGetByLocationId(int locationId, int? count)
         {
-            if (count != null)
+            if (count == null)
                 return Reviews.Where(r => r.Location.LocationId == locationId
                             && r.Category.CategoryId == 0)
                                 .ToList();
@@ -54,7 +65,7 @@ namespace ReviewsJoy.DAL
 
         public List<Review> ReviewsCategorizedGetByLocationId(int locationId, int? count)
         {
-            if (count != null)
+            if (count == null)
                 return Reviews.Where(r => r.Location.LocationId == locationId
                             && r.Category.CategoryId != 0)
                                 .ToList();
@@ -63,6 +74,21 @@ namespace ReviewsJoy.DAL
                             && r.Category.CategoryId != 0)
                                 .Take(count.Value)
                                     .ToList();
+        }
+
+        public List<Review> ReviewsGetByCategoryName(int locationId, string categoryName)
+        {
+            List<Review> catReviews = new List<Review>();
+            if (!String.IsNullOrEmpty(categoryName))
+            {
+                var category = CategoryGetByName(categoryName);
+                if (category != null)
+                {
+                    catReviews = Reviews.Where(r => r.Category.CategoryId == category.CategoryId)
+                                .ToList();
+                }
+            }
+            return catReviews;
         }
 
         public void AddReview(Review review)

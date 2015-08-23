@@ -280,6 +280,7 @@
     <Content Include="Views\Location\GetLocationsByAddressWebService.cshtml" />
     <Content Include="Views\Home\Begin.cshtml" />
     <Content Include="Views\Home\LandingPage.cshtml" />
+    <Content Include="Views\Reviews\ReviewsByCategoryName.cshtml" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
       <SubType>Designer</SubType>

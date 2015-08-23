@@ -41,7 +41,7 @@ namespace ReviewsJoyTests
             var newReview = new Review { ReviewId = reviewID, Location = db.LocationGetById(locationId),
                 ReviewText = reviewText };
             controller.AddReview(newReview);
-            var review = controller.ReviewsGetByLocationId(locationId).Last();
+            var review = controller.ReviewsGetByLocationId(locationId, null).Last();
             Assert.IsNotNull(review);
             Assert.IsTrue(review.ReviewId == reviewID);
         }

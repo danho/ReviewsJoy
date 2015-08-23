@@ -31,6 +31,12 @@ var configFunction = function ($routeProvider) {
             },
             controller: 'AllController'
         })
+        .when('/reviews2/:id/:category', {
+            templateUrl: function (params) {
+                debugger;
+                return '/Reviews/ReviewsByCategoryName?id=' + params.id + '&categoryName=' + params.category;
+            }
+        })
         .otherwise({
             redirectTo: '/Landing'
         });
