@@ -20,7 +20,6 @@
     };
     $scope.categoryTxtBx = '';
     $scope.searchByCategoy = function () {
-        debugger;
         $window.location.href = '/#/reviews2/' + $scope.locationId + '/' + $scope.categoryTxtBx + '';
     };
     $scope.locationId = 0;

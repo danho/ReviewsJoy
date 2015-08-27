@@ -4,6 +4,7 @@ app.controller('HomePageController', ['$scope', '$window', HomePageController]);
 app.controller('BeginController', ['$scope', '$window', BeginController]);
 app.controller('SearchController', ['$scope', '$window', SearchController]);
 app.controller('AllController', ['$scope', '$window', AllController]);
+app.controller('ReviewsByCategoryNameController', ['$scope', '$window', ReviewsByCategoryNameController])
 
 var configFunction = function ($routeProvider) {
     $routeProvider.
@@ -33,9 +34,9 @@ var configFunction = function ($routeProvider) {
         })
         .when('/reviews2/:id/:category', {
             templateUrl: function (params) {
-                debugger;
                 return '/Reviews/ReviewsByCategoryName?id=' + params.id + '&categoryName=' + params.category;
-            }
+            },
+            controller: 'ReviewsByCategoryNameController'
         })
         .otherwise({
             redirectTo: '/Landing'

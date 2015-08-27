@@ -6,6 +6,7 @@ using System.Linq;
 using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace ReviewsJoy.Controllers
 {
@@ -91,6 +92,8 @@ namespace ReviewsJoy.Controllers
 
         public ActionResult ReviewsByCategoryName(int id, string categoryName)
         {
+            var s = new JavaScriptSerializer();
+            ViewBag.model = s.Serialize(ReviewsGetByCategoryName(id, categoryName));
             return View(ReviewsGetByCategoryName(id, categoryName));
         }
     }

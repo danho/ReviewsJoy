@@ -232,6 +232,7 @@
     <Content Include="Scripts\Controllers\AllController.js" />
     <Content Include="Scripts\Controllers\BeginController.js" />
     <Content Include="Scripts\Controllers\HomePageController.js" />
+    <Content Include="Scripts\Controllers\ReviewsByCategoryNameController.js" />
     <Content Include="Scripts\Controllers\SearchController.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
