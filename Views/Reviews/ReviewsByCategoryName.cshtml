@@ -1,12 +1,9 @@
 ﻿@model List<ReviewsJoy.Models.Review>
 
 <div ng-init="init('@ViewBag.model')">
-    @*@foreach (var r in Model)
-    {
-        @r.ReviewText
+    <div ng-repeat="r in model">
+        <label>{{ r.ReviewText }}</label>
         <br />
-        @r.Author
-    }*@
-
-    <button ng-click="alert()">Test</button>
+        &nbsp;&nbsp;<label>{{ r.Author }}</label>
+    </div>
 </div>

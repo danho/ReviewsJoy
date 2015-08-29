@@ -1,4 +1,15 @@
 ﻿var AllController = function ($scope, $window) {
+    $scope.GeneralReviews = '';
+    $scope.CategorizedReviews = '';
+    $scope.init = function(genRevs, catRevs)
+    {
+        $scope.GeneralReviews = JSON.parse(genRevs);
+        $scope.CategorizedReviews = JSON.parse(catRevs);
+    }
+    $scope.isNoReviews = function()
+    {
+        return $scope.GeneralReviews.length + $scope.CategorizedReviews.length == 0 ? true : false;
+    }
     $scope.hideGenForm = true;
     $scope.hideCatForm = true;
     $scope.hideReviews = false;
@@ -20,7 +31,7 @@
     };
     $scope.categoryTxtBx = '';
     $scope.searchByCategoy = function () {
-        $window.location.href = '/#/reviews2/' + $scope.locationId + '/' + $scope.categoryTxtBx + '';
+        $window.location.href = '/#/reviews/' + $scope.locationId + '/' + $scope.categoryTxtBx + '';
     };
     $scope.locationId = 0;
     $scope.nameTxtBx = '';

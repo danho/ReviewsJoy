@@ -44,9 +44,10 @@ namespace ReviewsJoy.Controllers
 
         public ActionResult All(int id)
         {
+            var s = new JavaScriptSerializer();
             ViewBag.id = id;
-            ViewBag.GeneralReviews = ReviewsGeneralGetByLocationId(id, 10);
-            ViewBag.CategorizedReviews = ReviewsCategorizedGetByLocationId(id, null);
+            ViewBag.GeneralReviews = s.Serialize(ReviewsGeneralGetByLocationId(id, 10));
+            ViewBag.CategorizedReviews = s.Serialize(ReviewsCategorizedGetByLocationId(id, null));
             return View();
         }
 

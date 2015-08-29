@@ -32,7 +32,7 @@ var configFunction = function ($routeProvider) {
             },
             controller: 'AllController'
         })
-        .when('/reviews2/:id/:category', {
+        .when('/reviews/:id/:category', {
             templateUrl: function (params) {
                 return '/Reviews/ReviewsByCategoryName?id=' + params.id + '&categoryName=' + params.category;
             },

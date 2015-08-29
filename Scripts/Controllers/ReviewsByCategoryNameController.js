@@ -1,14 +1,8 @@
 ﻿var ReviewsByCategoryNameController = function ($scope, $window) {
     $scope.model = '';
-    $scope.init = function (value)
+    $scope.init = function (model)
     {
-        $scope.model = value;
-    }
-    $scope.alert = function()
-    {
-        debugger;
-        var a = JSON.parse($scope.model);
-        alert($scope.model);
+        $scope.model = JSON.parse(model);
     }
 }
 

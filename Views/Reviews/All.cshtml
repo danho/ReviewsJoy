@@ -1,31 +1,24 @@
-﻿<div id="generalReviews" ng-init="locationId = '@ViewBag.id'" ng-hide="hideReviews">
+﻿<div id="generalReviews" ng-init="init('@ViewBag.GeneralReviews', '@ViewBag.CategorizedReviews'); locationId = '@ViewBag.id'"
+     ng-hide="hideReviews">
     <div class="row">
-    @if (ViewBag.GeneralReviews.Count == 0
-            && ViewBag.CategorizedReviews.Count == 0)
-    {
-        <h1>Sorry, there are no reviews at this time. Add one now!</h1>
-    }
-    else
-    {
-        @:<div class="col-xs-12">
-            @: Get more specific reviews by searching with a category
+        <div class="col-xs-12" ng-show="isNoReviews()">
+            <h1>Sorry, there are no reviews at this time. Add one now!</h1>
+        </div>
+        <div class="col-xs-12" ng-repeat="g in GeneralReviews" ng-hide="isNoReviews()">
+            {{ g.ReviewText }}
+        </div>
+        <div class="col-xs-12" ng-repeat="c in CategorizedReviews" ng-hide="isNoReviews()">
+            {{ c.ReviewText }}
             <br />
-            <input type="text" placeholder="Category" class="form-control" ng-model="categoryTxtBx"/>
+            &nbsp;&nbsp;{{ c.Author }}
+        </div>
+        <div class="col-xs-12">
+            Get more speficic reviews by searching with a category
+            <br />
+            <input type="text" placeholder="Category" class="form-control" ng-model="categoryTxtBx" />
             <button class="btn btn-primary" ng-click="searchByCategoy()">Submit</button>
-        @:</div>
-
-        foreach (var gr in ViewBag.GeneralReviews)
-        {
-            @gr.ReviewText
-        }
-
-        foreach (var cr in ViewBag.CategorizedReviews)
-        {
-            @cr.ReviewText
-        }
-    }
-</div>
-
+        </div>
+    </div>
     <br />
     <br />
 </div>
