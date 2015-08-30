@@ -3,8 +3,10 @@ using ReviewsJoy.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Transactions;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 
@@ -58,21 +60,32 @@ namespace ReviewsJoy.Controllers
         }
 
         [HttpPost]
-        public bool AddNewReview(int locationId, string name, string review)
+        public bool AddNewReview(int locationId, string name, string review, string category)
         {
             try
             {
+                if (String.IsNullOrEmpty(category) || category.Equals("general", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    category = "General";
+                }
+                var cat = db.CategoryGetByName(category);
                 var location = db.LocationGetById(locationId);
                 if (location == null || String.IsNullOrEmpty(review))
                     return false;
 
                 using (var scope = new TransactionScope())
                 {
+                    if (cat == null)
+                    {
+                        cat = db.CategoryAdd(name);
+                    }
+
                     var newReview = new Review
                     {
                         Location = location,
                         Author = name,
-                        ReviewText = review
+                        ReviewText = review,
+                        Category = cat
                     };
                     AddReview(newReview);
                     scope.Complete();
@@ -96,6 +109,19 @@ namespace ReviewsJoy.Controllers
             var s = new JavaScriptSerializer();
             ViewBag.model = s.Serialize(ReviewsGetByCategoryName(id, categoryName));
             return View(ReviewsGetByCategoryName(id, categoryName));
+        }
+
+        [HttpPost]
+        public JsonResult AutoCompleteSearch(string searchText)
+        {
+            var key = WebConfigurationManager.AppSettings["GoogleServerKey"];
+            var url = WebConfigurationManager.AppSettings["GooglePlacesWebApiUrl"];
+
+            var wc = new WebClient();
+            wc.QueryString.Add("input", searchText);
+            wc.QueryString.Add("key", key);
+            var result = wc.DownloadString(url);
+            return Json(result);
         }
     }
 }

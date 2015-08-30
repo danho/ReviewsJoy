@@ -7,7 +7,7 @@
     <div id="searchNow">
         <form class="form-inline" role="form">
             <div class="input-group">
-                <input id="searchTxtBx" type="text" class="form-control" placeholder="Address" ng-model="searchText" />
+                <input id="searchTxtBx" type="text" class="form-control" placeholder="Address" ng-model="searchText" ng-change="autoComplete()" />
                 <span class="input-group-btn">
                     <button id="searchBtn" class="btn btn-primary" type="button" ng-click="search()">Search</button>
                 </span>

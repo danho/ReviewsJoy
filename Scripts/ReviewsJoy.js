@@ -1,7 +1,7 @@
 ﻿var app = angular.module('ReviewsJoy', ['ngRoute']);
 
 app.controller('HomePageController', ['$scope', '$window', HomePageController]);
-app.controller('BeginController', ['$scope', '$window', BeginController]);
+app.controller('BeginController', ['$scope', '$window', '$http', BeginController]);
 app.controller('SearchController', ['$scope', '$window', SearchController]);
 app.controller('AllController', ['$scope', '$window', '$http', AllController]);
 app.controller('ReviewsByCategoryNameController', ['$scope', '$window', ReviewsByCategoryNameController])

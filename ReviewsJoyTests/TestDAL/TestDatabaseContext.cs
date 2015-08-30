@@ -121,11 +121,11 @@ namespace ReviewsJoyTests.TestDAL
         {
             if (count == null)
                 return reviews.Where(r => r.Location.LocationId == locationId
-                        && r.Category.CategoryId == 0)
+                        && r.Category.Name.Equals("general", StringComparison.InvariantCultureIgnoreCase))
                             .ToList();
             else
                 return reviews.Where(r => r.Location.LocationId == locationId
-                            && r.Category.CategoryId == 0)
+                            && r.Category.Name.Equals("general", StringComparison.InvariantCultureIgnoreCase))
                                 .Take(count.Value)
                                     .ToList();
         }
@@ -134,11 +134,11 @@ namespace ReviewsJoyTests.TestDAL
         {
             if (count == null)
                 return reviews.Where(r => r.Location.LocationId == locationId
-                        && r.Category.CategoryId != 0)
+                        && !r.Category.Name.Equals("general", StringComparison.InvariantCultureIgnoreCase))
                             .ToList();
             else
                 return reviews.Where(r => r.Location.LocationId == locationId
-                            && r.Category.CategoryId != 0)
+                            && !r.Category.Name.Equals("general", StringComparison.InvariantCultureIgnoreCase))
                                 .Take(count.Value)
                                     .ToList();
         }
@@ -172,6 +172,14 @@ namespace ReviewsJoyTests.TestDAL
                 }
             }
             return catReviews;
+        }
+
+        public Category CategoryAdd(string name)
+        {
+            var id = categories.Last().CategoryId + 1;
+            var newCat = new Category { CategoryId = id, Name = name };
+            categories.Add(newCat);
+            return newCat;
         }
     }
 }

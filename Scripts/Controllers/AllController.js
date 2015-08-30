@@ -36,6 +36,23 @@
     $scope.locationId = 0;
     $scope.nameTxtBx = '';
     $scope.reviewTxtArea = '';
+    $scope.submitGeneralReview = function () {
+        $http({
+            url: '/Reviews/AddNewReview',
+            method: 'POST',
+            data: {
+                'locationId': $scope.locationId,
+                'name': $scope.nameTxtBx,
+                'review': $scope.reviewTxtArea,
+                'category': 'GENERAL'
+            }
+        }).success(function (data, status, headers, config) {
+            var success = Boolean(data);
+            if (success) {
+                location.reload();
+            }
+        });
+    };
     $scope.submitReview = function () {
         $http({
             url: '/Reviews/AddNewReview',

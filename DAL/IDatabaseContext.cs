@@ -12,6 +12,7 @@ namespace ReviewsJoy.DAL
         Location LocationGetById(int id);
         List<Category> CategoryGetAll();
         Category CategoryGetByName(string name);
+        Category CategoryAdd(string name);
         List<Review> ReviewsGetByLocationId(int locationId, int? count);
         List<Review> ReviewsGeneralGetByLocationId(int locationId, int? count);
         List<Review> ReviewsCategorizedGetByLocationId(int locationId, int? count);

@@ -4,13 +4,19 @@
         <div class="col-xs-12" ng-show="isNoReviews()">
             <h1>Sorry, there are no reviews at this time. Add one now!</h1>
         </div>
-        <div class="col-xs-12" ng-repeat="g in GeneralReviews" ng-hide="isNoReviews()">
-            {{ g.ReviewText }}
+        <div class="col-xs-6">
+            General Reviews:
+            <div ng-repeat="g in GeneralReviews" ng-hide="isNoReviews()">
+                {{ g.ReviewText }}
+            </div>
         </div>
-        <div class="col-xs-12" ng-repeat="c in CategorizedReviews" ng-hide="isNoReviews()">
-            {{ c.ReviewText }}
-            <br />
-            &nbsp;&nbsp;{{ c.Author }}
+        <div class="col-xs-6">
+            Categorized Reviews:
+            <div ng-repeat="c in CategorizedReviews" ng-hide="isNoReviews()">
+                {{ c.ReviewText }}
+                <br />
+                &nbsp;&nbsp;{{ c.Author }}
+            </div>
         </div>
         <div class="col-xs-12">
             Get more speficic reviews by searching with a category

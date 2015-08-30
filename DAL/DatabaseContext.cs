@@ -39,6 +39,18 @@ namespace ReviewsJoy.DAL
             return cat;
         }
 
+        public Category CategoryAdd(string name)
+        {
+            if (!String.IsNullOrEmpty(name))
+            {
+                return Categories.Add(new Category { Name = name });
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public List<Review> ReviewsGetByLocationId(int locationId, int? count)
         {
             if (count == null)
@@ -54,11 +66,11 @@ namespace ReviewsJoy.DAL
         {
             if (count == null)
                 return Reviews.Where(r => r.Location.LocationId == locationId
-                            && r.Category.CategoryId == 0)
+                            && r.Category.Name.Equals("general", StringComparison.InvariantCultureIgnoreCase))
                                 .ToList();
             else
                 return Reviews.Where(r => r.Location.LocationId == locationId
-                            && r.Category.CategoryId == 0)
+                            && r.Category.Name.Equals("general", StringComparison.InvariantCultureIgnoreCase))
                                 .Take(count.Value)
                                     .ToList();
         }
@@ -67,11 +79,11 @@ namespace ReviewsJoy.DAL
         {
             if (count == null)
                 return Reviews.Where(r => r.Location.LocationId == locationId
-                            && r.Category.CategoryId != 0)
+                            && !r.Category.Name.Equals("general", StringComparison.InvariantCultureIgnoreCase))
                                 .ToList();
             else
                 return Reviews.Where(r => r.Location.LocationId == locationId
-                            && r.Category.CategoryId != 0)
+                            && !r.Category.Name.Equals("general", StringComparison.InvariantCultureIgnoreCase))
                                 .Take(count.Value)
                                     .ToList();
         }
