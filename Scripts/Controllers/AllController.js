@@ -48,7 +48,6 @@
         }).success(function (data, status, headers, config) {
             var success = Boolean(data);
             if (success) {
-                debugger;
                 location.reload();
             }
         });
