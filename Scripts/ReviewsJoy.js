@@ -3,7 +3,7 @@
 app.controller('HomePageController', ['$scope', '$window', HomePageController]);
 app.controller('BeginController', ['$scope', '$window', BeginController]);
 app.controller('SearchController', ['$scope', '$window', SearchController]);
-app.controller('AllController', ['$scope', '$window', AllController]);
+app.controller('AllController', ['$scope', '$window', '$http', AllController]);
 app.controller('ReviewsByCategoryNameController', ['$scope', '$window', ReviewsByCategoryNameController])
 
 var configFunction = function ($routeProvider) {
@@ -45,11 +45,3 @@ var configFunction = function ($routeProvider) {
 
 configFunction.$inject = ['$routeProvider'];
 app.config(configFunction);
-
-//app.config(['$routeProvider',
-//    function($routeProvider) {
-//        $routeProvider.
-//            when('/all', {
-//                templateUrl: 'reviews/all/1'
-//            });
-//    }]);;

@@ -1,4 +1,4 @@
-﻿var AllController = function ($scope, $window) {
+﻿var AllController = function ($scope, $window, $http) {
     $scope.GeneralReviews = '';
     $scope.CategorizedReviews = '';
     $scope.init = function(genRevs, catRevs)
@@ -37,21 +37,19 @@
     $scope.nameTxtBx = '';
     $scope.reviewTxtArea = '';
     $scope.submitReview = function () {
-        var uri = '/Reviews/AddNewReview';
-        $.ajax({
-            url: uri,
-            type: 'POST',
+        $http({
+            url: '/Reviews/AddNewReview',
+            method: 'POST',
             data: {
                 'locationId': $scope.locationId,
                 'name': $scope.nameTxtBx,
                 'review': $scope.reviewTxtArea
-            },
-            success: function (result) {
-                var success = Boolean(result);
-                if (success)
-                {
-                    location.reload();
-                }
+            }
+        }).success(function (data, status, headers, config) {
+            var success = Boolean(data);
+            if (success) {
+                debugger;
+                location.reload();
             }
         });
     };
