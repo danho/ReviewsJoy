@@ -1,4 +1,4 @@
-﻿var app = angular.module('ReviewsJoy', ['ngRoute']);
+﻿var app = angular.module('ReviewsJoy', ['ngRoute', 'uiGmapgoogle-maps']);
 
 app.controller('HomePageController', ['$scope', '$window', HomePageController]);
 app.controller('BeginController', ['$scope', '$window', '$http', BeginController]);

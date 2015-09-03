@@ -1,4 +1,7 @@
-﻿<div class="text-center" ng-hide="hideLandingPage">
+﻿<style>
+    .angular-google-map-container { height: 400px; }
+</style>
+<div class="text-center" ng-hide="hideLandingPage">
     <h1>ReviewsJoy</h1>
     <br />
     <h2>Taking Reviews To The Next Level</h2>
@@ -15,3 +18,5 @@
         </form>
     </div>
 </div>
+<br />
+<ui-gmap-google-map center='map.center' zoom='map.zoom'></ui-gmap-google-map>

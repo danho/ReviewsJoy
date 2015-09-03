@@ -1,4 +1,5 @@
 ﻿var BeginController = function ($scope, $window, $http) {
+    $scope.map = { center: { latitude: 45, longitude: -73 }, zoom: 8 };
     $scope.searchText = '';
     $scope.autoComplete = function () {
         if ($scope.searchText.length > 3) {

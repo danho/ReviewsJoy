@@ -6,6 +6,9 @@
     <title>ReviewsJoy</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+
+    <!-- Google Maps -->
+    <script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>
 </head>
 <body>
     <div class="container body-content">
@@ -15,14 +18,24 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-route.min.js"></script>
     <!-- Angular JS end-->
+
     @Scripts.Render("~/bundles/jquery")
+
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <!-- Bootstrap end -->
+
+    <!-- Jquery UI -->
     <script src="~/scripts/jquery-ui.min.js"></script>
     <link href="~/content/jquery-ui.min.css" rel="stylesheet" />
+    <!-- Jquery UI end-->
+
+    <!-- angular-google-maps -->
+    <script src="~/Scripts/loaddash.js"></script>
+    <script src="~/Scripts/angular-google-maps.js"></script>
+    <!-- angular-google-maps end -->
     @RenderSection("scripts", required: false)
 </body>
 </html>
