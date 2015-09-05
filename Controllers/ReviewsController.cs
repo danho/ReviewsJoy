@@ -123,5 +123,14 @@ namespace ReviewsJoy.Controllers
             var result = wc.DownloadString(url);
             return Json(result);
         }
+
+        [HttpPost]
+        public JsonResult GetLatAndLng(string placeId)
+        {
+            var url = "https://maps.googleapis.com/maps/api/place/details/json?placeid=" + placeId + "&key=AIzaSyDeRmNcn7OCGbLC0SFI5KSMyZigMR0rPG4";
+            var wc = new WebClient();
+            var result = wc.DownloadString(url);
+            return Json(result);
+        }
     }
 }
