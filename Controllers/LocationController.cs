@@ -23,21 +23,16 @@ namespace ReviewsJoy.Controllers
             return db.LocationGetById(id);
         }
 
-        [HttpGet]
-        public ActionResult Details(int id)
+        [ChildActionOnly]
+        public Location LocationGetByPlaceId(string placeId)
         {
-            return View(LocationGetById(id));
+            return db.LocationGetByPlaceId(placeId);
         }
 
         [ChildActionOnly]
-        public List<Location> LocationsGetByAddress(string address)
+        public Location LocationAdd(Location loc)
         {
-            return db.LocationGetByAddress(address);
-        }
-
-        public ActionResult GetLocationsByAddressWebService(string address)
-        {
-            return View(LocationsGetByAddress(address));
+            return db.LocationAdd(loc);
         }
     }
 }

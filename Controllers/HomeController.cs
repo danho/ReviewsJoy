@@ -23,17 +23,6 @@ namespace ReviewsJoy.Controllers
             return View();
         }
 
-        [ChildActionOnly]
-        public List<Location> LocationsGetByAddress(string address)
-        {
-            return db.LocationGetByAddress(address);
-        }
-
-        public JsonResult GetLocationsByAddressWebService(string address)
-        {
-            return Json(LocationsGetByAddress(address), JsonRequestBehavior.AllowGet);
-        }
-
         public ActionResult LandingPage()
         {
             return View();

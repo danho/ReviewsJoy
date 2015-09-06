@@ -1,11 +1,14 @@
 ﻿var BeginController = function ($scope, $window, $http) {
-    $scope.map = { center: { latitude: 45, longitude: -73 }, zoom: 8 };
+    $scope.map = { center: { latitude: 37.6, longitude: -95.665 }, zoom: 4 };
     $scope.marker = {
         id: 0,
         coords: { }
     };
+    $scope.placeId = 0;
     $scope.searchText = '';
+    $scope.searchBtnDisabled = true;
     $scope.autoComplete = function () {
+        $scope.searchBtnDisabled = true;
         if ($scope.searchText.length > 3) {
             $http({
                 url: '/Reviews/AutoCompleteSearch',
@@ -34,6 +37,8 @@
                             var lng = jsonResult2.result.geometry.location.lng;
                             $scope.map = { center: { latitude: lat, longitude: lng }, zoom: 17 };
                             $scope.marker = { id: 0, coords: { latitude: lat, longitude: lng } };
+                            $scope.searchBtnDisabled = false;
+                            $scope.placeId = ui.item.placeId;
                         });
                     }
                 });
@@ -41,16 +46,7 @@
         }
     };
     $scope.search = function () {
-        //$http({
-        //    url: '/Reviews/AutoCompleteSearch',
-        //    method: 'POST',
-        //    data: {
-        //        'searchText': $scope.searchText
-        //    }
-        //}).success(function (data, status, headers, config) {
-        //    var jsonResult = JSON.parse(data);
-        //});
-        $window.location.href = '/#/search/' + $scope.searchText;
+        $window.location.href = '/#/reviews/' + $scope.placeId;
     }
 }
 

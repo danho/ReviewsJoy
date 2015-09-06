@@ -17,5 +17,6 @@ namespace ReviewsJoy.Models
         public string Zip { get; set; }
         public double XCoordinate { get; set; }
         public double YCoordinate { get; set; }
+        public string placeId { get; set; }
     }
 }

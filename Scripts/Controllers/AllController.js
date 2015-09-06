@@ -1,10 +1,16 @@
 ﻿var AllController = function ($scope, $window, $http) {
     $scope.GeneralReviews = '';
     $scope.CategorizedReviews = '';
-    $scope.init = function(genRevs, catRevs)
+    $scope.locationId = 0;
+    $scope.init = function(genRevs, catRevs, locationId, placeId)
     {
-        $scope.GeneralReviews = JSON.parse(genRevs);
-        $scope.CategorizedReviews = JSON.parse(catRevs);
+        if (genRevs != null && genRevs != '')
+            $scope.GeneralReviews = JSON.parse(genRevs);
+        if (catRevs != null && catRevs != '')
+            $scope.CategorizedReviews = JSON.parse(catRevs);
+        if (locationId != null && locationId != '')
+            $scope.locationId = locationId;
+        $scope.placeId = placeId;
     }
     $scope.isNoReviews = function()
     {
@@ -33,7 +39,6 @@
     $scope.searchByCategoy = function () {
         $window.location.href = '/#/reviews/' + $scope.locationId + '/' + $scope.categoryTxtBx + '';
     };
-    $scope.locationId = 0;
     $scope.nameTxtBx = '';
     $scope.reviewTxtArea = '';
     $scope.submitGeneralReview = function () {
@@ -42,6 +47,7 @@
             method: 'POST',
             data: {
                 'locationId': $scope.locationId,
+                'placeId': $scope.placeId,
                 'name': $scope.nameTxtBx,
                 'review': $scope.reviewTxtArea,
                 'category': 'GENERAL'
@@ -59,6 +65,7 @@
             method: 'POST',
             data: {
                 'locationId': $scope.locationId,
+                'placeId': $scope.placeId,
                 'name': $scope.nameTxtBx,
                 'review': $scope.reviewTxtArea
             }

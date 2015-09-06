@@ -22,13 +22,13 @@ var configFunction = function ($routeProvider) {
         })
         .when('/search/:address', {
             templateUrl: function (params) {
-                return '/Location/GetLocationsByAddressWebService?address=' + params.address;
+                return '/Location/GetLocationByPlaceId?placeId=' + params.address;
             },
             controller: 'SearchController'
         })
-        .when('/reviews/:id', {
+        .when('/reviews/:placeId', {
             templateUrl: function (params) {
-                return '/Reviews/All?id=' + params.id;
+                return '/Reviews/All?placeId=' + params.placeId;
             },
             controller: 'AllController'
         })

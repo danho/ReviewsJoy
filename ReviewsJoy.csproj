@@ -208,6 +208,14 @@
     <Compile Include="Migrations\201508091848140_AddCategoryAndLocation.Designer.cs">
       <DependentUpon>201508091848140_AddCategoryAndLocation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201509061619002_placeId.cs" />
+    <Compile Include="Migrations\201509061619002_placeId.Designer.cs">
+      <DependentUpon>201509061619002_placeId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509061629436_placeId1.cs" />
+    <Compile Include="Migrations\201509061629436_placeId1.Designer.cs">
+      <DependentUpon>201509061629436_placeId1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Category.cs" />
@@ -283,7 +291,6 @@
     <Content Include="web.config" />
     <Content Include="Views\Reviews\All.cshtml" />
     <Content Include="Views\Reviews\One.cshtml" />
-    <Content Include="Views\Location\GetLocationsByAddressWebService.cshtml" />
     <Content Include="Views\Home\Begin.cshtml" />
     <Content Include="Views\Home\LandingPage.cshtml" />
     <Content Include="Views\Reviews\ReviewsByCategoryName.cshtml" />
@@ -312,6 +319,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508091848140_AddCategoryAndLocation.resx">
       <DependentUpon>201508091848140_AddCategoryAndLocation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509061619002_placeId.resx">
+      <DependentUpon>201509061619002_placeId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509061629436_placeId1.resx">
+      <DependentUpon>201509061629436_placeId1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

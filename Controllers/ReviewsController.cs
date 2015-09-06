@@ -44,12 +44,18 @@ namespace ReviewsJoy.Controllers
             return db.ReviewsCategorizedGetByLocationId(locationId, count);
         }
 
-        public ActionResult All(int id)
+        public ActionResult All(string placeId)
         {
-            var s = new JavaScriptSerializer();
-            ViewBag.id = id;
-            ViewBag.GeneralReviews = s.Serialize(ReviewsGeneralGetByLocationId(id, 10));
-            ViewBag.CategorizedReviews = s.Serialize(ReviewsCategorizedGetByLocationId(id, null));
+            ViewBag.placeId = placeId;
+            var locCtrl = new LocationController(db);
+            var loc = locCtrl.LocationGetByPlaceId(placeId);
+            if (loc != null)
+            {
+                var s = new JavaScriptSerializer();
+                ViewBag.locationId = loc.LocationId;
+                ViewBag.GeneralReviews = s.Serialize(ReviewsGeneralGetByLocationId(loc.LocationId, 10));
+                ViewBag.CategorizedReviews = s.Serialize(ReviewsCategorizedGetByLocationId(loc.LocationId, null));
+            }
             return View();
         }
 
@@ -60,35 +66,64 @@ namespace ReviewsJoy.Controllers
         }
 
         [HttpPost]
-        public bool AddNewReview(int locationId, string name, string review, string category)
+        public bool AddNewReview(int locationId, string placeId, string name, string review, string category)
         {
             try
             {
-                if (String.IsNullOrEmpty(category) || category.Equals("general", StringComparison.InvariantCultureIgnoreCase))
+                // Create location and add review
+                if (locationId == 0 && placeId != String.Empty)
                 {
-                    category = "General";
-                }
-                var cat = db.CategoryGetByName(category);
-                var location = db.LocationGetById(locationId);
-                if (location == null || String.IsNullOrEmpty(review))
-                    return false;
-
-                using (var scope = new TransactionScope())
-                {
-                    if (cat == null)
+                    var newLoc = new Location { placeId = placeId };
+                    var locCtrl = new LocationController(db);
+                    using (var scope = new TransactionScope())
                     {
-                        cat = db.CategoryAdd(name);
+                        newLoc = locCtrl.LocationAdd(newLoc);
+                        if (String.IsNullOrEmpty(category) ||
+                            category.Equals("general", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            category = "General";
+                        }
+                        var cat = db.CategoryGetByName(category);
+                        var newReview = new Review
+                        {
+                            Location = newLoc,
+                            Author = name,
+                            ReviewText = review,
+                            Category = cat
+                        };
+                        AddReview(newReview);
+                        scope.Complete();
+                        return true;
                     }
-
-                    var newReview = new Review
+                }
+                else
+                {
+                    if (String.IsNullOrEmpty(category) || category.Equals("general", StringComparison.InvariantCultureIgnoreCase))
                     {
-                        Location = location,
-                        Author = name,
-                        ReviewText = review,
-                        Category = cat
-                    };
-                    AddReview(newReview);
-                    scope.Complete();
+                        category = "General";
+                    }
+                    var cat = db.CategoryGetByName(category);
+                    var location = db.LocationGetById(locationId);
+                    if (location == null || String.IsNullOrEmpty(review))
+                        return false;
+
+                    using (var scope = new TransactionScope())
+                    {
+                        if (cat == null)
+                        {
+                            cat = db.CategoryAdd(name);
+                        }
+
+                        var newReview = new Review
+                        {
+                            Location = location,
+                            Author = name,
+                            ReviewText = review,
+                            Category = cat
+                        };
+                        AddReview(newReview);
+                        scope.Complete();
+                    }
                 }
                 return true;
             }

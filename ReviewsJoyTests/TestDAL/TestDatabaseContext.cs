@@ -181,5 +181,17 @@ namespace ReviewsJoyTests.TestDAL
             categories.Add(newCat);
             return newCat;
         }
+
+        public Location LocationGetByPlaceId(string placeId)
+        {
+            return locations.FirstOrDefault(l => l.placeId == placeId);
+        }
+
+        public Location LocationAdd(Location location)
+        {
+            location.LocationId = locations.Last().LocationId + 1;
+            locations.Add(location);
+            return location;
+        }
     }
 }

@@ -7,17 +7,20 @@
     <h2>Taking Reviews To The Next Level</h2>
     <br />
     <br />
-    <div id="searchNow">
-        <form class="form-inline" role="form">
-            <div class="input-group">
-                <input id="searchTxtBx" type="text" class="form-control" placeholder="Address" ng-model="searchText" ng-change="autoComplete()" />
-                <span class="input-group-btn">
-                    <button id="searchBtn" class="btn btn-primary" type="button" ng-click="search()">Search</button>
-                </span>
-            </div>
-        </form>
+    <div class="row">
+        <div id="searchNow" class="col-xs-8 col-xs-offset-2">
+            <form>
+                <div class="input-group">
+                    <input id="searchTxtBx" type="text" class="form-control" placeholder="Address" ng-model="searchText" ng-change="autoComplete()" />
+                    <span class="input-group-btn">
+                        <button id="searchBtn" class="btn btn-primary" type="button" ng-disabled="searchBtnDisabled" ng-click="search()">Search</button>
+                    </span>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
+<br />
 <br />
 <ui-gmap-google-map center='map.center' zoom='map.zoom'>
     <ui-gmap-marker idkey="marker.id" coords="marker.coords"></ui-gmap-marker>

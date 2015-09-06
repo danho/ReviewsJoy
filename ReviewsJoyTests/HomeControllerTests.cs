@@ -24,14 +24,14 @@ namespace ReviewsJoyTests
             controller = new HomeController(db);
         }
 
-        [TestCase("a")]
-        [TestCase("street")]
-        public void LocationsGetByAddressShouldReturnLocations(string address)
-        {
-            var locs = controller.LocationsGetByAddress(address);
-            Assert.NotNull(locs);
-            Assert.True(locs.Count > 0);
-            foreach (var l in locs) { Assert.IsTrue(l.Address.Contains(address)); }
-        }
+        //[TestCase("a")]
+        //[TestCase("street")]
+        //public void LocationsGetByAddressShouldReturnLocations(string address)
+        //{
+        //    var locs = controller.LocationsGetByAddress(address);
+        //    Assert.NotNull(locs);
+        //    Assert.True(locs.Count > 0);
+        //    foreach (var l in locs) { Assert.IsTrue(l.Address.Contains(address)); }
+        //}
     }
 }

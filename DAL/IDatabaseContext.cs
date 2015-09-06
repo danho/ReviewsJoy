@@ -10,6 +10,8 @@ namespace ReviewsJoy.DAL
     {
         List<Location> LocationGetByAddress(string address);
         Location LocationGetById(int id);
+        Location LocationGetByPlaceId(string placeId);
+        Location LocationAdd(Location location);
         List<Category> CategoryGetAll();
         Category CategoryGetByName(string name);
         Category CategoryAdd(string name);

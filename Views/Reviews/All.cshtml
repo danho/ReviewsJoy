@@ -1,16 +1,16 @@
-﻿<div id="generalReviews" ng-init="init('@ViewBag.GeneralReviews', '@ViewBag.CategorizedReviews'); locationId = '@ViewBag.id'"
+﻿<div id="generalReviews" ng-init="init('@ViewBag.GeneralReviews', '@ViewBag.CategorizedReviews', '@ViewBag.locationId', '@ViewBag.placeId');"
      ng-hide="hideReviews">
     <div class="row">
         <div class="col-xs-12" ng-show="isNoReviews()">
             <h1>Sorry, there are no reviews at this time. Add one now!</h1>
         </div>
-        <div class="col-xs-6">
+        <div class="col-xs-6" ng-hide="isNoReviews()">
             General Reviews:
             <div ng-repeat="g in GeneralReviews" ng-hide="isNoReviews()">
                 {{ g.ReviewText }}
             </div>
         </div>
-        <div class="col-xs-6">
+        <div class="col-xs-6" ng-hide="isNoReviews()">
             Categorized Reviews:
             <div ng-repeat="c in CategorizedReviews" ng-hide="isNoReviews()">
                 {{ c.ReviewText }}
@@ -18,7 +18,7 @@
                 &nbsp;&nbsp;{{ c.Author }}
             </div>
         </div>
-        <div class="col-xs-12">
+        <div class="col-xs-12" ng-hide="isNoReviews()">
             Get more speficic reviews by searching with a category
             <br />
             <input type="text" placeholder="Category" class="form-control" ng-model="categoryTxtBx" />
@@ -37,7 +37,7 @@
         <div class="col-xs-12">
             <input id="nameTxtBx" type="text" placeholder="Name" class="form-control" ng-model="nameTxtBx" />
             <textarea id="reviewTxtBx" type="text" placeholder="Review" rows="4" class="form-control" ng-model="reviewTxtArea"></textarea>
-            <button id="submitBtn" class="btn btn-primary" ng-click="submitReview()">
+            <button id="submitBtn" class="btn btn-primary" ng-click="submitGeneralReview()">
                 Submit
             </button>
         </div>

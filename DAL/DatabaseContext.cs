@@ -23,6 +23,16 @@ namespace ReviewsJoy.DAL
             return Locations.FirstOrDefault(l => l.LocationId == id);
         }
 
+        public Location LocationGetByPlaceId(string placeId)
+        {
+            return Locations.FirstOrDefault(l => l.placeId == placeId);
+        }
+
+        public Location LocationAdd(Location loc)
+        {
+            return Locations.Add(loc);
+        }
+
         public List<Category> CategoryGetAll()
         {
             return Categories.ToList();

@@ -1,8 +1,0 @@
-﻿@model List<ReviewsJoy.Models.Location>
-
-@foreach (var l in Model)
-{
-    <a href="/#/reviews/@l.LocationId">@l.Name</a>
-    @:&nbsp;&nbsp;@l.Address
-    <br />
-}
