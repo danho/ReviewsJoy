@@ -159,7 +159,8 @@ namespace ReviewsJoy.Controllers
         [HttpPost]
         public JsonResult GetLatAndLng(string placeId)
         {
-            var url = "https://maps.googleapis.com/maps/api/place/details/json?placeid=" + placeId + "&key=AIzaSyDeRmNcn7OCGbLC0SFI5KSMyZigMR0rPG4";
+            var key = WebConfigurationManager.AppSettings["GoogleServerKey"];
+            var url = "https://maps.googleapis.com/maps/api/place/details/json?placeid=" + placeId + "&key=" + key;
             var wc = new WebClient();
             var result = wc.DownloadString(url);
             return Json(result);

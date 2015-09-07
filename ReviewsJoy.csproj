@@ -291,7 +291,9 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Location\Details.cshtml" />
-    <Content Include="web.config" />
+    <Content Include="web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\Reviews\All.cshtml" />
     <Content Include="Views\Reviews\One.cshtml" />
     <Content Include="Views\Home\Begin.cshtml" />
