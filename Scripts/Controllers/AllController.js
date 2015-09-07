@@ -66,7 +66,7 @@
             data: {
                 'locationId': $scope.locationId,
                 'placeId': $scope.placeId,
-                'name': $scope.nameTxtBx,
+                'category': $scope.nameTxtBx,
                 'review': $scope.reviewTxtArea
             }
         }).success(function (data, status, headers, config) {

@@ -1,4 +1,7 @@
 ﻿var BeginController = function ($scope, $window, $http) {
+    $scope.init = function () {
+        $("body").css("background-image", "url('/Content/photo-1428908728789-d2de25dbd4e2.jpg')");
+    };
     $scope.map = { center: { latitude: 37.6, longitude: -95.665 }, zoom: 4 };
     $scope.marker = {
         id: 0,

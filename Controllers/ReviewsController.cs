@@ -66,10 +66,18 @@ namespace ReviewsJoy.Controllers
         }
 
         [HttpPost]
-        public bool AddNewReview(int locationId, string placeId, string name, string review, string category)
+        public bool AddNewReview(int locationId, string placeId, string category, string review)
         {
+            if (String.IsNullOrEmpty(category) ||
+                category.Equals("general", StringComparison.InvariantCultureIgnoreCase))
+            {
+                category = "General";
+            }
+            var cat = db.CategoryGetByName(category);
+
             try
             {
+                // No reviews exist
                 // Create location and add review
                 if (locationId == 0 && placeId != String.Empty)
                 {
@@ -78,16 +86,9 @@ namespace ReviewsJoy.Controllers
                     using (var scope = new TransactionScope())
                     {
                         newLoc = locCtrl.LocationAdd(newLoc);
-                        if (String.IsNullOrEmpty(category) ||
-                            category.Equals("general", StringComparison.InvariantCultureIgnoreCase))
-                        {
-                            category = "General";
-                        }
-                        var cat = db.CategoryGetByName(category);
                         var newReview = new Review
                         {
                             Location = newLoc,
-                            Author = name,
                             ReviewText = review,
                             Category = cat
                         };
@@ -96,13 +97,10 @@ namespace ReviewsJoy.Controllers
                         return true;
                     }
                 }
+                // Reviews exist
+                // Create review
                 else
                 {
-                    if (String.IsNullOrEmpty(category) || category.Equals("general", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        category = "General";
-                    }
-                    var cat = db.CategoryGetByName(category);
                     var location = db.LocationGetById(locationId);
                     if (location == null || String.IsNullOrEmpty(review))
                         return false;
@@ -111,13 +109,12 @@ namespace ReviewsJoy.Controllers
                     {
                         if (cat == null)
                         {
-                            cat = db.CategoryAdd(name);
+                            cat = db.CategoryAdd(category);
                         }
 
                         var newReview = new Review
                         {
                             Location = location,
-                            Author = name,
                             ReviewText = review,
                             Category = cat
                         };

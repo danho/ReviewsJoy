@@ -15,7 +15,7 @@
             <div ng-repeat="c in CategorizedReviews" ng-hide="isNoReviews()">
                 {{ c.ReviewText }}
                 <br />
-                &nbsp;&nbsp;{{ c.Author }}
+                &nbsp;&nbsp;{{ c.Category.Name }}
             </div>
         </div>
         <div class="col-xs-12" ng-hide="isNoReviews()">

@@ -1,4 +1,15 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+﻿html, body, .container {
+    height: 100%;
 }
+
+.white {
+    color: white;
+}
+
+/*html {
+  background: url('file:///C:\Users\D\Documents\visual studio 2015\Projects\ReviewsJoy\ReviewsJoy\Content\photo-1429032021766-c6a53949594f.jpg') no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}*/
