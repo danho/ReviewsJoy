@@ -1,15 +1,16 @@
-﻿html, body, .container {
+﻿html, body {
     height: 100%;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
 }
 
 .white {
     color: white;
 }
 
-/*html {
-  background: url('file:///C:\Users\D\Documents\visual studio 2015\Projects\ReviewsJoy\ReviewsJoy\Content\photo-1429032021766-c6a53949594f.jpg') no-repeat center center fixed; 
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}*/
+html {
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
