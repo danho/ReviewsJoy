@@ -261,6 +261,19 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\ReviewsJoy.js" />
+    <Content Include="Scripts\wow.min.js" />
+    <Content Include="Scripts\wow\css\libs\animate.css" />
+    <Content Include="Scripts\wow\css\site.css" />
+    <Content Include="Scripts\wow\demo.html" />
+    <Content Include="Scripts\wow\dist\wow.js" />
+    <Content Include="Scripts\wow\dist\wow.min.js" />
+    <Content Include="Scripts\wow\Gruntfile.js" />
+    <Content Include="Scripts\wow\spec\javascripts\fixtures\custom.html" />
+    <Content Include="Scripts\wow\spec\javascripts\fixtures\simple.html" />
+    <Content Include="Scripts\wow\spec\javascripts\helpers\SpecHelper.js" />
+    <Content Include="Scripts\wow\spec\javascripts\libs\jasmine-jquery.js" />
+    <Content Include="Scripts\wow\spec\javascripts\libs\jquery.js" />
+    <Content Include="Scripts\wow\spec\javascripts\wow-spec.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Unity.Mvc3.README.txt" />
     <Content Include="Views\Web.config" />
@@ -299,6 +312,14 @@
     <Content Include="Views\Home\Begin.cshtml" />
     <Content Include="Views\Home\LandingPage.cshtml" />
     <Content Include="Views\Reviews\ReviewsByCategoryName.cshtml" />
+    <Content Include="Scripts\wow\.bower.json" />
+    <Content Include="Scripts\wow\bower.json" />
+    <Content Include="Scripts\wow\LICENSE-MIT" />
+    <Content Include="Scripts\wow\package.json" />
+    <Content Include="Scripts\wow\README.md" />
+    <Content Include="Scripts\wow\spec\coffeescripts\helpers\SpecHelper.coffee" />
+    <Content Include="Scripts\wow\spec\coffeescripts\wow-spec.coffee" />
+    <Content Include="Scripts\wow\src\wow.coffee" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
       <SubType>Designer</SubType>
