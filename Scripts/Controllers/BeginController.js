@@ -1,6 +1,6 @@
 ﻿var BeginController = function ($scope, $window, $http) {
     $scope.$on('$routeChangeSuccess', function () {
-        $("body").css("background-image", "url('/Content/photo-1428908728789-d2de25dbd4e2.jpg')");
+        $("body").css("background-image", "none");
     });
     $scope.map = { center: { latitude: 37.6, longitude: -95.665 }, zoom: 4 };
     $scope.marker = {

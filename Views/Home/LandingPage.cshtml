@@ -3,6 +3,18 @@
         <h1 class="white">ReviewsJoy</h1>
         <br />
         <br />
-        <button id="searchNowBtn" class="btn btn-danger" ng-click="toggle()">Search Now</button>
+        <button id="searchNowBtn" class="btn btn-danger" ng-click="toggle()" ng-hide="showSearch">Search Now</button>
+        <div id="searchNow" class="col-xs-8 col-xs-offset-2" ng-show="showSearch">
+            <form>
+                <div class="input-group">
+                    <input id="searchTxtBx" type="text" class="form-control" placeholder="Name or Address" ng-model="searchText" ng-change="autoComplete()" />
+                    <span class="input-group-btn">
+                        <button id="searchBtn" class="btn btn-primary" type="button" ng-disabled="searchBtnDisabled" ng-click="search()">Search</button>
+                    </span>
+                </div>
+                <br />
+                <img align="right" src="~/Content/powered_by_google_on_white.png" />
+            </form>
+        </div>
     </div>
 </div>

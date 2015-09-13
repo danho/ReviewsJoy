@@ -1,6 +1,6 @@
 ﻿var app = angular.module('ReviewsJoy', ['ngRoute', 'uiGmapgoogle-maps']);
 
-app.controller('HomePageController', ['$scope', '$window', HomePageController]);
+app.controller('HomePageController', ['$scope', '$window', '$http', HomePageController]);
 app.controller('BeginController', ['$scope', '$window', '$http', BeginController]);
 app.controller('SearchController', ['$scope', '$window', SearchController]);
 app.controller('AllController', ['$scope', '$window', '$http', AllController]);
