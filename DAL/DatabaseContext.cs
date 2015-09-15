@@ -106,8 +106,9 @@ namespace ReviewsJoy.DAL
                 var category = CategoryGetByName(categoryName);
                 if (category != null)
                 {
-                    catReviews = Reviews.Where(r => r.Category.CategoryId == category.CategoryId)
-                                .ToList();
+                    catReviews = Reviews.Where(r => r.Category.CategoryId == category.CategoryId
+                                    && r.Location.LocationId == locationId)
+                                        .ToList();
                 }
             }
             return catReviews;

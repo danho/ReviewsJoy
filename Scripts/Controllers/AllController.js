@@ -1,4 +1,7 @@
 ﻿var AllController = function ($scope, $window, $http) {
+    $scope.$on('$routeChangeSuccess', function () {
+        $("body").css("background-image", "none");
+    });
     $scope.GeneralReviews = '';
     $scope.CategorizedReviews = '';
     $scope.locationId = 0;

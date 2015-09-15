@@ -140,7 +140,7 @@ namespace ReviewsJoy.Controllers
         {
             var s = new JavaScriptSerializer();
             ViewBag.model = s.Serialize(ReviewsGetByCategoryName(id, categoryName));
-            return View(ReviewsGetByCategoryName(id, categoryName));
+            return View();
         }
 
         [HttpPost]
