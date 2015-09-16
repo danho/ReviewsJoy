@@ -18,7 +18,7 @@ namespace ReviewsJoyTests
         [SetUp]
         public void SetUp()
         {
-            db = new TestDatabaseContext();
+            db = new TestDatabaseContext().GetMockDatabase();
             controller = new LocationController(db);
         }
 

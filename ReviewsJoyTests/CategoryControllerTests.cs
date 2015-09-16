@@ -19,14 +19,14 @@ namespace ReviewsJoyTests
         [SetUp]
         public void SetUp()
         {
-            db = new TestDatabaseContext();
+            db = new TestDatabaseContext().GetMockDatabase();
             controller = new CategoryController(db);
         }
 
         [Test]
         public void CategoryGetAllShouldGetAllCategories()
         {
-            var cats = db.CategoryGetAll();
+            var cats = controller.CategoryGetAll();
             Assert.NotNull(cats);
             Assert.IsTrue(cats.Count > 0);
         }

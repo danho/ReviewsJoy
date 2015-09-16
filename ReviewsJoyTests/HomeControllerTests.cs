@@ -14,15 +14,15 @@ namespace ReviewsJoyTests
     [TestFixture]
     public class HomeControllerTests
     {
-        private IDatabaseContext db;
-        private HomeController controller;
+        //private IDatabaseContext db;
+        //private HomeController controller;
 
-        [SetUp]
-        public void SetUp()
-        {
-            db = new TestDatabaseContext();
-            controller = new HomeController(db);
-        }
+        //[SetUp]
+        //public void SetUp()
+        //{
+        //    db = new TestDatabaseContext();
+        //    controller = new HomeController(db);
+        //}
 
         //[TestCase("a")]
         //[TestCase("street")]

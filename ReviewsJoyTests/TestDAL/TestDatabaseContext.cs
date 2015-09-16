@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ReviewsJoy.Models;
+using Moq;
 
 namespace ReviewsJoyTests.TestDAL
 {
-    public class TestDatabaseContext : IDatabaseContext
+    public class TestDatabaseContext /*: IDatabaseContext*/
     {
 
         private List<Location> locations;
@@ -47,18 +48,18 @@ namespace ReviewsJoyTests.TestDAL
 
             var c1 = new Category
             {
-                CategoryId = 0,
+                CategoryId = 1,
                 Name = "General"
             };
 
             var c2 = new Category
             {
-                CategoryId = 1,
+                CategoryId = 2,
                 Name = "Food"
             };
             var c3 = new Category
             {
-                CategoryId = 2,
+                CategoryId = 3,
                 Name = "Parking"
             };
 
@@ -91,107 +92,218 @@ namespace ReviewsJoyTests.TestDAL
             reviews.Add(r2);
         }
 
-        public List<Category> CategoryGetAll()
+        public IDatabaseContext GetMockDatabase()
         {
-            return categories.ToList();
-        }
+            var mock = new Mock<IDatabaseContext>();
 
-        public List<Location> LocationGetByAddress(string address)
-        {
-            return locations.Where(l => l.Address.Contains(address)).ToList();
-        }
-
-        public Location LocationGetById(int id)
-        {
-            return locations.FirstOrDefault(l => l.LocationId == id);
-        }
-
-        public List<Review> ReviewsGetByLocationId(int locationId, int? count)
-        {
-            if (count == null)
-                return reviews.Where(r => r.Location.LocationId == locationId)
-                            .ToList();
-            else
-                return reviews.Where(r => r.Location.LocationId == locationId)
-                            .Take(count.Value)
+            mock.Setup(m => m.CategoryGetAll()).Returns(() => categories.ToList());
+            mock.Setup(m => m.LocationGetByAddress(It.IsAny<string>()))
+                .Returns((string s) => locations.Where(l => l.Address.Contains(s)).ToList());
+            mock.Setup(m => m.LocationGetById(It.IsAny<int>()))
+                .Returns((int i) => locations.FirstOrDefault(l => l.LocationId == i));
+            mock.Setup(m => m.ReviewsGetByLocationId(It.IsAny<int>(), It.IsAny<int?>()))
+                .Returns((int a, int? b) =>
+                    {
+                        if (b == null)
+                        {
+                            return reviews
+                                .Where(r => r.Location.LocationId == a)
                                 .ToList();
-        }
-
-        public List<Review> ReviewsGeneralGetByLocationId(int locationId, int? count)
-        {
-            if (count == null)
-                return reviews.Where(r => r.Location.LocationId == locationId
-                        && r.Category.Name.Equals("general", StringComparison.InvariantCultureIgnoreCase))
-                            .ToList();
-            else
-                return reviews.Where(r => r.Location.LocationId == locationId
-                            && r.Category.Name.Equals("general", StringComparison.InvariantCultureIgnoreCase))
-                                .Take(count.Value)
-                                    .ToList();
-        }
-
-        public List<Review> ReviewsCategorizedGetByLocationId(int locationId, int? count)
-        {
-            if (count == null)
-                return reviews.Where(r => r.Location.LocationId == locationId
-                        && !r.Category.Name.Equals("general", StringComparison.InvariantCultureIgnoreCase))
-                            .ToList();
-            else
-                return reviews.Where(r => r.Location.LocationId == locationId
-                            && !r.Category.Name.Equals("general", StringComparison.InvariantCultureIgnoreCase))
-                                .Take(count.Value)
-                                    .ToList();
-        }
-
-        public void AddReview(Review review)
-        {
-            reviews.Add(review);
-        }
-
-        public Category CategoryGetByName(string name)
-        {
-            Category cat = null;
-            if (!String.IsNullOrEmpty(name))
-            {
-                name = name.Trim().ToUpper();
-                cat = categories.FirstOrDefault(c => c.Name.ToUpper() == name);
-            }
-            return cat;
-        }
-
-        public List<Review> ReviewsGetByCategoryName(int locationId, string categoryName)
-        {
-            List<Review> catReviews = new List<Review>();
-            if (!String.IsNullOrEmpty(categoryName))
-            {
-                var category = CategoryGetByName(categoryName);
-                if (category != null)
+                        }
+                        else
+                        {
+                            return reviews
+                                .Where(r => r.Location.LocationId == a)
+                                .Take(b.Value)
+                                .ToList();
+                        }
+                    }
+                );
+            mock.Setup(m => m.ReviewsGeneralGetByLocationId(It.IsAny<int>(), It.IsAny<int?>()))
+                .Returns((int a, int? b) =>
+                    {
+                        if (b == null)
+                            return reviews.Where(r => r.Location.LocationId == a
+                                    && r.Category.Name.Equals("general", StringComparison.InvariantCultureIgnoreCase))
+                                        .ToList();
+                        else
+                            return reviews.Where(r => r.Location.LocationId == a
+                                        && r.Category.Name.Equals("general", StringComparison.InvariantCultureIgnoreCase))
+                                            .Take(b.Value)
+                                                .ToList();
+                    }
+                );
+            mock.Setup(m => m.ReviewsCategorizedGetByLocationId(It.IsAny<int>(), It.IsAny<int?>()))
+                .Returns((int locationId, int? count) =>
+                    {
+                        if (count == null)
+                            return reviews.Where(r => r.Location.LocationId == locationId
+                                    && !r.Category.Name.Equals("general", StringComparison.InvariantCultureIgnoreCase))
+                                        .ToList();
+                        else
+                            return reviews.Where(r => r.Location.LocationId == locationId
+                                        && !r.Category.Name.Equals("general", StringComparison.InvariantCultureIgnoreCase))
+                                            .Take(count.Value)
+                                                .ToList();
+                    }
+                 );
+            mock.Setup(m => m.CategoryGetByName(It.IsAny<string>()))
+                .Returns((string name) =>
                 {
-                    reviews = reviews.Where(r => r.Category.CategoryId == category.CategoryId)
-                                .ToList();
+                    Category cat = null;
+                    if (!String.IsNullOrEmpty(name))
+                    {
+                        name = name.Trim().ToUpper();
+                        cat = categories.FirstOrDefault(c => c.Name.ToUpper() == name);
+                    }
+                    return cat;
                 }
-            }
-            return catReviews;
+            );
+            mock.Setup(m => m.ReviewsGetByCategoryName(It.IsAny<int>(), It.IsAny<string>()))
+                .Returns((int locationId, string categoryName) =>
+                {
+                    List<Review> catReviews = new List<Review>();
+                    if (!String.IsNullOrEmpty(categoryName))
+                    {
+                        categoryName = categoryName.Trim().ToUpper();
+                        var category = categories.FirstOrDefault(c => c.Name.ToUpper() == categoryName);
+                        if (category != null)
+                        {
+                            reviews = reviews.Where(r => r.Category.CategoryId == category.CategoryId)
+                                        .ToList();
+                        }
+                    }
+                    return catReviews;
+                }
+            );
+            mock.Setup(m => m.CategoryAdd(It.IsAny<string>()))
+                .Returns((string name) =>
+                {
+                    var id = categories.Last().CategoryId + 1;
+                    var newCat = new Category { CategoryId = id, Name = name };
+                    categories.Add(newCat);
+                    return newCat;
+                }
+            );
+            mock.Setup(m => m.LocationGetByPlaceId(It.IsAny<string>()))
+                .Returns((string placeId) =>
+                {
+                    return locations.FirstOrDefault(l => l.placeId == placeId);
+                }
+            );
+            mock.Setup(m => m.LocationAdd(It.IsAny<Location>()))
+                .Returns((Location location) =>
+                {
+                    location.LocationId = locations.Last().LocationId + 1;
+                    locations.Add(location);
+                    return location;
+                }
+            );
+
+            return mock.Object;
         }
 
-        public Category CategoryAdd(string name)
-        {
-            var id = categories.Last().CategoryId + 1;
-            var newCat = new Category { CategoryId = id, Name = name };
-            categories.Add(newCat);
-            return newCat;
-        }
+        //public List<Category> CategoryGetAll()
+        //{
+        //    return categories.ToList();
+        //}
 
-        public Location LocationGetByPlaceId(string placeId)
-        {
-            return locations.FirstOrDefault(l => l.placeId == placeId);
-        }
+        //public List<Location> LocationGetByAddress(string address)
+        //{
+        //    return locations.Where(l => l.Address.Contains(address)).ToList();
+        //}
 
-        public Location LocationAdd(Location location)
-        {
-            location.LocationId = locations.Last().LocationId + 1;
-            locations.Add(location);
-            return location;
-        }
+        //public Location LocationGetById(int id)
+        //{
+        //    return locations.FirstOrDefault(l => l.LocationId == id);
+        //}
+
+        //public List<Review> ReviewsGetByLocationId(int locationId, int? count)
+        //{
+        //    if (count == null)
+        //        return reviews.Where(r => r.Location.LocationId == locationId)
+        //                    .ToList();
+        //    else
+        //        return reviews.Where(r => r.Location.LocationId == locationId)
+        //                    .Take(count.Value)
+        //                        .ToList();
+        //}
+
+        //public List<Review> ReviewsGeneralGetByLocationId(int locationId, int? count)
+        //{
+        //    if (count == null)
+        //        return reviews.Where(r => r.Location.LocationId == locationId
+        //                && r.Category.Name.Equals("general", StringComparison.InvariantCultureIgnoreCase))
+        //                    .ToList();
+        //    else
+        //        return reviews.Where(r => r.Location.LocationId == locationId
+        //                    && r.Category.Name.Equals("general", StringComparison.InvariantCultureIgnoreCase))
+        //                        .Take(count.Value)
+        //                            .ToList();
+        //}
+
+        //public List<Review> ReviewsCategorizedGetByLocationId(int locationId, int? count)
+        //{
+        //    if (count == null)
+        //        return reviews.Where(r => r.Location.LocationId == locationId
+        //                && !r.Category.Name.Equals("general", StringComparison.InvariantCultureIgnoreCase))
+        //                    .ToList();
+        //    else
+        //        return reviews.Where(r => r.Location.LocationId == locationId
+        //                    && !r.Category.Name.Equals("general", StringComparison.InvariantCultureIgnoreCase))
+        //                        .Take(count.Value)
+        //                            .ToList();
+        //}
+
+        //public void AddReview(Review review)
+        //{
+        //    reviews.Add(review);
+        //}
+
+        //public Category CategoryGetByName(string name)
+        //{
+        //    Category cat = null;
+        //    if (!String.IsNullOrEmpty(name))
+        //    {
+        //        name = name.Trim().ToUpper();
+        //        cat = categories.FirstOrDefault(c => c.Name.ToUpper() == name);
+        //    }
+        //    return cat;
+        //}
+
+        //public List<Review> ReviewsGetByCategoryName(int locationId, string categoryName)
+        //{
+        //    List<Review> catReviews = new List<Review>();
+        //    if (!String.IsNullOrEmpty(categoryName))
+        //    {
+        //        var category = CategoryGetByName(categoryName);
+        //        if (category != null)
+        //        {
+        //            reviews = reviews.Where(r => r.Category.CategoryId == category.CategoryId)
+        //                        .ToList();
+        //        }
+        //    }
+        //    return catReviews;
+        //}
+
+        //public Category CategoryAdd(string name)
+        //{
+        //    var id = categories.Last().CategoryId + 1;
+        //    var newCat = new Category { CategoryId = id, Name = name };
+        //    categories.Add(newCat);
+        //    return newCat;
+        //}
+
+        //public Location LocationGetByPlaceId(string placeId)
+        //{
+        //    return locations.FirstOrDefault(l => l.placeId == placeId);
+        //}
+
+        //public Location LocationAdd(Location location)
+        //{
+        //    location.LocationId = locations.Last().LocationId + 1;
+        //    locations.Add(location);
+        //    return location;
+        //}
     }
 }
