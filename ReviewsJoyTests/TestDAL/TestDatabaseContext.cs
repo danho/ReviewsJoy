@@ -27,7 +27,8 @@ namespace ReviewsJoyTests.TestDAL
                 Zip = "10000",
                 Name = "l1",
                 XCoordinate = 25.2,
-                YCoordinate = 30.1
+                YCoordinate = 30.1,
+                placeId = "a"
             };
 
             var l2 = new Location
@@ -39,7 +40,8 @@ namespace ReviewsJoyTests.TestDAL
                 Zip = "10001",
                 Name = "l2",
                 XCoordinate = 22.2,
-                YCoordinate = 32.1
+                YCoordinate = 32.1,
+                placeId = "b"
             };
 
             locations = new List<Location>();
@@ -86,10 +88,30 @@ namespace ReviewsJoyTests.TestDAL
                 ReviewText = "Plenty of parking spaces",
                 Stars = 10
             };
+            var r3 = new Review
+            {
+                ReviewId = 3,
+                Author = "B",
+                Category = c2,
+                Location = l2,
+                ReviewText = "Plenty of parking spaces",
+                Stars = 10
+            };
+            var r4 = new Review
+            {
+                ReviewId = 4,
+                Author = "B",
+                Category = c1,
+                Location = l2,
+                ReviewText = "Plenty of parking spaces",
+                Stars = 10
+            };
 
             reviews = new List<Review>();
             reviews.Add(r1);
             reviews.Add(r2);
+            reviews.Add(r3);
+            reviews.Add(r4);
         }
 
         public IDatabaseContext GetMockDatabase()
@@ -199,7 +221,14 @@ namespace ReviewsJoyTests.TestDAL
                     return location;
                 }
             );
-
+            mock.Setup(m => m.AddReview(It.IsAny<Review>()))
+                .Returns((Review review) =>
+                {
+                    review.ReviewId = reviews.Last().ReviewId + 1;
+                    reviews.Add(review);
+                    return review;
+                }
+            );
             return mock.Object;
         }
 

@@ -4,6 +4,17 @@
     background-repeat: no-repeat;
 }
 
+body { padding-top: 100px; }
+
+.navbar-custom {
+    background-color: #1590c2 !important;
+    background-image: none !important;
+}
+
+.navbar-custom a {
+    color: white !important;
+}
+
 .white {
     color: white;
 }

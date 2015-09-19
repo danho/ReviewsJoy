@@ -21,11 +21,6 @@ namespace ReviewsJoy.Controllers
             this.db = db;
         }
 
-        public ActionResult One()
-        {
-            return View();
-        }
-
         [ChildActionOnly]
         public List<Review> ReviewsGetByLocationId(int locationId, int? count)
         {
@@ -44,18 +39,36 @@ namespace ReviewsJoy.Controllers
             return db.ReviewsCategorizedGetByLocationId(locationId, count);
         }
 
+        [ChildActionOnly]
+        public void GetAllReviews(string placeId, out int locationId, out List<Review> generalReviews, out List<Review> categorizedReviews)
+        {
+            locationId = 0;
+            generalReviews = null;
+            categorizedReviews = null;
+            if (!String.IsNullOrEmpty(placeId))
+            {
+                var locCtrl = new LocationController(db);
+                var loc = locCtrl.LocationGetByPlaceId(placeId);
+                if (loc != null)
+                {
+                    locationId = loc.LocationId;
+                    generalReviews = ReviewsGeneralGetByLocationId(loc.LocationId, 10);
+                    categorizedReviews = ReviewsCategorizedGetByLocationId(loc.LocationId, null);
+                }
+            }
+        }
+
         public ActionResult All(string placeId)
         {
             ViewBag.placeId = placeId;
-            var locCtrl = new LocationController(db);
-            var loc = locCtrl.LocationGetByPlaceId(placeId);
-            if (loc != null)
-            {
-                var s = new JavaScriptSerializer();
-                ViewBag.locationId = loc.LocationId;
-                ViewBag.GeneralReviews = s.Serialize(ReviewsGeneralGetByLocationId(loc.LocationId, 10));
-                ViewBag.CategorizedReviews = s.Serialize(ReviewsCategorizedGetByLocationId(loc.LocationId, null));
-            }
+            int locationId = 0;
+            List<Review>  generalReviews = null;
+            List<Review> categorizedReviews = null;
+            GetAllReviews(placeId, out locationId, out generalReviews, out categorizedReviews);
+            var s = new JavaScriptSerializer();
+            ViewBag.locationId = locationId;
+            ViewBag.GeneralReviews = s.Serialize(generalReviews);
+            ViewBag.CategorizedReviews = s.Serialize(categorizedReviews);
             return View();
         }
 

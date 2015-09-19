@@ -19,6 +19,6 @@ namespace ReviewsJoy.DAL
         List<Review> ReviewsGeneralGetByLocationId(int locationId, int? count);
         List<Review> ReviewsCategorizedGetByLocationId(int locationId, int? count);
         List<Review> ReviewsGetByCategoryName(int locationId, string categoryName);
-        void AddReview(Review review);
+        Review AddReview(Review review);
     }
 }

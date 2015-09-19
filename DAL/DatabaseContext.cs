@@ -114,10 +114,11 @@ namespace ReviewsJoy.DAL
             return catReviews;
         }
 
-        public void AddReview(Review review)
+        public Review AddReview(Review review)
         {
-            Reviews.Add(review);
+            var newReview = Reviews.Add(review);
             SaveChanges();
+            return newReview;
         }
     }
 }
