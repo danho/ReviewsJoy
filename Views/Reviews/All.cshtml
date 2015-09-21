@@ -1,12 +1,7 @@
-﻿<nav class="navbar navbar-custom navbar-default navbar-fixed-top" role="navigation">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#/">ReviewsJoy</a>
-        </div>
-</nav>
+﻿@Html.Partial("~/Views/Shared/_Navbar.cshtml")
 
 <div id="generalReviews" ng-init="init('@ViewBag.GeneralReviews', '@ViewBag.CategorizedReviews', '@ViewBag.locationId', '@ViewBag.placeId');"
-     ng-hide="hideReviews"
-     style="background-color: #fafafa">
+     ng-hide="hideReviews">
     <div class="row">
         <div class="col-xs-12" ng-show="isNoReviews()">
             <h1>Sorry, there are no reviews at this time. Add one now!</h1>

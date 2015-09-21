@@ -229,6 +229,19 @@ namespace ReviewsJoyTests.TestDAL
                     return review;
                 }
             );
+            mock.Setup(m => m.LocationIdGetByPlaceId(It.IsAny<string>()))
+                .Returns((string s) =>
+                {
+                    return locations.Where(l => l.placeId == s).Select(m => m.LocationId).FirstOrDefault();
+                }
+            );
+            mock.Setup(m => m.ReviewsGetAll(It.IsAny<string>()))
+                .Returns((string placeId) =>
+                {
+                    return reviews.Where(r => r.Location.placeId == placeId).ToList();
+                }
+            );
+
             return mock.Object;
         }
 

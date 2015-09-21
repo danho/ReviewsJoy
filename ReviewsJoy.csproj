@@ -322,6 +322,7 @@
     <Content Include="Scripts\wow\spec\coffeescripts\helpers\SpecHelper.coffee" />
     <Content Include="Scripts\wow\spec\coffeescripts\wow-spec.coffee" />
     <Content Include="Scripts\wow\src\wow.coffee" />
+    <Content Include="Views\Shared\_Navbar.cshtml" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
       <SubType>Designer</SubType>

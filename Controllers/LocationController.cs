@@ -24,6 +24,12 @@ namespace ReviewsJoy.Controllers
         }
 
         [ChildActionOnly]
+        public int LocationIdGetByPlaceId(string placeId)
+        {
+            return db.LocationIdGetByPlaceId(placeId);
+        }
+
+        [ChildActionOnly]
         public Location LocationGetByPlaceId(string placeId)
         {
             return db.LocationGetByPlaceId(placeId);

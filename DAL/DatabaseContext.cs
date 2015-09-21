@@ -23,6 +23,13 @@ namespace ReviewsJoy.DAL
             return Locations.FirstOrDefault(l => l.LocationId == id);
         }
 
+        public int LocationIdGetByPlaceId(string placeId)
+        {
+            return Locations.Where(l => l.placeId == placeId)
+                            .Select(n => n.LocationId)
+                            .FirstOrDefault();
+        }
+
         public Location LocationGetByPlaceId(string placeId)
         {
             return Locations.FirstOrDefault(l => l.placeId == placeId);
@@ -43,8 +50,7 @@ namespace ReviewsJoy.DAL
             Category cat = null;
             if (!String.IsNullOrEmpty(name))
             {
-                name = name.Trim().ToUpper();
-                cat = Categories.FirstOrDefault(c => c.Name.ToUpper() == name);
+                cat = Categories.FirstOrDefault(c => c.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
             }
             return cat;
         }
@@ -53,12 +59,18 @@ namespace ReviewsJoy.DAL
         {
             if (!String.IsNullOrEmpty(name))
             {
-                return Categories.Add(new Category { Name = name });
+                return Categories.Add(new Category { Name = name.ToUpper() });
             }
             else
             {
                 return null;
             }
+        }
+
+        public List<Review> ReviewsGetAll(string placeId)
+        {
+            return Reviews.Where(r => r.Location.placeId == placeId)
+                          .ToList();
         }
 
         public List<Review> ReviewsGetByLocationId(int locationId, int? count)
@@ -76,11 +88,11 @@ namespace ReviewsJoy.DAL
         {
             if (count == null)
                 return Reviews.Where(r => r.Location.LocationId == locationId
-                            && r.Category.Name.Equals("general", StringComparison.InvariantCultureIgnoreCase))
+                            && r.Category.Name.Equals("General", StringComparison.InvariantCultureIgnoreCase))
                                 .ToList();
             else
                 return Reviews.Where(r => r.Location.LocationId == locationId
-                            && r.Category.Name.Equals("general", StringComparison.InvariantCultureIgnoreCase))
+                            && r.Category.Name.Equals("General", StringComparison.InvariantCultureIgnoreCase))
                                 .Take(count.Value)
                                     .ToList();
         }
@@ -89,11 +101,11 @@ namespace ReviewsJoy.DAL
         {
             if (count == null)
                 return Reviews.Where(r => r.Location.LocationId == locationId
-                            && !r.Category.Name.Equals("general", StringComparison.InvariantCultureIgnoreCase))
+                            && !r.Category.Name.Equals("General", StringComparison.InvariantCultureIgnoreCase))
                                 .ToList();
             else
                 return Reviews.Where(r => r.Location.LocationId == locationId
-                            && !r.Category.Name.Equals("general", StringComparison.InvariantCultureIgnoreCase))
+                            && !r.Category.Name.Equals("General", StringComparison.InvariantCultureIgnoreCase))
                                 .Take(count.Value)
                                     .ToList();
         }
@@ -103,13 +115,8 @@ namespace ReviewsJoy.DAL
             List<Review> catReviews = new List<Review>();
             if (!String.IsNullOrEmpty(categoryName))
             {
-                var category = CategoryGetByName(categoryName);
-                if (category != null)
-                {
-                    catReviews = Reviews.Where(r => r.Category.CategoryId == category.CategoryId
-                                    && r.Location.LocationId == locationId)
-                                        .ToList();
-                }
+                catReviews = Reviews.Where(r => r.Category.Name.Equals(categoryName, StringComparison.InvariantCultureIgnoreCase))
+                                    .ToList();
             }
             return catReviews;
         }

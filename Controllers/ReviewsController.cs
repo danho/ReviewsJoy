@@ -45,15 +45,17 @@ namespace ReviewsJoy.Controllers
             locationId = 0;
             generalReviews = null;
             categorizedReviews = null;
+
             if (!String.IsNullOrEmpty(placeId))
             {
-                var locCtrl = new LocationController(db);
-                var loc = locCtrl.LocationGetByPlaceId(placeId);
-                if (loc != null)
+                var reviews = db.ReviewsGetAll(placeId);
+                if (reviews.Count > 0)
                 {
-                    locationId = loc.LocationId;
-                    generalReviews = ReviewsGeneralGetByLocationId(loc.LocationId, 10);
-                    categorizedReviews = ReviewsCategorizedGetByLocationId(loc.LocationId, null);
+                    locationId = reviews.FirstOrDefault().Location.LocationId;
+                    generalReviews = reviews.Where(r => String.Equals(r.Category.Name, "General", StringComparison.OrdinalIgnoreCase))
+                                            .ToList();
+                    categorizedReviews = reviews.Where(r => !String.Equals(r.Category.Name, "General", StringComparison.OrdinalIgnoreCase))
+                                            .ToList();
                 }
             }
         }
@@ -64,11 +66,14 @@ namespace ReviewsJoy.Controllers
             int locationId = 0;
             List<Review>  generalReviews = null;
             List<Review> categorizedReviews = null;
+
             GetAllReviews(placeId, out locationId, out generalReviews, out categorizedReviews);
+
             var s = new JavaScriptSerializer();
             ViewBag.locationId = locationId;
             ViewBag.GeneralReviews = s.Serialize(generalReviews);
             ViewBag.CategorizedReviews = s.Serialize(categorizedReviews);
+
             return View();
         }
 
