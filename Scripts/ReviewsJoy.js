@@ -1,4 +1,13 @@
 ﻿var app = angular.module('ReviewsJoy', ['ngRoute', 'uiGmapgoogle-maps']);
+app.filter('range', function () {
+    return function (input, total) {
+        total = parseInt(total);
+        for (var i = 0; i < total; i++) {
+            input.push(i);
+        }
+        return input;
+    };
+});
 
 app.controller('HomePageController', ['$scope', '$window', '$http', HomePageController]);
 app.controller('BeginController', ['$scope', '$window', '$http', BeginController]);

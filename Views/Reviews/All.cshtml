@@ -9,10 +9,12 @@
         <div class="col-xs-6" ng-hide="isNoReviews()">
             General Reviews:
             <div ng-repeat="g in GeneralReviews" ng-hide="isNoReviews()">
-                <div style="padding: 20px; background-color: aqua;">
+                <div class="review">
                     {{ g.ReviewText }}
                     <div class="text-right">
-                        {{ g.Author }}
+                        <span ng-repeat="n in [] | range:g.Stars" class="glyphicon glyphicon-star"></span>
+                        <br />
+                        {{ g.Author }}&nbsp;&nbsp;
                     </div>
                 </div>
                 <br />

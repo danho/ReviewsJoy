@@ -17,6 +17,7 @@ namespace ReviewsJoy.Controllers
             this.db = db;
         }
 
+        [ChildActionOnly]
         public List<Category> CategoryGetAll()
         {
             return db.CategoryGetAll();

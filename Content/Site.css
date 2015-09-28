@@ -26,15 +26,27 @@ html {
     background-size: cover;
 }
 
-#intro {
-    min-height: 460px;
-}
-
 #intro h1 {
-    margin-top: 25%;
+    margin-top: 15%;
 }
 
 #landing-panel-1 {
     margin-top: 10%;
     margin-bottom: 20%;
+}
+
+.review {
+    border-radius: 5px;
+    padding: 20px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #e5e5e1;
+}
+
+/* JQuery UI Autocomplete syle */
+.ui-state-focus {
+    background: none !important;
+    background-color: none !important;
+    border: solid black !important;
+    color: black !important;
 }
