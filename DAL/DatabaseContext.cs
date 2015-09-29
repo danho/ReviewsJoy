@@ -27,12 +27,14 @@ namespace ReviewsJoy.DAL
         {
             return Locations.Where(l => l.placeId == placeId)
                             .Select(n => n.LocationId)
+                            .AsNoTracking()
                             .FirstOrDefault();
         }
 
         public Location LocationGetByPlaceId(string placeId)
         {
-            return Locations.FirstOrDefault(l => l.placeId == placeId);
+            return Locations.AsNoTracking()
+                            .FirstOrDefault(l => l.placeId == placeId);
         }
 
         public Location LocationAdd(Location loc)
@@ -42,7 +44,8 @@ namespace ReviewsJoy.DAL
 
         public List<Category> CategoryGetAll()
         {
-            return Categories.ToList();
+            return Categories.AsNoTracking()
+                             .ToList();
         }
 
         public Category CategoryGetByName(string name)
@@ -50,7 +53,8 @@ namespace ReviewsJoy.DAL
             Category cat = null;
             if (!String.IsNullOrEmpty(name))
             {
-                cat = Categories.FirstOrDefault(c => c.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+                cat = Categories.AsNoTracking()
+                                .FirstOrDefault(c => c.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
             }
             return cat;
         }
@@ -70,6 +74,7 @@ namespace ReviewsJoy.DAL
         public List<Review> ReviewsGetAll(string placeId)
         {
             return Reviews.Where(r => r.Location.placeId == placeId)
+                          .AsNoTracking()
                           .ToList();
         }
 
@@ -77,11 +82,13 @@ namespace ReviewsJoy.DAL
         {
             if (count == null)
                 return Reviews.Where(r => r.Location.LocationId == locationId)
+                            .AsNoTracking()
                             .ToList();
             else
                 return Reviews.Where(r => r.Location.LocationId == locationId)
                             .Take(count.Value)
-                                .ToList();
+                            .AsNoTracking()
+                            .ToList();
         }
 
         public List<Review> ReviewsGeneralGetByLocationId(int locationId, int? count)
@@ -89,12 +96,14 @@ namespace ReviewsJoy.DAL
             if (count == null)
                 return Reviews.Where(r => r.Location.LocationId == locationId
                             && r.Category.Name.Equals("General", StringComparison.InvariantCultureIgnoreCase))
+                                .AsNoTracking()
                                 .ToList();
             else
                 return Reviews.Where(r => r.Location.LocationId == locationId
                             && r.Category.Name.Equals("General", StringComparison.InvariantCultureIgnoreCase))
                                 .Take(count.Value)
-                                    .ToList();
+                                .AsNoTracking()
+                                .ToList();
         }
 
         public List<Review> ReviewsCategorizedGetByLocationId(int locationId, int? count)
@@ -102,12 +111,14 @@ namespace ReviewsJoy.DAL
             if (count == null)
                 return Reviews.Where(r => r.Location.LocationId == locationId
                             && !r.Category.Name.Equals("General", StringComparison.InvariantCultureIgnoreCase))
+                                .AsNoTracking()
                                 .ToList();
             else
                 return Reviews.Where(r => r.Location.LocationId == locationId
                             && !r.Category.Name.Equals("General", StringComparison.InvariantCultureIgnoreCase))
                                 .Take(count.Value)
-                                    .ToList();
+                                .AsNoTracking()
+                                .ToList();
         }
 
         public List<Review> ReviewsGetByCategoryName(int locationId, string categoryName)
@@ -116,6 +127,7 @@ namespace ReviewsJoy.DAL
             if (!String.IsNullOrEmpty(categoryName))
             {
                 catReviews = Reviews.Where(r => r.Category.Name.Equals(categoryName, StringComparison.InvariantCultureIgnoreCase))
+                                    .AsNoTracking()
                                     .ToList();
             }
             return catReviews;
