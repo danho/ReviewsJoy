@@ -1,6 +1,11 @@
 ﻿var HomePageController = function ($scope, $window, $http) {
     $scope.$on('$routeChangeSuccess', function () {
         $("body").css("background-image", "url('/Content/photo-1428908728789-d2de25dbd4e2.jpg')");
+        $http({
+            url: '/Home/WarmUp',
+            method: 'POST',
+            data: {}
+        });
     });
     $scope.init = function () {
         $('#intro').css({ 'height': ($(window).height()) + 'px' });

@@ -183,5 +183,11 @@ namespace ReviewsJoy.Controllers
             var result = wc.DownloadString(url);
             return Json(result);
         }
+
+        [ChildActionOnly]
+        public void WarmUpDb()
+        {
+            db.WarmUpDb();
+        }
     }
 }

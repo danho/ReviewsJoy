@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Threading.Tasks;
 
 namespace ReviewsJoy.DAL
 {
@@ -22,5 +23,6 @@ namespace ReviewsJoy.DAL
         List<Review> ReviewsCategorizedGetByLocationId(int locationId, int? count);
         List<Review> ReviewsGetByCategoryName(int locationId, string categoryName);
         Review AddReview(Review review);
+        Task<List<Review>> WarmUpDb();
     }
 }

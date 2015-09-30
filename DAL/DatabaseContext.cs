@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
+using System.Threading.Tasks;
 
 namespace ReviewsJoy.DAL
 {
@@ -26,8 +27,8 @@ namespace ReviewsJoy.DAL
         public int LocationIdGetByPlaceId(string placeId)
         {
             return Locations.Where(l => l.placeId == placeId)
-                            .Select(n => n.LocationId)
                             .AsNoTracking()
+                            .Select(n => n.LocationId)
                             .FirstOrDefault();
         }
 
@@ -138,6 +139,11 @@ namespace ReviewsJoy.DAL
             var newReview = Reviews.Add(review);
             SaveChanges();
             return newReview;
+        }
+
+        public async Task<List<Review>> WarmUpDb()
+        {
+            return await Reviews.Take(100).ToListAsync();
         }
     }
 }

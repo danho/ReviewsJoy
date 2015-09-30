@@ -32,5 +32,11 @@ namespace ReviewsJoy.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public void WarmUp()
+        {
+            new ReviewsController(db).WarmUpDb();
+        }
     }
 }
