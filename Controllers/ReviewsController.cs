@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using ReviewsJoy.DAL.DTO;
 
 namespace ReviewsJoy.Controllers
 {
@@ -40,6 +41,12 @@ namespace ReviewsJoy.Controllers
         }
 
         [ChildActionOnly]
+        public List<ReviewDTO> GetMostRecentReviews(string placeId)
+        {
+            return db.ReviewsGetMostRecent(placeId, 10);
+        }
+
+        [ChildActionOnly]
         public void GetAllReviews(string placeId, out int locationId, out List<Review> generalReviews, out List<Review> categorizedReviews)
         {
             locationId = 0;
@@ -63,16 +70,17 @@ namespace ReviewsJoy.Controllers
         public ActionResult All(string placeId)
         {
             ViewBag.placeId = placeId;
-            int locationId = 0;
-            List<Review>  generalReviews = null;
-            List<Review> categorizedReviews = null;
+            //List<Review>  generalReviews = null;
+            //List<Review> categorizedReviews = null;
 
-            GetAllReviews(placeId, out locationId, out generalReviews, out categorizedReviews);
+            //GetAllReviews(placeId, out locationId, out generalReviews, out categorizedReviews);
 
             var s = new JavaScriptSerializer();
-            ViewBag.locationId = locationId;
-            ViewBag.GeneralReviews = s.Serialize(generalReviews);
-            ViewBag.CategorizedReviews = s.Serialize(categorizedReviews);
+            var reviews = GetMostRecentReviews(placeId);
+            ViewBag.locationId = reviews.FirstOrDefault().LocationId;
+            //ViewBag.GeneralReviews = s.Serialize(generalReviews);
+            //ViewBag.CategorizedReviews = s.Serialize(categorizedReviews);
+            ViewBag.Reviews = s.Serialize(reviews);
 
             return View();
         }

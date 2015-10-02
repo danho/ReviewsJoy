@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Threading.Tasks;
+using ReviewsJoy.DAL.DTO;
 
 namespace ReviewsJoy.DAL
 {
@@ -144,6 +145,22 @@ namespace ReviewsJoy.DAL
         public async Task<List<Review>> WarmUpDb()
         {
             return await Reviews.Take(100).ToListAsync();
+        }
+
+        public List<ReviewDTO> ReviewsGetMostRecent(string placeId, int count)
+        {
+            return Reviews.Where(r => r.Location.placeId == placeId)
+                          .AsNoTracking()
+                          .Select(r => new ReviewDTO
+                                            {
+                                                Author = r.Author,
+                                                CategoryName = r.Category.Name,
+                                                LocationId = r.Location.LocationId,
+                                                ReviewText = r.ReviewText,
+                                                Stars = r.Stars
+                                            })
+                          .Take(count)
+                          .ToList();
         }
     }
 }

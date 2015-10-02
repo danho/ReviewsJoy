@@ -2,22 +2,19 @@
     $scope.$on('$routeChangeSuccess', function () {
         $("body").css("background-image", "none");
     });
-    $scope.GeneralReviews = '';
-    $scope.CategorizedReviews = '';
+    $scope.Reviews = '';
     $scope.locationId = 0;
-    $scope.init = function(genRevs, catRevs, locationId, placeId)
+    $scope.init = function(reviews, locationId, placeId)
     {
-        if (genRevs != null && genRevs != '')
-            $scope.GeneralReviews = JSON.parse(genRevs);
-        if (catRevs != null && catRevs != '')
-            $scope.CategorizedReviews = JSON.parse(catRevs);
+        if (reviews != null && reviews != '')
+            $scope.Reviews = JSON.parse(reviews);
         if (locationId != null && locationId != '')
             $scope.locationId = locationId;
         $scope.placeId = placeId;
     }
     $scope.isNoReviews = function()
     {
-        return $scope.GeneralReviews.length + $scope.CategorizedReviews.length == 0 ? true : false;
+        return $scope.Reviews.length == 0 ? true : false;
     }
     $scope.hideGenForm = true;
     $scope.hideCatForm = true;

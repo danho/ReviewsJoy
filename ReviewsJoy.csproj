@@ -197,6 +197,7 @@
     <Compile Include="Controllers\ReviewsController.cs" />
     <Compile Include="DAL\DatabaseContext.cs" />
     <Compile Include="DAL\DatabaseContext.Views.cs" />
+    <Compile Include="DAL\DTO\ReviewDTO.cs" />
     <Compile Include="DAL\IDatabaseContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

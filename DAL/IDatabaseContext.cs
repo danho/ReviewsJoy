@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Threading.Tasks;
+using ReviewsJoy.DAL.DTO;
 
 namespace ReviewsJoy.DAL
 {
@@ -22,6 +23,7 @@ namespace ReviewsJoy.DAL
         List<Review> ReviewsGeneralGetByLocationId(int locationId, int? count);
         List<Review> ReviewsCategorizedGetByLocationId(int locationId, int? count);
         List<Review> ReviewsGetByCategoryName(int locationId, string categoryName);
+        List<ReviewDTO> ReviewsGetMostRecent(string placeId, int count);
         Review AddReview(Review review);
         Task<List<Review>> WarmUpDb();
     }
