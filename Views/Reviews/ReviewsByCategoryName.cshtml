@@ -2,8 +2,8 @@
 
 <div ng-init="init('@ViewBag.model')">
     <div ng-repeat="r in model">
-        <label>{{ r.ReviewText }}</label>
+        <label>{{ ::r.ReviewText }}</label>
         <br />
-        &nbsp;&nbsp;<label>{{ r.Author }}</label>
+        &nbsp;&nbsp;<label>{{ ::r.Author }}</label>
     </div>
 </div>
