@@ -3,10 +3,10 @@
 <div id="generalReviews" ng-init="init('@ViewBag.Reviews', '@ViewBag.locationId', '@ViewBag.placeId');"
      ng-hide="hideReviews">
     <div class="">
-        <div class="col-xs-12" ng-show="isNoReviews()">
+        <div class="col-xs-12" ng-if="isNoReviews()">
             <h1>Sorry, there are no reviews at this time. Add one now!</h1>
         </div>
-        <div ng-hide="isNoReviews()">
+        <div ng-if="!isNoReviews()">
             <div ng-repeat="g in ::Reviews" ng-hide="isNoReviews()">
                 <div class="review col-xs-12 col-md-5 wow fadeIn" data-wow-delay="{{ ::$index / 2}}s">
                     {{ ::g.ReviewText }}
@@ -21,7 +21,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xs-12" ng-hide="isNoReviews()">
+        <div class="col-xs-12" ng-if="!isNoReviews()">
             Get more speficic reviews by searching with a category
             <br />
             <input type="text" placeholder="Category" class="form-control" ng-model="categoryTxtBx" />
@@ -35,7 +35,7 @@
     &nbsp;- OR -&nbsp;
     <button class="btn btn-danger" ng-click="toggleCatForm()">Add a Categorized Review</button>
 
-<div ng-hide="hideGenForm">
+<div ng-if="!isNoReviews()" ng-hide="hideGenForm">
     <div class="row">
         <div class="col-xs-12">
             <input id="nameTxtBx" type="text" placeholder="Name" class="form-control" ng-model="nameTxtBx" />
@@ -47,7 +47,7 @@
     </div>
 </div>
 
-<div ng-hide="hideCatForm">
+<div ng-if="!isNoReviews()" ng-hide="hideCatForm">
     <div class="row">
         <div class="col-xs-12">
             <input id="nameTxtBx" type="text" placeholder="Category" class="form-control" ng-model="nameTxtBx" />
