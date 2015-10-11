@@ -17,7 +17,6 @@ namespace ReviewsJoy.Controllers
             this.db = db;
         }
 
-        [RequireHttps]
         public ActionResult Index()
         {
             return View();
