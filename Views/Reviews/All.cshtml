@@ -35,7 +35,7 @@
     &nbsp;- OR -&nbsp;
 <button class="btn btn-danger" ng-click="toggleCatForm()">Add a Categorized Review</button>
 
-<div ng-if="!isNoReviews()" ng-hide="hideGenForm">
+<div ng-hide="hideGenForm">
     <div class="row">
         <div class="col-xs-12">
             <input id="nameTxtBx" type="text" placeholder="Name" class="form-control" ng-model="nameTxtBx" />
@@ -47,7 +47,7 @@
     </div>
 </div>
 
-<div ng-if="!isNoReviews()" ng-hide="hideCatForm">
+<div ng-hide="hideCatForm">
     <div class="row">
         <div class="col-xs-12">
             <input id="nameTxtBx" type="text" placeholder="Category" class="form-control" ng-model="nameTxtBx" />

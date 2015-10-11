@@ -70,18 +70,13 @@ namespace ReviewsJoy.Controllers
         public ActionResult All(string placeId)
         {
             ViewBag.placeId = placeId;
-            //List<Review>  generalReviews = null;
-            //List<Review> categorizedReviews = null;
-
-            //GetAllReviews(placeId, out locationId, out generalReviews, out categorizedReviews);
-
             var s = new JavaScriptSerializer();
             var reviews = GetMostRecentReviews(placeId);
-            ViewBag.locationId = reviews.FirstOrDefault().LocationId;
-            //ViewBag.GeneralReviews = s.Serialize(generalReviews);
-            //ViewBag.CategorizedReviews = s.Serialize(categorizedReviews);
-            ViewBag.Reviews = s.Serialize(reviews);
-
+            if (reviews != null && reviews.Count > 0)
+            {
+                ViewBag.locationId = reviews.FirstOrDefault().LocationId;
+                ViewBag.Reviews = s.Serialize(reviews);
+            }
             return View();
         }
 
