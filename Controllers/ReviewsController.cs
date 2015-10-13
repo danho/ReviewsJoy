@@ -87,7 +87,7 @@ namespace ReviewsJoy.Controllers
         }
 
         [HttpPost]
-        public bool AddNewReview(int locationId, string placeId, string category, string review)
+        public bool AddNewReview(int locationId, string placeId, string category, string review, string name)
         {
             if (String.IsNullOrEmpty(category) ||
                 category.Equals("general", StringComparison.InvariantCultureIgnoreCase))
@@ -137,7 +137,8 @@ namespace ReviewsJoy.Controllers
                         {
                             Location = location,
                             ReviewText = review,
-                            Category = cat
+                            Category = cat,
+                            Author = name
                         };
                         AddReview(newReview);
                         scope.Complete();

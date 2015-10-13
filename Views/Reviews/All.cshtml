@@ -6,17 +6,19 @@
         <h1>Sorry, there are no reviews at this time. Add one now!</h1>
     </div>
     <div ng-hide="isNoReviews()">
-        <div ng-repeat="g in Reviews" ng-hide="isNoReviews()">
+        <div ng-repeat="review in ::Reviews" ng-hide="isNoReviews()">
             <div class="reviewContainer col-xs-12 col-md-6 wow fadeIn" data-wow-delay="{{ ::$index / 3}}s" data-wow-duration="0.5s">
                 <div class="review">
-                    {{ ::g.ReviewText }}
+                    {{ ::review.ReviewText }}
+                    <br />
+                    <br />
                     <div class="text-left" style="color: gray;">
-                        {{ ::g.CategoryName }}
+                        {{ ::review.CategoryName }}
                     </div>
                     <div class="text-right">
                         <span ng-repeat="n in [] | range:g.Stars" class="glyphicon glyphicon-star"></span>
                         <br />
-                        {{ ::g.Author }}&nbsp;&nbsp;
+                        {{ ::review.Author }}&nbsp;&nbsp;
                     </div>
                 </div>
             </div>
