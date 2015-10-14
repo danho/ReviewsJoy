@@ -13,7 +13,7 @@ app.controller('HomePageController', ['$scope', '$window', '$http', HomePageCont
 app.controller('BeginController', ['$scope', '$window', '$http', BeginController]);
 app.controller('SearchController', ['$scope', '$window', SearchController]);
 app.controller('AllController', ['$scope', '$window', '$http', AllController]);
-app.controller('ReviewsByCategoryNameController', ['$scope', '$window', ReviewsByCategoryNameController])
+app.controller('ReviewsByCategoryNameController', ['$scope', '$window', ReviewsByCategoryNameController]);
 
 var configFunction = function ($routeProvider) {
     $routeProvider.
