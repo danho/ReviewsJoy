@@ -17,16 +17,23 @@ namespace ReviewsJoy.DAL
 
         public List<Location> LocationGetByAddress(string address)
         {
-            return Locations.Where(l => l.Address.Contains(address)).ToList();
+            if (String.IsNullOrEmpty(address))
+                return new List<Location>();
+            return Locations.Where(l => l.Address.Contains(address))
+                            .ToList();
         }
 
         public Location LocationGetById(int id)
         {
+            if (id == 0)
+                return new Location();
             return Locations.FirstOrDefault(l => l.LocationId == id);
         }
 
         public int LocationIdGetByPlaceId(string placeId)
         {
+            if (String.IsNullOrEmpty(placeId))
+                return 0;
             return Locations.Where(l => l.placeId == placeId)
                             .AsNoTracking()
                             .Select(n => n.LocationId)
@@ -35,12 +42,16 @@ namespace ReviewsJoy.DAL
 
         public Location LocationGetByPlaceId(string placeId)
         {
+            if (String.IsNullOrEmpty(placeId))
+                return new Location();
             return Locations.AsNoTracking()
                             .FirstOrDefault(l => l.placeId == placeId);
         }
 
         public Location LocationAdd(Location loc)
         {
+            if (loc == null)
+                return new Location();
             return Locations.Add(loc);
         }
 
@@ -52,29 +63,23 @@ namespace ReviewsJoy.DAL
 
         public Category CategoryGetByName(string name)
         {
-            Category cat = null;
-            if (!String.IsNullOrEmpty(name))
-            {
-                cat = Categories.AsNoTracking()
-                                .FirstOrDefault(c => c.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
-            }
-            return cat;
+            if (String.IsNullOrEmpty(name))
+                return new Category();
+            return Categories.AsNoTracking()
+                             .FirstOrDefault(c => c.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
         }
 
         public Category CategoryAdd(string name)
         {
-            if (!String.IsNullOrEmpty(name))
-            {
-                return Categories.Add(new Category { Name = name.ToUpper() });
-            }
-            else
-            {
-                return null;
-            }
+            if (String.IsNullOrEmpty(name))
+                return new Category();
+            return Categories.Add(new Category { Name = name.ToUpper() });
         }
 
         public List<Review> ReviewsGetAll(string placeId)
         {
+            if (String.IsNullOrEmpty(placeId))
+                return new List<Review>();
             return Reviews.Where(r => r.Location.placeId == placeId)
                           .AsNoTracking()
                           .ToList();
@@ -82,61 +87,62 @@ namespace ReviewsJoy.DAL
 
         public List<Review> ReviewsGetByLocationId(int locationId, int? count)
         {
+            if (locationId == 0)
+                return new List<Review>();
             if (count == null)
                 return Reviews.Where(r => r.Location.LocationId == locationId)
-                            .AsNoTracking()
-                            .ToList();
+                              .AsNoTracking()
+                              .ToList();
             else
                 return Reviews.Where(r => r.Location.LocationId == locationId)
-                            .Take(count.Value)
-                            .AsNoTracking()
-                            .ToList();
+                              .Take(count.Value)
+                              .AsNoTracking()
+                              .ToList();
         }
 
         public List<Review> ReviewsGeneralGetByLocationId(int locationId, int? count)
         {
+            if (locationId == 0)
+                return new List<Review>();
             if (count == null)
-                return Reviews.Where(r => r.Location.LocationId == locationId
-                            && r.Category.Name.Equals("General", StringComparison.InvariantCultureIgnoreCase))
-                                .AsNoTracking()
-                                .ToList();
+                return Reviews.Where(r => r.Location.LocationId == locationId && r.Category.Name.Equals("General", StringComparison.InvariantCultureIgnoreCase))
+                              .AsNoTracking()
+                              .ToList();
             else
-                return Reviews.Where(r => r.Location.LocationId == locationId
-                            && r.Category.Name.Equals("General", StringComparison.InvariantCultureIgnoreCase))
-                                .Take(count.Value)
-                                .AsNoTracking()
-                                .ToList();
+                return Reviews.Where(r => r.Location.LocationId == locationId && r.Category.Name.Equals("General", StringComparison.InvariantCultureIgnoreCase))
+                              .Take(count.Value)
+                              .AsNoTracking()
+                              .ToList();
         }
 
         public List<Review> ReviewsCategorizedGetByLocationId(int locationId, int? count)
         {
+            if (locationId == 0)
+                return new List<Review>();
             if (count == null)
-                return Reviews.Where(r => r.Location.LocationId == locationId
-                            && !r.Category.Name.Equals("General", StringComparison.InvariantCultureIgnoreCase))
-                                .AsNoTracking()
-                                .ToList();
+                return Reviews.Where(r => r.Location.LocationId == locationId && !r.Category.Name.Equals("General", StringComparison.InvariantCultureIgnoreCase))
+                              .AsNoTracking()
+                              .ToList();
             else
-                return Reviews.Where(r => r.Location.LocationId == locationId
-                            && !r.Category.Name.Equals("General", StringComparison.InvariantCultureIgnoreCase))
-                                .Take(count.Value)
-                                .AsNoTracking()
-                                .ToList();
+                return Reviews.Where(r => r.Location.LocationId == locationId && !r.Category.Name.Equals("General", StringComparison.InvariantCultureIgnoreCase))
+                              .Take(count.Value)
+                              .AsNoTracking()
+                              .ToList();
         }
 
         public List<Review> ReviewsGetByCategoryName(int locationId, string categoryName)
         {
-            List<Review> catReviews = new List<Review>();
-            if (!String.IsNullOrEmpty(categoryName))
-            {
-                catReviews = Reviews.Where(r => r.Category.Name.Equals(categoryName, StringComparison.InvariantCultureIgnoreCase))
-                                    .AsNoTracking()
-                                    .ToList();
-            }
-            return catReviews;
+            if (locationId == 0 || String.IsNullOrEmpty(categoryName))
+                return new List<Review>();
+            return catReviews = Reviews.Where(r => r.Category.Name.Equals(categoryName, StringComparison.InvariantCultureIgnoreCase))
+                                       .AsNoTracking()
+                                       .ToList();
         }
 
         public Review AddReview(Review review)
         {
+            if (review == null)
+                return new Review();
             var newReview = Reviews.Add(review);
             SaveChanges();
             return newReview;
@@ -149,6 +155,8 @@ namespace ReviewsJoy.DAL
 
         public List<ReviewDTO> ReviewsGetMostRecent(string placeId, int count)
         {
+            if (String.IsNullOrEmpty(placeId) || count == 0)
+                return new List<ReviewDTO>();
             return Reviews.Where(r => r.Location.placeId == placeId)
                           .AsNoTracking()
                           .Select(r => new ReviewDTO
