@@ -233,10 +233,9 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\jquery-ui.min.css" />
-    <Content Include="Content\photo-1428677361686-f9d23be145c9.jpg" />
-    <Content Include="Content\photo-1428908728789-d2de25dbd4e2.jpg" />
-    <Content Include="Content\photo-1429032021766-c6a53949594f.jpg" />
     <Content Include="Content\powered_by_google_on_white.png" />
+    <Content Include="Content\sky-original.jpg" />
+    <Content Include="Content\sky.jpg" />
     <Content Include="Error\Error.html" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
