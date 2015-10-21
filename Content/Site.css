@@ -57,3 +57,12 @@ html {
     border: solid black !important;
     color: black !important;
 }
+
+.whyContainer {
+    padding-bottom: 20px;
+}
+
+.why {
+    border-radius: 5px;
+    padding: 20px;
+}

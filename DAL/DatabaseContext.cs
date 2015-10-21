@@ -134,7 +134,7 @@ namespace ReviewsJoy.DAL
         {
             if (locationId == 0 || String.IsNullOrEmpty(categoryName))
                 return new List<Review>();
-            return catReviews = Reviews.Where(r => r.Category.Name.Equals(categoryName, StringComparison.InvariantCultureIgnoreCase))
+            return Reviews.Where(r => r.Category.Name.Equals(categoryName, StringComparison.InvariantCultureIgnoreCase))
                                        .AsNoTracking()
                                        .ToList();
         }
