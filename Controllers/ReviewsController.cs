@@ -70,6 +70,19 @@ namespace ReviewsJoy.Controllers
         public ActionResult All(string placeId)
         {
             ViewBag.placeId = placeId;
+
+            var key = WebConfigurationManager.AppSettings["GoogleServerKey"];
+            var url = WebConfigurationManager.AppSettings["GoogleDetailsWebApiUrl"];
+
+            var wc = new WebClient();
+            wc.QueryString.Add("placeid", placeId);
+            wc.QueryString.Add("key", key);
+            var result = wc.DownloadString(url);
+            var js = new JavaScriptSerializer();
+            var a = js.Deserialize(result, typeof(GooglePlace));
+
+            
+
             var s = new JavaScriptSerializer();
             var reviews = GetMostRecentReviews(placeId);
             if (reviews != null && reviews.Count > 0)
