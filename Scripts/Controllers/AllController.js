@@ -1,3 +1,6 @@
+var app = angular.module('ReviewsJoy', []);
+app.controller('AllController',  ['$scope', '$window', '$http', AllController]);
+
 ﻿var AllController = function ($scope, $window, $http) {
     $scope.$on('$routeChangeSuccess', function () {
         $("body").css("background-image", "none");
