@@ -12,7 +12,7 @@ app.filter('range', function () {
 app.controller('HomePageController', ['$scope', '$window', '$http', HomePageController]);
 app.controller('BeginController', ['$scope', '$window', '$http', BeginController]);
 app.controller('SearchController', ['$scope', '$window', SearchController]);
-app.controller('AllController', ['$scope', '$window', '$http', AllController]);
+// app.controller('AllController', ['$scope', '$window', '$http', AllController]);
 app.controller('ReviewsByCategoryNameController', ['$scope', '$window', ReviewsByCategoryNameController]);
 
 var configFunction = function ($routeProvider) {
