@@ -10,6 +10,8 @@ using System.Web.Configuration;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using ReviewsJoy.DAL.DTO;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ReviewsJoy.Controllers
 {
@@ -71,17 +73,7 @@ namespace ReviewsJoy.Controllers
         {
             ViewBag.placeId = placeId;
 
-            var key = WebConfigurationManager.AppSettings["GoogleServerKey"];
-            var url = WebConfigurationManager.AppSettings["GoogleDetailsWebApiUrl"];
-
-            var wc = new WebClient();
-            wc.QueryString.Add("placeid", placeId);
-            wc.QueryString.Add("key", key);
-            var result = wc.DownloadString(url);
-            var js = new JavaScriptSerializer();
-            var a = js.Deserialize(result, typeof(GooglePlace));
-
-            
+            var locationTask = new Task<GooglePlace>.Factory.StartNew(() => GetLocationDetails(placeId));
 
             var s = new JavaScriptSerializer();
             var reviews = GetMostRecentReviews(placeId);
@@ -90,7 +82,24 @@ namespace ReviewsJoy.Controllers
                 ViewBag.locationId = reviews.FirstOrDefault().LocationId;
                 ViewBag.Reviews = s.Serialize(reviews);
             }
+            
+            locationTask.Wait();
+            
             return View();
+        }
+        
+        [ChildActionOnly]
+        public GooglePlace GetLocationDetails(string placeId)
+        {
+            var key = WebConfigurationManager.AppSettings["GoogleServerKey"];
+            var url = WebConfigurationManager.AppSettings["GoogleDetailsWebApiUrl"];
+
+            var wc = new WebClient();
+            wc.QueryString.Add("placeid", placeId);
+            wc.QueryString.Add("key", key);
+            var result = wc.DownloadString(url);
+            var js = new JavaScriptSerializer();
+            return js.Deserialize(result, typeof(GooglePlace));
         }
 
         [ChildActionOnly]
