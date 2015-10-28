@@ -66,3 +66,7 @@ html {
     border-radius: 5px;
     padding: 20px;
 }
+
+.primaryButton:hover {
+    background-color: #e5e5e1;
+}

@@ -7,7 +7,17 @@
     </div>
     <div ng-hide="isNoReviews()">
         <div class="col-xs-12">
-            
+            <h2>@ViewBag.Name</h2>
+            <br />
+            <div class="text-left">
+                @ViewBag.Address
+            </div>
+            <br />
+            <div class="text-right">
+                <button class="btn primaryButton">Search with a Category</button>
+                <button class="btn primaryButton">Add a Review</button>
+            </div>
+            <br />
         </div>
         <div ng-repeat="review in ::Reviews" ng-hide="isNoReviews()">
             <div class="reviewContainer col-xs-12 col-md-6 wow fadeIn" data-wow-delay="{{ ::$index / 3}}s" data-wow-duration="0.5s">
@@ -30,16 +40,14 @@
             Get more speficic reviews by searching with a category
             <br />
             <input type="text" placeholder="Category" class="form-control" ng-model="categoryTxtBx" />
-            <button class="btn btn-primary" ng-click="searchByCategoy()">Submit</button>
+            <button class="btn primaryButton" ng-click="searchByCategoy()">Submit</button>
         </div>
+        <button class="btn primaryButton" ng-click="toggleCatForm()">Add a Categorized Review</button>
+        <button class="btn primaryButton" ng-click="toggleGenForm()">Add a General Review</button>
     </div>
     <br />
     <br />
 </div>
-<button class="btn btn-primary" ng-click="toggleGenForm()">Add a General Review</button>
-    &nbsp;- OR -&nbsp;
-<button class="btn btn-danger" ng-click="toggleCatForm()">Add a Categorized Review</button>
-
 <div ng-hide="hideGenForm">
     <div class="row">
         <div class="col-xs-12">
@@ -51,7 +59,6 @@
         </div>
     </div>
 </div>
-
 <div ng-hide="hideCatForm">
     <div class="row">
         <div class="col-xs-12">

@@ -78,17 +78,17 @@ namespace ReviewsJoy.Controllers
             wc.QueryString.Add("placeid", placeId);
             wc.QueryString.Add("key", key);
             var result = wc.DownloadString(url);
-            var js = new JavaScriptSerializer();
-            var a = js.Deserialize(result, typeof(GooglePlace));
+            GooglePlace gp = (GooglePlace)new JavaScriptSerializer().Deserialize(result, typeof(GooglePlace));
 
+            ViewBag.Name = gp.result.name;
+            ViewBag.Address = gp.result.formatted_address;
             
 
-            var s = new JavaScriptSerializer();
             var reviews = GetMostRecentReviews(placeId);
             if (reviews != null && reviews.Count > 0)
             {
                 ViewBag.locationId = reviews.FirstOrDefault().LocationId;
-                ViewBag.Reviews = s.Serialize(reviews);
+                ViewBag.Reviews = new JavaScriptSerializer().Serialize(reviews);
             }
             return View();
         }
