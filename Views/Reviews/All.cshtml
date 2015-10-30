@@ -14,8 +14,12 @@
             </div>
             <br />
             <div class="text-right">
-                <button class="btn primaryButton">Search with a Category</button>
+                <button class="btn primaryButton" ng-click="toggleCategoryTxtBx()">Search with a Category</button>
                 <button class="btn primaryButton">Add a Review</button>
+                <div ng-show="showCategoryTxtBx">
+                    <input type="text" placeholder="Category" class="form-control" ng-model="categoryTxtBx" />
+                    <button class="btn primaryButton" ng-click="searchByCategoy()">Submit</button>
+                </div>
             </div>
             <br />
         </div>
@@ -39,8 +43,8 @@
         <div class="col-xs-12" ng-if="!isNoReviews()">
             Get more speficic reviews by searching with a category
             <br />
-            <input type="text" placeholder="Category" class="form-control" ng-model="categoryTxtBx" />
-            <button class="btn primaryButton" ng-click="searchByCategoy()">Submit</button>
+            @*<input type="text" placeholder="Category" class="form-control" ng-model="categoryTxtBx" />
+            <button class="btn primaryButton" ng-click="searchByCategoy()">Submit</button>*@
         </div>
         <button class="btn primaryButton" ng-click="toggleCatForm()">Add a Categorized Review</button>
         <button class="btn primaryButton" ng-click="toggleGenForm()">Add a General Review</button>

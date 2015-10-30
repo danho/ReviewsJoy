@@ -10,6 +10,8 @@ using System.Web.Configuration;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using ReviewsJoy.DAL.DTO;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ReviewsJoy.Controllers
 {
@@ -71,18 +73,19 @@ namespace ReviewsJoy.Controllers
         {
             ViewBag.placeId = placeId;
 
-            var key = WebConfigurationManager.AppSettings["GoogleServerKey"];
-            var url = WebConfigurationManager.AppSettings["GoogleDetailsWebApiUrl"];
+            //var key = WebConfigurationManager.AppSettings["GoogleServerKey"];
+            //var url = WebConfigurationManager.AppSettings["GoogleDetailsWebApiUrl"];
 
-            var wc = new WebClient();
-            wc.QueryString.Add("placeid", placeId);
-            wc.QueryString.Add("key", key);
-            var result = wc.DownloadString(url);
-            GooglePlace gp = (GooglePlace)new JavaScriptSerializer().Deserialize(result, typeof(GooglePlace));
+            //var wc = new WebClient();
+            //wc.QueryString.Add("placeid", placeId);
+            //wc.QueryString.Add("key", key);
+            //var result = wc.DownloadString(url);
+            //GooglePlace gp = (GooglePlace)new JavaScriptSerializer().Deserialize(result, typeof(GooglePlace));
 
-            ViewBag.Name = gp.result.name;
-            ViewBag.Address = gp.result.formatted_address;
-            
+            //ViewBag.Name = gp.result.name;
+            //ViewBag.Address = gp.result.formatted_address;
+
+            var locationTask = Task< GooglePlace>.Factory.StartNew(() => GetLocationDetails(placeId));
 
             var reviews = GetMostRecentReviews(placeId);
             if (reviews != null && reviews.Count > 0)
@@ -90,7 +93,26 @@ namespace ReviewsJoy.Controllers
                 ViewBag.locationId = reviews.FirstOrDefault().LocationId;
                 ViewBag.Reviews = new JavaScriptSerializer().Serialize(reviews);
             }
+            
+            locationTask.Wait();
+            ViewBag.Name = locationTask.Result.result.name;
+            ViewBag.Address = locationTask.Result.result.formatted_address;
+
             return View();
+        }
+        
+        [ChildActionOnly]
+        public GooglePlace GetLocationDetails(string placeId)
+        {
+            var key = WebConfigurationManager.AppSettings["GoogleServerKey"];
+            var url = WebConfigurationManager.AppSettings["GoogleDetailsWebApiUrl"];
+
+            var wc = new WebClient();
+            wc.QueryString.Add("placeid", placeId);
+            wc.QueryString.Add("key", key);
+            var result = wc.DownloadString(url);
+            var js = new JavaScriptSerializer();
+            return (GooglePlace)js.Deserialize(result, typeof(GooglePlace));
         }
 
         [ChildActionOnly]

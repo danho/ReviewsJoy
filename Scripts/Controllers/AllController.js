@@ -1,4 +1,4 @@
-﻿var AllController = function ($scope, $window, $http) {
+var AllController = function ($scope, $window, $http) {
     $scope.$on('$routeChangeSuccess', function () {
         $("body").css("background-image", "none");
     });
@@ -16,6 +16,7 @@
     {
         return $scope.Reviews.length == 0 ? true : false;
     }
+    $scope.showCategoryTxtBx = false;
     $scope.hideGenForm = true;
     $scope.hideCatForm = true;
     $scope.hideReviews = false;
@@ -25,6 +26,9 @@
         else
             $scope.hideReviews = true;
     };
+    $scope.toggleCategoryTxtBx = function () {
+        $scope.showCategoryTxtBx = !$scope.showCategoryTxtBx;
+    }
     $scope.toggleGenForm = function () {
         $scope.hideGenForm = !$scope.hideGenForm;
         $scope.hideCatForm = true;
