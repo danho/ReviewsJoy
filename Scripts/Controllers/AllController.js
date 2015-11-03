@@ -4,13 +4,14 @@ var AllController = function ($scope, $window, $http) {
     });
     $scope.Reviews = '';
     $scope.locationId = 0;
-    $scope.init = function(reviews, locationId, placeId)
+    $scope.init = function (reviews, locationId, placeId, locationName)
     {
         if (reviews != null && reviews != '')
             $scope.Reviews = JSON.parse(reviews);
         if (locationId != null && locationId != '')
             $scope.locationId = locationId;
         $scope.placeId = placeId;
+        $scope.locationName = locationName;
     }
     $scope.isNoReviews = function()
     {
@@ -51,6 +52,7 @@ var AllController = function ($scope, $window, $http) {
             method: 'POST',
             data: {
                 'locationId': $scope.locationId,
+                'locationName': $scope.locationName,
                 'placeId': $scope.placeId,
                 'name': $scope.nameTxtBx,
                 'review': $scope.reviewTxtArea,
@@ -69,6 +71,7 @@ var AllController = function ($scope, $window, $http) {
             method: 'POST',
             data: {
                 'locationId': $scope.locationId,
+                'locationName': $scope.locationName,
                 'placeId': $scope.placeId,
                 'category': $scope.nameTxtBx,
                 'review': $scope.reviewTxtArea

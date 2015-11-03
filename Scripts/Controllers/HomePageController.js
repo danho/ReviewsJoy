@@ -6,6 +6,19 @@
             method: 'POST',
             data: {}
         });
+        $http({
+            url: '/Home/GetLatestReviews',
+            method: 'POST',
+            data: {}
+        }).then(function successCallback(response) {
+            console.log(response);
+            $.each(response.data, function (key, value) {
+                $("#latestReviews").append("<div class='reviewContainer col-xs-12 col-md-6'><div class='review'>" + value.ReviewText + "<br/><div class='text-right'>" + value.Location.Name + "</div></div></div>")
+            });
+          }, function errorCallback(response) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+          });
         $('#intro').css({ 'height': ($(window).height()) + 'px' });
         $(window).resize(function () {
             $('#intro').css({ 'height': ($(window).height()) + 'px' });

@@ -139,6 +139,16 @@ namespace ReviewsJoy.DAL
                                        .ToList();
         }
 
+        public List<Review> ReviewsGetLatest(int count)
+        {
+            if (count <= 0)
+                return new List<Review>();
+            return Reviews.OrderByDescending(r => r.ReviewId)
+                            .Take(count)
+                            .AsNoTracking()
+                            .ToList();
+        }
+
         public Review AddReview(Review review)
         {
             if (review == null)

@@ -37,5 +37,11 @@ namespace ReviewsJoy.Controllers
         {
             new ReviewsController(db).WarmUpDb();
         }
+
+        [HttpPost]
+        public JsonResult GetLatestReviews()
+        {
+            return new ReviewsController(db).GetLatestReviews();
+        }
     }
 }

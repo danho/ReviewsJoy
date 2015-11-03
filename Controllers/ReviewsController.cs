@@ -85,7 +85,7 @@ namespace ReviewsJoy.Controllers
             //ViewBag.Name = gp.result.name;
             //ViewBag.Address = gp.result.formatted_address;
 
-            var locationTask = Task< GooglePlace>.Factory.StartNew(() => GetLocationDetails(placeId));
+            var locationTask = Task<GooglePlace>.Factory.StartNew(() => GetLocationDetails(placeId));
 
             var reviews = GetMostRecentReviews(placeId);
             if (reviews != null && reviews.Count > 0)
@@ -122,7 +122,7 @@ namespace ReviewsJoy.Controllers
         }
 
         [HttpPost]
-        public bool AddNewReview(int locationId, string placeId, string category, string review, string name)
+        public bool AddNewReview(int locationId, string placeId, string category, string review, string name, string locationName)
         {
             if (String.IsNullOrEmpty(category) ||
                 category.Equals("general", StringComparison.InvariantCultureIgnoreCase))
@@ -137,7 +137,7 @@ namespace ReviewsJoy.Controllers
                 // Create location and add review
                 if (locationId == 0 && placeId != String.Empty)
                 {
-                    var newLoc = new Location { placeId = placeId };
+                    var newLoc = new Location { placeId = placeId, Name = locationName };
                     var locCtrl = new LocationController(db);
                     using (var scope = new TransactionScope())
                     {
@@ -221,6 +221,12 @@ namespace ReviewsJoy.Controllers
             var wc = new WebClient();
             var result = wc.DownloadString(url);
             return Json(result);
+        }
+
+        [HttpPost]
+        public JsonResult GetLatestReviews()
+        {
+            return Json(db.ReviewsGetLatest(6));
         }
 
         [ChildActionOnly]

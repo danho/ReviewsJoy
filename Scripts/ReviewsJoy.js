@@ -1,4 +1,4 @@
-﻿var app = angular.module('ReviewsJoy', ['ngRoute', 'uiGmapgoogle-maps']);
+﻿var app = angular.module('ReviewsJoy', ['ngRoute']);
 app.filter('range', function () {
     return function (input, total) {
         total = parseInt(total);
