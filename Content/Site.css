@@ -19,6 +19,14 @@ body { padding-top: 100px; }
     color: white;
 }
 
+.black {
+    color: black;
+}
+
+.noTextDecoration {
+    text-decoration: none !important;
+}
+
 html {
     -webkit-background-size: cover;
     -moz-background-size: cover;

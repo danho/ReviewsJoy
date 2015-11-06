@@ -1,10 +1,10 @@
 ﻿var HomePageController = function ($scope, $window, $http) {
     $scope.init = function () {
         $("body").css("background-image", "url('/Content/sky.jpg')");
-        $http({
-            url: '/Home/WarmUp',
-            method: 'POST',
-            data: {}
+        angular.element(document).ready(function () {
+            $(".reviewContainer").click(function () {
+                $window.location.href = '/#/reviews/' + $(this).attr('value');
+            });
         });
         $http({
             url: '/Home/GetLatestReviews',
@@ -13,11 +13,12 @@
         }).then(function successCallback(response) {
             $scope.showSpinner = false;
             $.each(response.data, function (key, value) {
-                $("#latestReviews").append("<div class='reviewContainer col-xs-12 col-md-6'><div class='review'>" + value.ReviewText + "<br/><div class='text-right'>" + value.Location.Name + "</div></div></div>")
+                $("#latestReviews").append("<div class='reviewContainer col-xs-12 col-md-6' value='" + value.Location.placeId + "'><div class='review'>" + value.ReviewText + "<br/><div class='text-right'>" + value.Location.Name + "</div></div></div>")
+                $(".reviewContainer").click(function () {
+                    window.location.href = '/#/reviews/' + $(this).attr('value');
+                });
             });
           }, function errorCallback(response) {
-            // called asynchronously if an error occurs
-            // or server returns response with an error status.
           });
         $('#intro').css({ 'height': ($(window).height()) + 'px' });
         $(window).resize(function () {
