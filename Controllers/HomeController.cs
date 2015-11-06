@@ -35,7 +35,7 @@ namespace ReviewsJoy.Controllers
         [HttpPost]
         public JsonResult GetLatestReviews()
         {
-            return new ReviewsController(db).GetLatestReviews();
+            return Json(db.ReviewsGetLatest(6));
         }
     }
 }

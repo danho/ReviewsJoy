@@ -217,22 +217,12 @@ namespace ReviewsJoy.Controllers
         public JsonResult GetLatAndLng(string placeId)
         {
             var key = WebConfigurationManager.AppSettings["GoogleServerKey"];
-            var url = "https://maps.googleapis.com/maps/api/place/details/json?placeid=" + placeId + "&key=" + key;
+            var url = WebConfigurationManager.AppSettings["GoogleDetailsWebApiUrl"];
             var wc = new WebClient();
+            wc.QueryString.Add("placeid", placeId);
+            wc.QueryString.Add("key", key);
             var result = wc.DownloadString(url);
             return Json(result);
-        }
-
-        [HttpPost]
-        public JsonResult GetLatestReviews()
-        {
-            return Json(db.ReviewsGetLatest(6));
-        }
-
-        [ChildActionOnly]
-        public void WarmUpDb()
-        {
-            db.WarmUpDb();
         }
     }
 }
