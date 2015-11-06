@@ -11,7 +11,7 @@
             method: 'POST',
             data: {}
         }).then(function successCallback(response) {
-            console.log(response);
+            $scope.showSpinner = false;
             $.each(response.data, function (key, value) {
                 $("#latestReviews").append("<div class='reviewContainer col-xs-12 col-md-6'><div class='review'>" + value.ReviewText + "<br/><div class='text-right'>" + value.Location.Name + "</div></div></div>")
             });
@@ -24,6 +24,7 @@
             $('#intro').css({ 'height': ($(window).height()) + 'px' });
         });
     };
+    $scope.showSpinner = true;
     $scope.showSearch = false;
     $scope.toggle = function () {
         $scope.showSearch = true;

@@ -237,6 +237,7 @@
     <Content Include="Content\powered_by_google_on_white.png" />
     <Content Include="Content\sky-original.jpg" />
     <Content Include="Content\sky.jpg" />
+    <Content Include="Content\spinner.css" />
     <Content Include="Error\Error.html" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
