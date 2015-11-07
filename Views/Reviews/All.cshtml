@@ -1,5 +1,5 @@
 ﻿@Html.Partial("~/Views/Shared/_Navbar.cshtml")
-
+<div class="container">
 <div id="generalReviews" ng-init="init('@ViewBag.Reviews', '@ViewBag.locationId', '@ViewBag.placeId', '@ViewBag.Name');"
      ng-hide="hideReviews">
     <div class="col-xs-12" ng-show="isNoReviews()">
@@ -23,7 +23,7 @@
                 <br />
                 <div class="">
                     <button class="btn primaryButton" ng-click="toggleCategoryTxtBx()">Search with a Category</button>
-                    <button class="btn primaryButton">Add a Review</button>
+                    <button class="btn primaryButton" data-toggle="modal" data-target="#addReviewModal">Add a Review</button>
                     <div ng-show="showCategoryTxtBx">
                         <br />
                         <input type="text" placeholder="Category" class="form-control" ng-model="categoryTxtBx" />
@@ -85,3 +85,37 @@
         </div>
     </div>
 </div>
+    <div id="addReviewModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Some text in the modal.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    </div>
+<!-- Add review modal -->
+@*<div id="addReviewModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body">
+                test
+            </div>
+        </div>
+    </div>
+</div>*@

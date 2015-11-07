@@ -59,8 +59,16 @@ html {
     margin-left: 10px;*/
 }
 
+.review:hover {
+    border-color: #808080;
+}
+
 .reviewContainer {
     padding-bottom: 20px;
+}
+
+.clickable {
+    cursor: pointer;
 }
 
 /* JQuery UI Autocomplete syle */
