@@ -1,121 +1,109 @@
 ﻿@Html.Partial("~/Views/Shared/_Navbar.cshtml")
 <div class="container">
-<div id="generalReviews" ng-init="init('@ViewBag.Reviews', '@ViewBag.locationId', '@ViewBag.placeId', '@ViewBag.Name');"
-     ng-hide="hideReviews">
-    <div class="col-xs-12" ng-show="isNoReviews()">
-        <h1>Sorry, there are no reviews at this time. Add one now!</h1>
-        <div class="col-xs-12">
-            <input id="nameTxtBx" type="text" placeholder="Name" class="form-control" ng-model="nameTxtBx" />
-            <textarea id="reviewTxtBx" type="text" placeholder="Review" rows="4" class="form-control" ng-model="reviewTxtArea"></textarea>
-            <button id="submitBtn" class="btn btn-primary" ng-click="submitGeneralReview()">
-                Submit
-            </button>
-        </div>
-    </div>
-    <div ng-hide="isNoReviews()">
-        <div class="row">
-            <div class="col-md-6">
-                <h2>@ViewBag.Name</h2>
-                <br />
-                <div class="text-left">
-                    @ViewBag.Address
-                </div>
-                <br />
-                <div class="">
-                    <button class="btn primaryButton" ng-click="toggleCategoryTxtBx()">Search with a Category</button>
-                    <button class="btn primaryButton" data-toggle="modal" data-target="#addReviewModal">Add a Review</button>
-                    <div ng-show="showCategoryTxtBx">
-                        <br />
-                        <input type="text" placeholder="Category" class="form-control" ng-model="categoryTxtBx" />
-                        <button class="btn primaryButton" ng-click="searchByCategoy()">Submit</button>
-                    </div>
-                </div>
-                <br />
+    <div id="generalReviews" ng-init="init('@ViewBag.Reviews', '@ViewBag.locationId', '@ViewBag.placeId', '@ViewBag.Name');"
+         ng-hide="hideReviews">
+        <div class="col-xs-12" ng-show="isNoReviews()">
+            <h1>Sorry, there are no reviews at this time. Add one now!</h1>
+            <div class="col-xs-12">
+                <input id="nameTxtBx" type="text" placeholder="Name" class="form-control" ng-model="nameTxtBx" />
+                <textarea id="reviewTxtBx" type="text" placeholder="Review" rows="4" class="form-control" ng-model="reviewTxtArea"></textarea>
+                <button id="submitBtn" class="btn btn-primary" ng-click="submitGeneralReview()">
+                    Submit
+                </button>
             </div>
         </div>
-        <div class="row">
-            <div ng-repeat="review in ::Reviews" ng-hide="isNoReviews()">
-                <div class="reviewContainer col-xs-12 col-md-6 wow fadeIn" data-wow-delay="{{ ::$index / 3}}s" data-wow-duration="0.5s">
-                    <div class="review">
-                        {{ ::review.ReviewText }}
-                        <br />
-                        <div class="text-left" style="color: gray;">
-                            {{ ::review.CategoryName }}
-                        </div>
-                        <div class="text-right">
-                            <span ng-repeat="n in [] | range:review.Stars" class="glyphicon glyphicon-star"></span>
+        <div ng-hide="isNoReviews()">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>@ViewBag.Name</h2>
+                    <br />
+                    <div class="text-left">
+                        @ViewBag.Address
+                    </div>
+                    <br />
+                    <div class="">
+                        <button class="btn primaryButton" ng-click="toggleCategoryTxtBx()">Search with a Category</button>
+                        <button class="btn primaryButton" data-toggle="modal" data-target="#addReviewModal">Add a Review</button>
+                        <div ng-show="showCategoryTxtBx">
                             <br />
-                            {{ ::review.Author }}&nbsp;&nbsp;
+                            <input type="text" placeholder="Category" class="form-control" ng-model="categoryTxtBx" />
+                            <button class="btn primaryButton" ng-click="searchByCategoy()">Submit</button>
+                        </div>
+                    </div>
+                    <br />
+                </div>
+            </div>
+            <div class="row">
+                <div ng-repeat="review in ::Reviews" ng-hide="isNoReviews()">
+                    <div class="reviewContainer col-xs-12 col-md-6 wow fadeIn" data-wow-delay="{{ ::$index / 3}}s" data-wow-duration="0.5s">
+                        <div class="review">
+                            {{ ::review.ReviewText }}
+                            <br />
+                            <div class="text-left" style="color: gray;">
+                                {{ ::review.CategoryName }}
+                            </div>
+                            <div class="text-right">
+                                <span ng-repeat="n in [] | range:review.Stars" class="glyphicon glyphicon-star"></span>
+                                <br />
+                                {{ ::review.Author }}&nbsp;&nbsp;
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-xs-12" ng-if="!isNoReviews()">
-                Get more speficic reviews by searching with a category
-                <br />
-                @*<input type="text" placeholder="Category" class="form-control" ng-model="categoryTxtBx" />
-                    <button class="btn primaryButton" ng-click="searchByCategoy()">Submit</button>*@
+        </div>
+        <br />
+        <br />
+    </div>
+    <div ng-hide="hideGenForm">
+        <div class="row">
+            <div class="col-xs-12">
+                <input id="nameTxtBx" type="text" placeholder="Name" class="form-control" ng-model="nameTxtBx" />
+                <textarea id="reviewTxtBx" type="text" placeholder="Review" rows="4" class="form-control" ng-model="reviewTxtArea"></textarea>
+                <button id="submitBtn" class="btn btn-primary" ng-click="submitGeneralReview()">
+                    Submit
+                </button>
             </div>
-            <button class="btn primaryButton" ng-click="toggleCatForm()">Add a Categorized Review</button>
-            <button class="btn primaryButton" ng-click="toggleGenForm()">Add a General Review</button>
         </div>
     </div>
-    <br />
-    <br />
-</div>
-<div ng-hide="hideGenForm">
-    <div class="row">
-        <div class="col-xs-12">
-            <input id="nameTxtBx" type="text" placeholder="Name" class="form-control" ng-model="nameTxtBx" />
-            <textarea id="reviewTxtBx" type="text" placeholder="Review" rows="4" class="form-control" ng-model="reviewTxtArea"></textarea>
-            <button id="submitBtn" class="btn btn-primary" ng-click="submitGeneralReview()">
-                Submit
-            </button>
+    <div ng-hide="hideCatForm">
+        <div class="row">
+            <div class="col-xs-12">
+                <input id="nameTxtBx" type="text" placeholder="Category" class="form-control" ng-model="nameTxtBx" />
+                <textarea id="reviewTxtBx" type="text" placeholder="Review" rows="4" class="form-control" ng-model="reviewTxtArea"></textarea>
+                <button id="submitBtn" class="btn btn-primary" ng-click="submitReview()">
+                    Submit
+                </button>
+            </div>
         </div>
     </div>
-</div>
-<div ng-hide="hideCatForm">
-    <div class="row">
-        <div class="col-xs-12">
-            <input id="nameTxtBx" type="text" placeholder="Category" class="form-control" ng-model="nameTxtBx" />
-            <textarea id="reviewTxtBx" type="text" placeholder="Review" rows="4" class="form-control" ng-model="reviewTxtArea"></textarea>
-            <button id="submitBtn" class="btn btn-primary" ng-click="submitReview()">
-                Submit
-            </button>
-        </div>
-    </div>
-</div>
     <div id="addReviewModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
-
-            <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Modal Header</h4>
+                    <h4 class="modal-title">@ViewBag.Name</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Some text in the modal.</p>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Name" ng-model="nameTxtBx" />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Review Category (optional)" ng-model="category" />
+                    </div>
+                    <div class="form-group">
+                        <textarea cols="40" rows="5" class="form-control" placeholder="Review" ng-model="reviewTxtArea"></textarea>
+                    </div>
+                    <br />
+                    <div class="form-group text-center">
+                        <span id="star1" class="glyphicon glyphicon-star unclicked-star"></span>&nbsp;&nbsp;<span id="star2" class="glyphicon glyphicon-star unclicked-star"></span>&nbsp;&nbsp;<span id="star3" class="glyphicon glyphicon-star unclicked-star"></span>&nbsp;&nbsp;<span id="star4" class="glyphicon glyphicon-star unclicked-star"></span>&nbsp;&nbsp;<span id="star5" class="glyphicon glyphicon-star unclicked-star"></span>
+                    </div>
                 </div>
                 <div class="modal-footer">
+                    <button type="submit" class="btn btn-default" ng-click="submitReview()">Submit</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>
-
         </div>
     </div>
-    </div>
-<!-- Add review modal -->
-@*<div id="addReviewModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Modal Header</h4>
-            </div>
-            <div class="modal-body">
-                test
-            </div>
-        </div>
-    </div>
-</div>*@
+</div>

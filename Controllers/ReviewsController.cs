@@ -12,6 +12,7 @@ using System.Web.Script.Serialization;
 using ReviewsJoy.DAL.DTO;
 using System.Threading;
 using System.Threading.Tasks;
+using ReviewsJoy.HelperMethods;
 
 namespace ReviewsJoy.Controllers
 {
@@ -90,6 +91,7 @@ namespace ReviewsJoy.Controllers
             var reviews = GetMostRecentReviews(placeId);
             if (reviews != null && reviews.Count > 0)
             {
+                reviews.ForEach(r => r.Author = TextHelperMethods.UppercaseFirst(r.Author));
                 ViewBag.locationId = reviews.FirstOrDefault().LocationId;
                 ViewBag.Reviews = new JavaScriptSerializer().Serialize(reviews);
             }
@@ -122,12 +124,19 @@ namespace ReviewsJoy.Controllers
         }
 
         [HttpPost]
-        public bool AddNewReview(int locationId, string placeId, string category, string review, string name, string locationName)
+        public bool AddNewReview(int locationId, string placeId, string category, string review, string name, string locationName, string stars)
         {
+            if (String.IsNullOrEmpty(name) || String.IsNullOrEmpty(stars))
+                return false;
+
+            name = name.ToUpper();
+            category = category.ToUpper();
+            var numStars = Convert.ToInt32(stars);
+
             if (String.IsNullOrEmpty(category) ||
-                category.Equals("general", StringComparison.InvariantCultureIgnoreCase))
+                category.Equals("GENERAL", StringComparison.InvariantCultureIgnoreCase))
             {
-                category = "General";
+                category = "GENERAL";
             }
             var cat = db.CategoryGetByName(category);
 
@@ -135,7 +144,7 @@ namespace ReviewsJoy.Controllers
             {
                 // No reviews exist
                 // Create location and add review
-                if (locationId == 0 && placeId != String.Empty)
+                if (locationId == 0 && !String.IsNullOrEmpty(placeId))
                 {
                     var newLoc = new Location { placeId = placeId, Name = locationName };
                     var locCtrl = new LocationController(db);
@@ -146,7 +155,8 @@ namespace ReviewsJoy.Controllers
                         {
                             Location = newLoc,
                             ReviewText = review,
-                            Category = cat
+                            Category = cat,
+                            Stars = numStars
                         };
                         AddReview(newReview);
                         scope.Complete();
@@ -173,7 +183,8 @@ namespace ReviewsJoy.Controllers
                             Location = location,
                             ReviewText = review,
                             Category = cat,
-                            Author = name
+                            Author = name,
+                            Stars = numStars
                         };
                         AddReview(newReview);
                         scope.Complete();
