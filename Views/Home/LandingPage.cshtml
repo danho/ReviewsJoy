@@ -7,7 +7,7 @@
         <div id="searchNow" class="col-xs-8 col-xs-offset-2" ng-show="showSearch">
             <form>
                 <div class="input-group">
-                    <input id="searchTxtBx" type="text" class="form-control" placeholder="Name or Address" ng-model="searchText" ng-change="autoComplete()" />
+                    <input id="searchTxtBx" type="text" class="form-control" placeholder="Name or Address" ng-model="searchText" />
                     <span class="input-group-btn">
                         <button id="searchBtn" class="btn btn-primary" ng-disabled="searchBtnDisabled" ng-click="search()">Search</button>
                     </span>

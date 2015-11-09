@@ -74,18 +74,6 @@ namespace ReviewsJoy.Controllers
         {
             ViewBag.placeId = placeId;
 
-            //var key = WebConfigurationManager.AppSettings["GoogleServerKey"];
-            //var url = WebConfigurationManager.AppSettings["GoogleDetailsWebApiUrl"];
-
-            //var wc = new WebClient();
-            //wc.QueryString.Add("placeid", placeId);
-            //wc.QueryString.Add("key", key);
-            //var result = wc.DownloadString(url);
-            //GooglePlace gp = (GooglePlace)new JavaScriptSerializer().Deserialize(result, typeof(GooglePlace));
-
-            //ViewBag.Name = gp.result.name;
-            //ViewBag.Address = gp.result.formatted_address;
-
             var locationTask = Task<GooglePlace>.Factory.StartNew(() => GetLocationDetails(placeId));
 
             var reviews = GetMostRecentReviews(placeId);
@@ -220,6 +208,7 @@ namespace ReviewsJoy.Controllers
             var wc = new WebClient();
             wc.QueryString.Add("input", searchText);
             wc.QueryString.Add("key", key);
+            wc.QueryString.Add("types", "establishment");
             var result = wc.DownloadString(url);
             return Json(result);
         }
