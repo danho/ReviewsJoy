@@ -13,6 +13,9 @@ var AllController = function ($scope, $window, $http) {
         $scope.placeId = placeId;
         $scope.locationName = locationName;
         angular.element(document).ready(function () {
+
+
+
             $("#star1").click(function () {
                 $scope.stars = 1;
                 $(this).removeClass("unclicked-star");

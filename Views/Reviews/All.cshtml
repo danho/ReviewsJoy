@@ -85,22 +85,30 @@
                     <h4 class="modal-title">@ViewBag.Name</h4>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Name" ng-model="nameTxtBx" />
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Review Category (optional)" ng-model="category" />
-                    </div>
-                    <div class="form-group">
-                        <textarea cols="40" rows="5" class="form-control" placeholder="Review" ng-model="reviewTxtArea"></textarea>
-                    </div>
-                    <br />
-                    <div class="form-group text-center">
-                        <span id="star1" class="glyphicon glyphicon-star unclicked-star"></span>&nbsp;&nbsp;<span id="star2" class="glyphicon glyphicon-star unclicked-star"></span>&nbsp;&nbsp;<span id="star3" class="glyphicon glyphicon-star unclicked-star"></span>&nbsp;&nbsp;<span id="star4" class="glyphicon glyphicon-star unclicked-star"></span>&nbsp;&nbsp;<span id="star5" class="glyphicon glyphicon-star unclicked-star"></span>
-                    </div>
+                    <form name="myForm" novalidate>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Name" ng-model="nameTxtBx" name="name" required />
+                            <span class="text-danger" ng-show="myForm.name.$dirty && myForm.name.$invalid">
+                                <span ng-show="myForm.name.$error.required" class="text-danger">Please enter a name.</span>
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Review Category (optional)" ng-model="category" />
+                        </div>
+                        <div class="form-group">
+                            <textarea cols="40" rows="5" class="form-control" placeholder="Review" ng-model="reviewTxtArea" name="review" required></textarea>
+                            <span class="text-danger" ng-show="myForm.review.$dirty && myForm.review.$invalid">
+                                <span ng-show="myForm.review.$error.required" class="text-danger">Please enter a review.</span>
+                            </span>
+                        </div>
+                        <br />
+                        <div class="form-group text-center">
+                            <span id="star1" class="glyphicon glyphicon-star unclicked-star"></span>&nbsp;&nbsp;<span id="star2" class="glyphicon glyphicon-star unclicked-star"></span>&nbsp;&nbsp;<span id="star3" class="glyphicon glyphicon-star unclicked-star"></span>&nbsp;&nbsp;<span id="star4" class="glyphicon glyphicon-star unclicked-star"></span>&nbsp;&nbsp;<span id="star5" class="glyphicon glyphicon-star unclicked-star"></span>
+                        </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-default" ng-click="submitReview()">Submit</button>
+                    <button type="submit" class="btn btn-default" ng-disabled="myForm.name.$pristine || myForm.review.$pristine || myForm.name.$dirty && myForm.name.$invalid || myForm.review.$dirty && myForm.review.$invalid" ng-click="submitReview()">Submit</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>
