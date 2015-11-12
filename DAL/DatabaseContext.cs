@@ -180,5 +180,26 @@ namespace ReviewsJoy.DAL
                           .Take(count)
                           .ToList();
         }
+
+        public List<ReviewDTO> ReviewsFilterByCategory(int locationId, string category, int count)
+        {
+            if (locationId == 0)
+                return new List<ReviewDTO>();
+
+            category = String.IsNullOrEmpty(category) ? String.Empty : category.Trim();
+
+            return Reviews.Where(r => r.Location.LocationId == locationId && r.Category.Name.Contains(category))
+                          .AsNoTracking()
+                          .Select(r => new ReviewDTO
+                                          {
+                                              Author = r.Author,
+                                              CategoryName = r.Category.Name,
+                                              LocationId = r.Location.LocationId,
+                                              ReviewText = r.ReviewText,
+                                              Stars = r.Stars
+                                          })
+                          .Take(count)
+                          .ToList();
+        }
     }
 }

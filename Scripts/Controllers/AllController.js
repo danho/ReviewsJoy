@@ -13,9 +13,6 @@ var AllController = function ($scope, $window, $http) {
         $scope.placeId = placeId;
         $scope.locationName = locationName;
         angular.element(document).ready(function () {
-
-
-
             $("#star1").click(function () {
                 $scope.stars = 1;
                 $(this).removeClass("unclicked-star");
@@ -156,6 +153,36 @@ var AllController = function ($scope, $window, $http) {
     //        }
     //    });
     //};
+    $scope.clearModal = function () {
+        $scope.nameTxtBx = null;
+        $scope.category = null;
+        $scope.reviewTxtArea = null;
+        $("#star1").removeClass("clicked-star");
+        $("#star1").addClass("unclicked-star");
+        $("#star2").removeClass("clicked-star");
+        $("#star2").addClass("unclicked-star");
+        $("#star3").removeClass("clicked-star");
+        $("#star3").addClass("unclicked-star");
+        $("#star4").removeClass("clicked-star");
+        $("#star4").addClass("unclicked-star");
+        $("#star5").removeClass("clicked-star");
+        $("#star5").addClass("unclicked-star");
+        $scope.myForm.$setPristine();
+    }
+    $scope.filterByCategory = function() {
+        $http({
+            url: '/Reviews/FilterByCategory',
+            method: 'POST',
+            data: {
+                'locationId': $scope.locationId,
+                'category': $scope.categoryTxtBx
+            }
+        }).success(function (data, status, headers, config) {
+            //if (data.count > 0) {
+            $scope.Reviews = data;
+            //}
+        });
+    }
 }
 
 AllController.$inject = ['$scope'];

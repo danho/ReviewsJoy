@@ -46,7 +46,7 @@ namespace ReviewsJoy.Controllers
         [ChildActionOnly]
         public List<ReviewDTO> GetMostRecentReviews(string placeId)
         {
-            return db.ReviewsGetMostRecent(placeId, 10);
+            return db.ReviewsGetMostRecent(placeId, 6);
         }
 
         [ChildActionOnly]
@@ -90,7 +90,13 @@ namespace ReviewsJoy.Controllers
 
             return View();
         }
-        
+
+        [HttpPost]
+        public JsonResult FilterByCategory(int locationId, string category)
+        {
+            return Json(db.ReviewsFilterByCategory(locationId, category, 6));
+        }
+
         [ChildActionOnly]
         public GooglePlace GetLocationDetails(string placeId)
         {

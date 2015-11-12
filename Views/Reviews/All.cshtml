@@ -23,18 +23,18 @@
                     <br />
                     <div class="">
                         <button class="btn primaryButton" ng-click="toggleCategoryTxtBx()">Search with a Category</button>
-                        <button class="btn primaryButton" data-toggle="modal" data-target="#addReviewModal">Add a Review</button>
+                        <button class="btn primaryButton" data-toggle="modal" data-target="#addReviewModal" ng-click="clearModal()">Add a Review</button>
                         <div ng-show="showCategoryTxtBx">
                             <br />
                             <input type="text" placeholder="Category" class="form-control" ng-model="categoryTxtBx" />
-                            <button class="btn primaryButton" ng-click="searchByCategoy()">Submit</button>
+                            <button class="btn primaryButton" ng-click="filterByCategory()">Submit</button>
                         </div>
                     </div>
                     <br />
                 </div>
             </div>
             <div class="row">
-                <div ng-repeat="review in ::Reviews" ng-hide="isNoReviews()">
+                <div ng-repeat="review in Reviews" ng-hide="isNoReviews()">
                     <div class="reviewContainer col-xs-12 col-md-6 wow fadeIn" data-wow-delay="{{ ::$index / 3}}s" data-wow-duration="0.5s">
                         <div class="review">
                             {{ ::review.ReviewText }}
