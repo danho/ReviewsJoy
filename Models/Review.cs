@@ -16,5 +16,7 @@ namespace ReviewsJoy.Models
         public string Author { get; set; }
         [Range(0, 10)]
         public int Stars { get; set; }
+        public int UpVotes { get; set; }
+        public int DownVotes { get; set; }
     }
 }

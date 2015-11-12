@@ -158,25 +158,24 @@ namespace ReviewsJoy.DAL
             return newReview;
         }
 
-        public async Task<List<Review>> WarmUpDb()
-        {
-            return await Reviews.Take(100).ToListAsync();
-        }
-
         public List<ReviewDTO> ReviewsGetMostRecent(string placeId, int count)
         {
             if (String.IsNullOrEmpty(placeId) || count == 0)
                 return new List<ReviewDTO>();
             return Reviews.Where(r => r.Location.placeId == placeId)
+                          .OrderByDescending(r => r.ReviewId)
                           .AsNoTracking()
                           .Select(r => new ReviewDTO
-                                            {
-                                                Author = r.Author,
-                                                CategoryName = r.Category.Name,
-                                                LocationId = r.Location.LocationId,
-                                                ReviewText = r.ReviewText,
-                                                Stars = r.Stars
-                                            })
+                          {
+                              Id = r.ReviewId,
+                              Author = r.Author,
+                              CategoryName = r.Category.Name,
+                              LocationId = r.Location.LocationId,
+                              ReviewText = r.ReviewText,
+                              Stars = r.Stars,
+                              UpVotes = r.UpVotes,
+                              DownVotes = r.DownVotes
+                          })
                           .Take(count)
                           .ToList();
         }
@@ -189,17 +188,70 @@ namespace ReviewsJoy.DAL
             category = String.IsNullOrEmpty(category) ? String.Empty : category.Trim();
 
             return Reviews.Where(r => r.Location.LocationId == locationId && r.Category.Name.Contains(category))
+                          .OrderByDescending(r => r.ReviewId)
                           .AsNoTracking()
                           .Select(r => new ReviewDTO
-                                          {
-                                              Author = r.Author,
-                                              CategoryName = r.Category.Name,
-                                              LocationId = r.Location.LocationId,
-                                              ReviewText = r.ReviewText,
-                                              Stars = r.Stars
-                                          })
+                          {
+                              Id = r.ReviewId,
+                              Author = r.Author,
+                              CategoryName = r.Category.Name,
+                              LocationId = r.Location.LocationId,
+                              ReviewText = r.ReviewText,
+                              Stars = r.Stars,
+                              UpVotes = r.UpVotes,
+                              DownVotes = r.DownVotes
+                          })
                           .Take(count)
                           .ToList();
+        }
+
+        public ReviewDTO UpVote(int reviewId)
+        {
+            if (reviewId == 0)
+                return null;
+
+            var r = Reviews.FirstOrDefault(x => x.ReviewId == reviewId);
+
+            if (r == null)
+                return null;
+
+            r.UpVotes++;
+            SaveChanges();
+            return new ReviewDTO
+            {
+                Id = r.ReviewId,
+                Author = r.Author,
+                CategoryName = r.Category.Name,
+                LocationId = r.Location.LocationId,
+                ReviewText = r.ReviewText,
+                Stars = r.Stars,
+                UpVotes = r.UpVotes,
+                DownVotes = r.DownVotes
+            };
+        }
+        public ReviewDTO DownVote(int reviewId)
+        {
+            if (reviewId == 0)
+                return null;
+
+            var r = Reviews.FirstOrDefault(x => x.ReviewId == reviewId);
+
+            if (r == null)
+                return null;
+
+            r.DownVotes++;
+            SaveChanges();
+            return new ReviewDTO
+            {
+                Id = r.ReviewId,
+                Author = r.Author,
+                CategoryName = r.Category.Name,
+                LocationId = r.Location.LocationId,
+                ReviewText = r.ReviewText,
+                Stars = r.Stars,
+                UpVotes = r.UpVotes,
+                DownVotes = r.DownVotes
+            };
         }
     }
 }

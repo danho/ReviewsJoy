@@ -45,7 +45,14 @@
                             <div class="text-right">
                                 <span ng-repeat="n in [] | range:review.Stars" class="glyphicon glyphicon-star"></span>
                                 <br />
-                                {{ ::review.Author }}&nbsp;&nbsp;
+                                <div class="row">
+                                    <div class="col-xs-6 text-left">
+                                        <span class="glyphicon glyphicon-arrow-up unclicked-up-vote" ng-class="{'hover-up-vote':hover }" ng-mouseenter="hover = true" ng-mouseleave="hover = false" ng-click="upVote(review.Id)"></span>{{ ::review.UpVotes }}&nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-down unclicked-down-vote" ng-class="{'hover-down-vote':hover2 }" ng-mouseenter="hover2 = true" ng-mouseleave="hover2 = false" ng-click="downVote(review.Id)"></span>{{ ::review.DownVotes }}
+                                    </div>
+                                    <div class="col-xs-6 text-right">
+                                        {{ ::review.Author }}&nbsp;&nbsp;
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

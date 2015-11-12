@@ -183,6 +183,36 @@ var AllController = function ($scope, $window, $http) {
             //}
         });
     }
+    $scope.upVote = function(id) {
+        $http({
+            url: '/Reviews/UpVote',
+            method: 'POST',
+            data: {
+                'Id': id
+            }
+        }).success(function (data, status, headers, config) {
+            for (var i = 0; i < $scope.Reviews.length; i++) {
+                if ($scope.Reviews[i].Id == data.Id) {
+                    $scope.Reviews[i] = data;
+                }
+            }
+        });
+    }
+    $scope.downVote = function (id) {
+        $http({
+            url: '/Reviews/DownVote',
+            method: 'POST',
+            data: {
+                'Id': id
+            }
+        }).success(function (data, status, headers, config) {
+            for (var i = 0; i < $scope.Reviews.length; i++) {
+                if ($scope.Reviews[i].Id == data.Id) {
+                    $scope.Reviews[i] = data;
+                }
+            }
+        });
+    }
 }
 
 AllController.$inject = ['$scope'];

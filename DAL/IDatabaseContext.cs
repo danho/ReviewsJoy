@@ -26,7 +26,8 @@ namespace ReviewsJoy.DAL
         List<ReviewDTO> ReviewsGetMostRecent(string placeId, int count);
         Review AddReview(Review review);
         List<Review> ReviewsGetLatest(int count);
-        Task<List<Review>> WarmUpDb();
         List<ReviewDTO> ReviewsFilterByCategory(int locationId, string category, int count);
+        ReviewDTO UpVote(int reviewId);
+        ReviewDTO DownVote(int reviewId);
     }
 }

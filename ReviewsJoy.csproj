@@ -220,6 +220,10 @@
     <Compile Include="Migrations\201509061629436_placeId1.Designer.cs">
       <DependentUpon>201509061629436_placeId1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511121030022_up_down_votes.cs" />
+    <Compile Include="Migrations\201511121030022_up_down_votes.Designer.cs">
+      <DependentUpon>201511121030022_up_down_votes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Category.cs" />
@@ -1139,6 +1143,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201509061629436_placeId1.resx">
       <DependentUpon>201509061629436_placeId1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511121030022_up_down_votes.resx">
+      <DependentUpon>201511121030022_up_down_votes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

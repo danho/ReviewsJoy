@@ -109,3 +109,33 @@ textarea {
     color: black;
     cursor: pointer;
 }
+
+.unclicked-up-vote {
+    color: #e5e5e1;
+    cursor: pointer;
+}
+
+.unclicked-down-vote {
+    color: #e5e5e1;
+    cursor: pointer;
+}
+
+.hover-up-vote {
+    color: #65d442;
+    cursor: pointer;
+}
+
+.clicked-up-vote {
+    color: #65d442;
+    cursor: pointer;
+}
+
+.hover-down-vote {
+    color: #f72f2f;
+    cursor: pointer;
+}
+
+.clicked-down-vote {
+    color: #f72f2f;
+    cursor: pointer;
+}

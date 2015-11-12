@@ -230,5 +230,17 @@ namespace ReviewsJoy.Controllers
             var result = wc.DownloadString(url);
             return Json(result);
         }
+
+        [HttpPost]
+        public JsonResult UpVote(int Id)
+        {
+            return Json(db.UpVote(Id));
+        }
+
+        [HttpPost]
+        public JsonResult DownVote(int Id)
+        {
+            return Json(db.DownVote(Id));
+        }
     }
 }
