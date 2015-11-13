@@ -2,17 +2,7 @@
 <div class="container">
     <div id="generalReviews" ng-init="init('@ViewBag.Reviews', '@ViewBag.locationId', '@ViewBag.placeId', '@ViewBag.Name');"
          ng-hide="hideReviews">
-        <div class="col-xs-12" ng-show="isNoReviews()">
-            <h1>Sorry, there are no reviews at this time. Add one now!</h1>
-            <div class="col-xs-12">
-                <input id="nameTxtBx" type="text" placeholder="Name" class="form-control" ng-model="nameTxtBx" />
-                <textarea id="reviewTxtBx" type="text" placeholder="Review" rows="4" class="form-control" ng-model="reviewTxtArea"></textarea>
-                <button id="submitBtn" class="btn btn-primary" ng-click="submitGeneralReview()">
-                    Submit
-                </button>
-            </div>
-        </div>
-        <div ng-hide="isNoReviews()">
+        <div>
             <div class="row">
                 <div class="col-md-6">
                     <h2>@ViewBag.Name</h2>
@@ -31,6 +21,11 @@
                         </div>
                     </div>
                     <br />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12" ng-show="isNoReviews()">
+                    <h3>Sorry, there are no reviews at this time. Add one now!</h3>
                 </div>
             </div>
             <div class="row">
@@ -115,6 +110,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
+                    <div vc-recaptcha key="'6LcQ4BATAAAAAPwppWpWNabTlsUCpX07pzYxYm06'"></div>
                     <button type="submit" class="btn btn-default" ng-disabled="myForm.name.$pristine || myForm.review.$pristine || myForm.name.$dirty && myForm.name.$invalid || myForm.review.$dirty && myForm.review.$invalid" ng-click="submitReview()">Submit</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>

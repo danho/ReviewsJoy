@@ -163,7 +163,8 @@ namespace ReviewsJoy.DAL
             if (String.IsNullOrEmpty(placeId) || count == 0)
                 return new List<ReviewDTO>();
             return Reviews.Where(r => r.Location.placeId == placeId)
-                          .OrderByDescending(r => r.ReviewId)
+                          .OrderByDescending(r => r.UpVotes - r.DownVotes)
+                          .ThenByDescending(r => r.ReviewId)
                           .AsNoTracking()
                           .Select(r => new ReviewDTO
                           {
@@ -188,7 +189,8 @@ namespace ReviewsJoy.DAL
             category = String.IsNullOrEmpty(category) ? String.Empty : category.Trim();
 
             return Reviews.Where(r => r.Location.LocationId == locationId && r.Category.Name.Contains(category))
-                          .OrderByDescending(r => r.ReviewId)
+                          .OrderByDescending(r => r.UpVotes - r.DownVotes)
+                          .ThenByDescending(r => r.ReviewId)
                           .AsNoTracking()
                           .Select(r => new ReviewDTO
                           {

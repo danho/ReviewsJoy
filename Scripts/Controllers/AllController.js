@@ -1,4 +1,6 @@
-var AllController = function ($scope, $window, $http) {
+var AllController = function ($scope, $window, $http, vcRecaptchaService) {
+    var vm = this;
+    vm.publicKey = "6LcQ4BATAAAAAPwppWpWNabTlsUCpX07pzYxYm06";
     $scope.$on('$routeChangeSuccess', function () {
         $("body").css("background-image", "none");
     });
@@ -116,24 +118,30 @@ var AllController = function ($scope, $window, $http) {
     $scope.category = '';
     $scope.stars = 0;
     $scope.submitReview = function () {
-        $http({
-            url: '/Reviews/AddNewReview',
-            method: 'POST',
-            data: {
-                'locationId': $scope.locationId,
-                'locationName': $scope.locationName,
-                'placeId': $scope.placeId,
-                'name': $scope.nameTxtBx,
-                'review': $scope.reviewTxtArea,
-                'category': $scope.category,
-                'stars': $scope.stars
-            }
-        }).success(function (data, status, headers, config) {
-            var success = Boolean(data);
-            if (success) {
-                location.reload();
-            }
-        });
+        if (vcRecaptchaService.getResponse() === "") {
+            alert("Please resolve the captcha.")
+        } else {
+            var captchaResponse = vcRecaptchaService.getResponse();
+            $http({
+                url: '/Reviews/AddNewReview',
+                method: 'POST',
+                data: {
+                    'locationId': $scope.locationId,
+                    'locationName': $scope.locationName,
+                    'placeId': $scope.placeId,
+                    'name': $scope.nameTxtBx,
+                    'review': $scope.reviewTxtArea,
+                    'category': $scope.category,
+                    'stars': $scope.stars,
+                    'captchaResponse': captchaResponse
+                }
+            }).success(function (data, status, headers, config) {
+                var success = Boolean(data);
+                if (success) {
+                    location.reload();
+                }
+            });
+        }
     };
     //$scope.submitReview = function () {
     //    $http({

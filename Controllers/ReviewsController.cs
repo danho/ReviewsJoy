@@ -13,6 +13,8 @@ using ReviewsJoy.DAL.DTO;
 using System.Threading;
 using System.Threading.Tasks;
 using ReviewsJoy.HelperMethods;
+using System.Collections.Specialized;
+using System.Text;
 
 namespace ReviewsJoy.Controllers
 {
@@ -118,13 +120,28 @@ namespace ReviewsJoy.Controllers
         }
 
         [HttpPost]
-        public bool AddNewReview(int locationId, string placeId, string category, string review, string name, string locationName, string stars)
+        public bool AddNewReview(int locationId, string placeId, string category, string review, string name, string locationName, string stars, string captchaResponse)
         {
+            if (String.IsNullOrEmpty(captchaResponse))
+                return false;
+
+            using (var client = new WebClient())
+            {
+                var values = new NameValueCollection();
+                values["secret"] = WebConfigurationManager.AppSettings["GoogleCaptchaSecret"];
+                values["response"] = captchaResponse;
+
+                var response = client.UploadValues("https://www.google.com/recaptcha/api/siteverify", values);
+
+                var responseString = Encoding.Default.GetString(response);
+                if (!responseString.Contains("true"))
+                    return false;
+            }
+
             if (String.IsNullOrEmpty(name) || String.IsNullOrEmpty(stars))
                 return false;
 
             name = name.ToUpper();
-            category = category.ToUpper();
             var numStars = Convert.ToInt32(stars);
 
             if (String.IsNullOrEmpty(category) ||
@@ -132,6 +149,7 @@ namespace ReviewsJoy.Controllers
             {
                 category = "GENERAL";
             }
+            category = category.ToUpper();
             var cat = db.CategoryGetByName(category);
 
             try
