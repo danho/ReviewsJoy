@@ -224,6 +224,10 @@
     <Compile Include="Migrations\201511121030022_up_down_votes.Designer.cs">
       <DependentUpon>201511121030022_up_down_votes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511151642028_Review_data_annotations.cs" />
+    <Compile Include="Migrations\201511151642028_Review_data_annotations.Designer.cs">
+      <DependentUpon>201511151642028_Review_data_annotations.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Category.cs" />
@@ -1124,6 +1128,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Scripts\Templates\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -1148,6 +1153,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511121030022_up_down_votes.resx">
       <DependentUpon>201511121030022_up_down_votes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511151642028_Review_data_annotations.resx">
+      <DependentUpon>201511151642028_Review_data_annotations.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
