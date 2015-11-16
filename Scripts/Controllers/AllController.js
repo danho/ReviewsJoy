@@ -122,11 +122,14 @@ var AllController = function ($scope, $window, $http, vcRecaptchaService) {
     $scope.reviewTxtArea = '';
     $scope.category = '';
     $scope.stars = 0;
+    $scope.setRecaptchaId = function (widgetId) {
+        $scope.recaptchaId = widgetId;
+    };
     $scope.submitReview = function () {
-        if (vcRecaptchaService.getResponse() === "") {
+        if (vcRecaptchaService.getResponse($scope.recaptchaId) === "") {
             alert("Please resolve the captcha.")
         } else {
-            var captchaResponse = vcRecaptchaService.getResponse();
+            var captchaResponse = vcRecaptchaService.getResponse($scope.recaptchaId);
             $http({
                 url: '/Reviews/AddNewReview',
                 method: 'POST',
@@ -164,7 +167,6 @@ var AllController = function ($scope, $window, $http, vcRecaptchaService) {
         $("#star5").addClass("unclicked-star");
         $scope.myForm.$setPristine();
         $scope.stars = 0;
-        $scope.$apply();
     }
     $scope.filterByCategory = function() {
         $http({

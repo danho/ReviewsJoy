@@ -64,9 +64,11 @@ namespace ReviewsJoy.Controllers
                 if (reviews.Count > 0)
                 {
                     locationId = reviews.FirstOrDefault().Location.LocationId;
-                    generalReviews = reviews.Where(r => String.Equals(r.Category.Name, "General", StringComparison.OrdinalIgnoreCase))
+                    generalReviews = reviews.Where(r => String.Equals(r.Category.Name, "General", StringComparison.OrdinalIgnoreCase)
+                                                        && r.IsActive == true)
                                             .ToList();
-                    categorizedReviews = reviews.Where(r => !String.Equals(r.Category.Name, "General", StringComparison.OrdinalIgnoreCase))
+                    categorizedReviews = reviews.Where(r => !String.Equals(r.Category.Name, "General", StringComparison.OrdinalIgnoreCase)
+                                                        && r.IsActive == true)
                                             .ToList();
                 }
             }
@@ -177,7 +179,9 @@ namespace ReviewsJoy.Controllers
                             Location = newLoc,
                             ReviewText = review,
                             Category = cat,
-                            Stars = numStars
+                            Stars = numStars,
+                            Author = name,
+                            IsActive = true
                         };
                         AddReview(newReview);
                         scope.Complete();
@@ -205,7 +209,8 @@ namespace ReviewsJoy.Controllers
                             ReviewText = review,
                             Category = cat,
                             Author = name,
-                            Stars = numStars
+                            Stars = numStars,
+                            IsActive = true
                         };
                         AddReview(newReview);
                         scope.Complete();
@@ -213,7 +218,7 @@ namespace ReviewsJoy.Controllers
                 }
                 return true;
             }
-            catch
+            catch (Exception e)
             {
                 return false;
             }

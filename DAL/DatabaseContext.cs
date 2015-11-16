@@ -90,11 +90,11 @@ namespace ReviewsJoy.DAL
             if (locationId == 0)
                 return new List<Review>();
             if (count == null)
-                return Reviews.Where(r => r.Location.LocationId == locationId)
+                return Reviews.Where(r => r.Location.LocationId == locationId && r.IsActive == true)
                               .AsNoTracking()
                               .ToList();
             else
-                return Reviews.Where(r => r.Location.LocationId == locationId)
+                return Reviews.Where(r => r.Location.LocationId == locationId && r.IsActive == true)
                               .Take(count.Value)
                               .AsNoTracking()
                               .ToList();
@@ -105,11 +105,13 @@ namespace ReviewsJoy.DAL
             if (locationId == 0)
                 return new List<Review>();
             if (count == null)
-                return Reviews.Where(r => r.Location.LocationId == locationId && r.Category.Name.Equals("General", StringComparison.InvariantCultureIgnoreCase))
+                return Reviews.Where(r => r.Location.LocationId == locationId && r.Category.Name.Equals("General", StringComparison.InvariantCultureIgnoreCase)
+                                        && r.IsActive == true)
                               .AsNoTracking()
                               .ToList();
             else
-                return Reviews.Where(r => r.Location.LocationId == locationId && r.Category.Name.Equals("General", StringComparison.InvariantCultureIgnoreCase))
+                return Reviews.Where(r => r.Location.LocationId == locationId && r.Category.Name.Equals("General", StringComparison.InvariantCultureIgnoreCase)
+                                        && r.IsActive == true)
                               .Take(count.Value)
                               .AsNoTracking()
                               .ToList();
@@ -120,11 +122,13 @@ namespace ReviewsJoy.DAL
             if (locationId == 0)
                 return new List<Review>();
             if (count == null)
-                return Reviews.Where(r => r.Location.LocationId == locationId && !r.Category.Name.Equals("General", StringComparison.InvariantCultureIgnoreCase))
+                return Reviews.Where(r => r.Location.LocationId == locationId && !r.Category.Name.Equals("General", StringComparison.InvariantCultureIgnoreCase)
+                                        && r.IsActive == true)
                               .AsNoTracking()
                               .ToList();
             else
-                return Reviews.Where(r => r.Location.LocationId == locationId && !r.Category.Name.Equals("General", StringComparison.InvariantCultureIgnoreCase))
+                return Reviews.Where(r => r.Location.LocationId == locationId && !r.Category.Name.Equals("General", StringComparison.InvariantCultureIgnoreCase)
+                                        && r.IsActive == true)
                               .Take(count.Value)
                               .AsNoTracking()
                               .ToList();
@@ -134,7 +138,8 @@ namespace ReviewsJoy.DAL
         {
             if (locationId == 0 || String.IsNullOrEmpty(categoryName))
                 return new List<Review>();
-            return Reviews.Where(r => r.Category.Name.Equals(categoryName, StringComparison.InvariantCultureIgnoreCase))
+            return Reviews.Where(r => r.Category.Name.Equals(categoryName, StringComparison.InvariantCultureIgnoreCase)
+                                            && r.IsActive == true)
                                        .AsNoTracking()
                                        .ToList();
         }
@@ -144,6 +149,7 @@ namespace ReviewsJoy.DAL
             if (count <= 0)
                 return new List<Review>();
             return Reviews.OrderByDescending(r => r.ReviewId)
+                            .Where(r => r.IsActive == true)
                             .Take(count)
                             .AsNoTracking()
                             .ToList();
@@ -162,7 +168,7 @@ namespace ReviewsJoy.DAL
         {
             if (String.IsNullOrEmpty(placeId) || count == 0)
                 return new List<ReviewDTO>();
-            return Reviews.Where(r => r.Location.placeId == placeId)
+            return Reviews.Where(r => r.Location.placeId == placeId && r.IsActive == true)
                           .OrderByDescending(r => r.UpVotes - r.DownVotes)
                           .ThenByDescending(r => r.ReviewId)
                           .AsNoTracking()
@@ -188,7 +194,8 @@ namespace ReviewsJoy.DAL
 
             category = String.IsNullOrEmpty(category) ? String.Empty : category.Trim();
 
-            return Reviews.Where(r => r.Location.LocationId == locationId && r.Category.Name.Contains(category))
+            return Reviews.Where(r => r.Location.LocationId == locationId && r.Category.Name.Contains(category)
+                                    && r.IsActive == true)
                           .OrderByDescending(r => r.UpVotes - r.DownVotes)
                           .ThenByDescending(r => r.ReviewId)
                           .AsNoTracking()
