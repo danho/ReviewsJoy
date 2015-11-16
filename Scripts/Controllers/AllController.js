@@ -27,6 +27,7 @@ var AllController = function ($scope, $window, $http, vcRecaptchaService) {
                 $("#star4").addClass("unclicked-star");
                 $("#star5").removeClass("clicked-star");
                 $("#star5").addClass("unclicked-star");
+                $scope.$apply();
             });
             $("#star2").click(function () {
                 $scope.stars = 2;
@@ -40,6 +41,7 @@ var AllController = function ($scope, $window, $http, vcRecaptchaService) {
                 $("#star4").addClass("unclicked-star");
                 $("#star5").removeClass("clicked-star");
                 $("#star5").addClass("unclicked-star");
+                $scope.$apply()
             });
             $("#star3").click(function () {
                 $scope.stars = 3;
@@ -53,6 +55,7 @@ var AllController = function ($scope, $window, $http, vcRecaptchaService) {
                 $("#star4").addClass("unclicked-star");
                 $("#star5").removeClass("clicked-star");
                 $("#star5").addClass("unclicked-star");
+                $scope.$apply();
             });
             $("#star4").click(function () {
                 $scope.stars = 4;
@@ -66,6 +69,7 @@ var AllController = function ($scope, $window, $http, vcRecaptchaService) {
                 $("#star3").addClass("clicked-star");
                 $("#star5").removeClass("clicked-star");
                 $("#star5").addClass("unclicked-star");
+                $scope.$apply();
             });
             $("#star5").click(function () {
                 $scope.stars = 5;
@@ -79,6 +83,7 @@ var AllController = function ($scope, $window, $http, vcRecaptchaService) {
                 $("#star3").addClass("clicked-star");
                 $("#star4").removeClass("unclicked-star");
                 $("#star4").addClass("clicked-star");
+                $scope.$apply();
             });
         });
     }
@@ -143,24 +148,6 @@ var AllController = function ($scope, $window, $http, vcRecaptchaService) {
             });
         }
     };
-    //$scope.submitReview = function () {
-    //    $http({
-    //        url: '/Reviews/AddNewReview',
-    //        method: 'POST',
-    //        data: {
-    //            'locationId': $scope.locationId,
-    //            'locationName': $scope.locationName,
-    //            'placeId': $scope.placeId,
-    //            'category': $scope.nameTxtBx,
-    //            'review': $scope.reviewTxtArea
-    //        }
-    //    }).success(function (data, status, headers, config) {
-    //        var success = Boolean(data);
-    //        if (success) {
-    //            location.reload();
-    //        }
-    //    });
-    //};
     $scope.clearModal = function () {
         $scope.nameTxtBx = null;
         $scope.category = null;
@@ -176,6 +163,8 @@ var AllController = function ($scope, $window, $http, vcRecaptchaService) {
         $("#star5").removeClass("clicked-star");
         $("#star5").addClass("unclicked-star");
         $scope.myForm.$setPristine();
+        $scope.stars = 0;
+        $scope.$apply();
     }
     $scope.filterByCategory = function() {
         $http({
@@ -186,9 +175,7 @@ var AllController = function ($scope, $window, $http, vcRecaptchaService) {
                 'category': $scope.categoryTxtBx
             }
         }).success(function (data, status, headers, config) {
-            //if (data.count > 0) {
             $scope.Reviews = data;
-            //}
         });
     }
     $scope.upVote = function(id) {

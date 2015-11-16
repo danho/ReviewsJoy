@@ -11,7 +11,7 @@ using System.Data.Entity.Infrastructure.MappingViews;
 
 [assembly: DbMappingViewCacheTypeAttribute(
     typeof(ReviewsJoy.DAL.DatabaseContext),
-    typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsbe1bd01e56673a87a3f55749684eb05623a0b87b87ce5b3f5c58b65d27c2a211))]
+    typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets0f3eb6c4af03db76ade24349efae64ec4261f6dbf16f4458425f945dec2b9e0c))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -23,14 +23,14 @@ namespace Edm_EntityMappingGeneratedViews
     /// Implements a mapping view cache.
     /// </summary>
     [GeneratedCode("Entity Framework Power Tools", "0.9.0.0")]
-    internal sealed class ViewsForBaseEntitySetsbe1bd01e56673a87a3f55749684eb05623a0b87b87ce5b3f5c58b65d27c2a211 : DbMappingViewCache
+    internal sealed class ViewsForBaseEntitySets0f3eb6c4af03db76ade24349efae64ec4261f6dbf16f4458425f945dec2b9e0c : DbMappingViewCache
     {
         /// <summary>
         /// Gets a hash value computed over the mapping closure.
         /// </summary>
         public override string MappingHashValue
         {
-            get { return "be1bd01e56673a87a3f55749684eb05623a0b87b87ce5b3f5c58b65d27c2a211"; }
+            get { return "0f3eb6c4af03db76ade24349efae64ec4261f6dbf16f4458425f945dec2b9e0c"; }
         }
 
         /// <summary>
@@ -141,9 +141,9 @@ namespace Edm_EntityMappingGeneratedViews
         {
             return new DbMappingView(@"
     SELECT VALUE -- Constructing Review
-        [CodeFirstDatabaseSchema.Review](T4.Review_ReviewId, T4.Review_ReviewText, T4.Review_Author, T4.Review_Stars, T4.Review_UpVotes, T4.Review_DownVotes, T4.[Review.Category_CategoryId], T4.[Review.Location_LocationId])
+        [CodeFirstDatabaseSchema.Review](T4.Review_ReviewId, T4.Review_ReviewText, T4.Review_Author, T4.Review_Stars, T4.Review_UpVotes, T4.Review_DownVotes, T4.Review_IsActive, T4.Review_RowVersion, T4.[Review.Category_CategoryId], T4.[Review.Location_LocationId])
     FROM (
-        SELECT T1.Review_ReviewId, T1.Review_ReviewText, T1.Review_Author, T1.Review_Stars, T1.Review_UpVotes, T1.Review_DownVotes, T2.[Review.Category_CategoryId], T3.[Review.Location_LocationId], T1._from0, (T2._from1 AND T2._from1 IS NOT NULL) AS _from1, (T3._from2 AND T3._from2 IS NOT NULL) AS _from2
+        SELECT T1.Review_ReviewId, T1.Review_ReviewText, T1.Review_Author, T1.Review_Stars, T1.Review_UpVotes, T1.Review_DownVotes, T1.Review_IsActive, T1.Review_RowVersion, T2.[Review.Category_CategoryId], T3.[Review.Location_LocationId], T1._from0, (T2._from1 AND T2._from1 IS NOT NULL) AS _from1, (T3._from2 AND T3._from2 IS NOT NULL) AS _from2
         FROM  (
             SELECT 
                 T.ReviewId AS Review_ReviewId, 
@@ -152,6 +152,8 @@ namespace Edm_EntityMappingGeneratedViews
                 T.Stars AS Review_Stars, 
                 T.UpVotes AS Review_UpVotes, 
                 T.DownVotes AS Review_DownVotes, 
+                T.IsActive AS Review_IsActive, 
+                T.RowVersion AS Review_RowVersion, 
                 True AS _from0
             FROM DatabaseContext.Reviews AS T) AS T1
             LEFT OUTER JOIN (
@@ -222,7 +224,7 @@ namespace Edm_EntityMappingGeneratedViews
         {
             return new DbMappingView(@"
     SELECT VALUE -- Constructing Reviews
-        [ReviewsJoy.DAL.Review](T1.Review_ReviewId, T1.Review_ReviewText, T1.Review_Author, T1.Review_Stars, T1.Review_UpVotes, T1.Review_DownVotes) WITH 
+        [ReviewsJoy.DAL.Review](T1.Review_ReviewId, T1.Review_ReviewText, T1.Review_Author, T1.Review_Stars, T1.Review_UpVotes, T1.Review_DownVotes, T1.Review_IsActive, T1.Review_RowVersion) WITH 
         RELATIONSHIP(CREATEREF(DatabaseContext.Categories, ROW(T1.[Review_Category.Review_Category_Target.CategoryId]),[ReviewsJoy.DAL.Category]),[ReviewsJoy.DAL.Review_Category],Review_Category_Source,Review_Category_Target) 
         RELATIONSHIP(CREATEREF(DatabaseContext.Locations, ROW(T1.[Review_Location.Review_Location_Target.LocationId]),[ReviewsJoy.DAL.Location]),[ReviewsJoy.DAL.Review_Location],Review_Location_Source,Review_Location_Target) 
     FROM (
@@ -233,6 +235,8 @@ namespace Edm_EntityMappingGeneratedViews
             T.Stars AS Review_Stars, 
             T.UpVotes AS Review_UpVotes, 
             T.DownVotes AS Review_DownVotes, 
+            T.IsActive AS Review_IsActive, 
+            T.RowVersion AS Review_RowVersion, 
             True AS _from0, 
             T.Category_CategoryId AS [Review_Category.Review_Category_Target.CategoryId], 
             T.Location_LocationId AS [Review_Location.Review_Location_Target.LocationId]

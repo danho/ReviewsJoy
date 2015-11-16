@@ -119,12 +119,9 @@ namespace ReviewsJoy.Controllers
             db.AddReview(review);
         }
 
-        [HttpPost]
-        public bool AddNewReview(int locationId, string placeId, string category, string review, string name, string locationName, string stars, string captchaResponse)
+        [ChildActionOnly]
+        public bool ValidateCaptcha(string captchaResponse)
         {
-            if (String.IsNullOrEmpty(captchaResponse))
-                return false;
-
             using (var client = new WebClient())
             {
                 var values = new NameValueCollection();
@@ -136,7 +133,19 @@ namespace ReviewsJoy.Controllers
                 var responseString = Encoding.Default.GetString(response);
                 if (!responseString.Contains("true"))
                     return false;
+                else
+                    return true;
             }
+        }
+
+        [HttpPost]
+        public bool AddNewReview(int locationId, string placeId, string category, string review, string name, string locationName, string stars, string captchaResponse)
+        {
+            if (String.IsNullOrEmpty(captchaResponse))
+                return false;
+
+            if (!ValidateCaptcha(captchaResponse))
+                return false;
 
             if (String.IsNullOrEmpty(name) || String.IsNullOrEmpty(stars))
                 return false;
