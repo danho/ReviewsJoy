@@ -18,5 +18,9 @@ namespace ReviewsJoy
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             Bootstrapper.Initialise();
         }
+
+        protected void Application_Error()
+        {
+        }
     }
 }

@@ -17,17 +17,14 @@ namespace ReviewsJoy.Controllers
             this.db = db;
         }
 
+        [HandleError]
         public ActionResult Index()
         {
             return View();
         }
 
+        [HandleError]
         public ActionResult LandingPage()
-        {
-            return View();
-        }
-
-        public ActionResult Begin()
         {
             return View();
         }

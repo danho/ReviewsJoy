@@ -74,6 +74,7 @@ namespace ReviewsJoy.Controllers
             }
         }
 
+        [HandleError]
         public ActionResult All(string placeId)
         {
             ViewBag.placeId = placeId;
@@ -230,6 +231,7 @@ namespace ReviewsJoy.Controllers
             return db.ReviewsGetByCategoryName(id, categoryName);
         }
 
+        [HandleError]
         public ActionResult ReviewsByCategoryName(int id, string categoryName)
         {
             var s = new JavaScriptSerializer();
