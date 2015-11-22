@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Threading.Tasks;
 using ReviewsJoy.DAL.DTO;
+using System.Data.Entity;
 
 namespace ReviewsJoy.DAL
 {
@@ -19,7 +20,6 @@ namespace ReviewsJoy.DAL
         Category CategoryGetByName(string name);
         Category CategoryAdd(string name);
         List<Review> ReviewsGetAll(string placeId);
-        List<Review> ReviewsGetByLocationId(int locationId, int? count);
         List<Review> ReviewsGeneralGetByLocationId(int locationId, int? count);
         List<Review> ReviewsCategorizedGetByLocationId(int locationId, int? count);
         List<Review> ReviewsGetByCategoryName(int locationId, string categoryName);
@@ -29,5 +29,7 @@ namespace ReviewsJoy.DAL
         List<ReviewDTO> ReviewsFilterByCategory(int locationId, string category, int count);
         ReviewDTO UpVote(int reviewId);
         ReviewDTO DownVote(int reviewId);
+        void Save();
+        void Dispose();
     }
 }

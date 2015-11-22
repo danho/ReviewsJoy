@@ -123,24 +123,24 @@ namespace ReviewsJoyTests.TestDAL
                 .Returns((string s) => locations.Where(l => l.Address.Contains(s)).ToList());
             mock.Setup(m => m.LocationGetById(It.IsAny<int>()))
                 .Returns((int i) => locations.FirstOrDefault(l => l.LocationId == i));
-            mock.Setup(m => m.ReviewsGetByLocationId(It.IsAny<int>(), It.IsAny<int?>()))
-                .Returns((int a, int? b) =>
-                    {
-                        if (b == null)
-                        {
-                            return reviews
-                                .Where(r => r.Location.LocationId == a)
-                                .ToList();
-                        }
-                        else
-                        {
-                            return reviews
-                                .Where(r => r.Location.LocationId == a)
-                                .Take(b.Value)
-                                .ToList();
-                        }
-                    }
-                );
+            //mock.Setup(m => m.ReviewsGetByLocationId(It.IsAny<int>(), It.IsAny<int?>()))
+            //    .Returns((int a, int? b) =>
+            //        {
+            //            if (b == null)
+            //            {
+            //                return reviews
+            //                    .Where(r => r.Location.LocationId == a)
+            //                    .ToList();
+            //            }
+            //            else
+            //            {
+            //                return reviews
+            //                    .Where(r => r.Location.LocationId == a)
+            //                    .Take(b.Value)
+            //                    .ToList();
+            //            }
+            //        }
+            //    );
             mock.Setup(m => m.ReviewsGeneralGetByLocationId(It.IsAny<int>(), It.IsAny<int?>()))
                 .Returns((int a, int? b) =>
                     {

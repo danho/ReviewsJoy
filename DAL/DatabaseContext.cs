@@ -85,21 +85,6 @@ namespace ReviewsJoy.DAL
                           .ToList();
         }
 
-        public List<Review> ReviewsGetByLocationId(int locationId, int? count)
-        {
-            if (locationId == 0)
-                return new List<Review>();
-            if (count == null)
-                return Reviews.Where(r => r.Location.LocationId == locationId && r.IsActive == true)
-                              .AsNoTracking()
-                              .ToList();
-            else
-                return Reviews.Where(r => r.Location.LocationId == locationId && r.IsActive == true)
-                              .Take(count.Value)
-                              .AsNoTracking()
-                              .ToList();
-        }
-
         public List<Review> ReviewsGeneralGetByLocationId(int locationId, int? count)
         {
             if (locationId == 0)
@@ -261,6 +246,11 @@ namespace ReviewsJoy.DAL
                 UpVotes = r.UpVotes,
                 DownVotes = r.DownVotes
             };
+        }
+
+        public void Save()
+        {
+            SaveChanges();
         }
     }
 }

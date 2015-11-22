@@ -188,6 +188,7 @@ var AllController = function ($scope, $window, $http, vcRecaptchaService) {
                 'Id': id
             }
         }).success(function (data, status, headers, config) {
+            var test = data;
             for (var i = 0; i < $scope.Reviews.length; i++) {
                 if ($scope.Reviews[i].Id == data.Id) {
                     $scope.Reviews[i] = data;

@@ -2,6 +2,7 @@ using System.Web.Mvc;
 using Microsoft.Practices.Unity;
 using Unity.Mvc3;
 using ReviewsJoy.DAL;
+using ReviewsJoy.DAL.Repository;
 
 namespace ReviewsJoy
 {
@@ -18,6 +19,10 @@ namespace ReviewsJoy
         {
             var container = new UnityContainer();
             container.RegisterType<IDatabaseContext, DatabaseContext>();
+            container.RegisterType<DatabaseContext, DatabaseContext>();
+            //container.RegisterType<IReviewsRepository, ReviewsRepository>();
+            container.RegisterType<IUnitOfWork, UnitOfWork>();
+            container.RegisterType(typeof(GenericRepository<>), typeof(GenericRepository<>));
             return container;
         }
     }

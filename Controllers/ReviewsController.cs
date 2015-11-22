@@ -15,63 +15,39 @@ using System.Threading.Tasks;
 using ReviewsJoy.HelperMethods;
 using System.Collections.Specialized;
 using System.Text;
+using ReviewsJoy.DAL.Repository;
+using System.Data.Entity;
 
 namespace ReviewsJoy.Controllers
 {
     public class ReviewsController : Controller
     {
         private IDatabaseContext db;
+        private IUnitOfWork unitOfWork;
 
-        public ReviewsController(IDatabaseContext db)
+        public ReviewsController(IDatabaseContext db, IUnitOfWork unitOfWork)
         {
             this.db = db;
-        }
-
-        [ChildActionOnly]
-        public List<Review> ReviewsGetByLocationId(int locationId, int? count)
-        {
-            return db.ReviewsGetByLocationId(locationId, count);
-        }
-
-        [ChildActionOnly]
-        public List<Review> ReviewsGeneralGetByLocationId(int locationId, int? count)
-        {
-            return db.ReviewsGeneralGetByLocationId(locationId, count);
-        }
-
-        [ChildActionOnly]
-        public List<Review> ReviewsCategorizedGetByLocationId(int locationId, int? count)
-        {
-            return db.ReviewsCategorizedGetByLocationId(locationId, count);
+            this.unitOfWork = unitOfWork;
         }
 
         [ChildActionOnly]
         public List<ReviewDTO> GetMostRecentReviews(string placeId)
         {
-            return db.ReviewsGetMostRecent(placeId, 6);
-        }
-
-        [ChildActionOnly]
-        public void GetAllReviews(string placeId, out int locationId, out List<Review> generalReviews, out List<Review> categorizedReviews)
-        {
-            locationId = 0;
-            generalReviews = null;
-            categorizedReviews = null;
-
-            if (!String.IsNullOrEmpty(placeId))
-            {
-                var reviews = db.ReviewsGetAll(placeId);
-                if (reviews.Count > 0)
-                {
-                    locationId = reviews.FirstOrDefault().Location.LocationId;
-                    generalReviews = reviews.Where(r => String.Equals(r.Category.Name, "General", StringComparison.OrdinalIgnoreCase)
-                                                        && r.IsActive == true)
-                                            .ToList();
-                    categorizedReviews = reviews.Where(r => !String.Equals(r.Category.Name, "General", StringComparison.OrdinalIgnoreCase)
-                                                        && r.IsActive == true)
-                                            .ToList();
-                }
-            }
+            var results = unitOfWork.ReviewsRepository.Get(r => r.Location.placeId == placeId && r.IsActive == true, x => x.OrderByDescending(r => r.UpVotes - r.DownVotes).ThenByDescending(r => r.ReviewId));
+            return results.Take(6)
+                            .Select(r => new ReviewDTO
+                            {
+                                Id = r.ReviewId,
+                                Author = r.Author,
+                                CategoryName = r.Category.Name,
+                                LocationId = r.Location.LocationId,
+                                ReviewText = r.ReviewText,
+                                Stars = r.Stars,
+                                UpVotes = r.UpVotes,
+                                DownVotes = r.DownVotes
+                            })
+                                .ToList();
         }
 
         [HandleError]
@@ -99,7 +75,22 @@ namespace ReviewsJoy.Controllers
         [HttpPost]
         public JsonResult FilterByCategory(int locationId, string category)
         {
-            return Json(db.ReviewsFilterByCategory(locationId, category, 6));
+            var test = unitOfWork.ReviewsRepository.Get(r => r.Location.LocationId == locationId && r.Category.Name.Contains(category) && r.IsActive == true).ToList();
+            var results = unitOfWork.ReviewsRepository.Get(r => r.Location.LocationId == locationId && r.Category.Name.Contains(category) && r.IsActive == true
+                                                            )
+                                                                .Take(6);
+            return Json(results
+                            .Select(r => new ReviewDTO
+                                {
+                                    Id = r.ReviewId,
+                                    Author = r.Author,
+                                    CategoryName = r.Category.Name,
+                                    LocationId = r.Location.LocationId,
+                                    ReviewText = r.ReviewText,
+                                    Stars = r.Stars,
+                                    UpVotes = r.UpVotes,
+                                    DownVotes = r.DownVotes
+                                }));
         }
 
         [ChildActionOnly]
@@ -119,7 +110,9 @@ namespace ReviewsJoy.Controllers
         [ChildActionOnly]
         public void AddReview(Review review)
         {
-            db.AddReview(review);
+            unitOfWork.ReviewsRepository.context.Entry<Location>(review.Location).State = EntityState.Unchanged;
+            unitOfWork.ReviewsRepository.Insert(review);
+            unitOfWork.Save();
         }
 
         [ChildActionOnly]
@@ -225,20 +218,6 @@ namespace ReviewsJoy.Controllers
             }
         }
 
-        [ChildActionOnly]
-        public List<Review> ReviewsGetByCategoryName(int id, string categoryName)
-        {
-            return db.ReviewsGetByCategoryName(id, categoryName);
-        }
-
-        [HandleError]
-        public ActionResult ReviewsByCategoryName(int id, string categoryName)
-        {
-            var s = new JavaScriptSerializer();
-            ViewBag.model = s.Serialize(ReviewsGetByCategoryName(id, categoryName));
-            return View();
-        }
-
         [HttpPost]
         public JsonResult AutoCompleteSearch(string searchText)
         {
@@ -268,13 +247,47 @@ namespace ReviewsJoy.Controllers
         [HttpPost]
         public JsonResult UpVote(int Id)
         {
-            return Json(db.UpVote(Id));
+            var review = unitOfWork.ReviewsRepository.GetByID(Id);
+            review.UpVotes++;
+            unitOfWork.ReviewsRepository.Update(review);
+            unitOfWork.Save();
+            return Json(new ReviewDTO
+            {
+                Id = review.ReviewId,
+                Author = review.Author,
+                CategoryName = review.Category.Name,
+                LocationId = review.Location.LocationId,
+                ReviewText = review.ReviewText,
+                Stars = review.Stars,
+                UpVotes = review.UpVotes,
+                DownVotes = review.DownVotes
+            });
         }
 
         [HttpPost]
         public JsonResult DownVote(int Id)
         {
-            return Json(db.DownVote(Id));
+            var review = unitOfWork.ReviewsRepository.GetByID(Id);
+            review.DownVotes++;
+            unitOfWork.ReviewsRepository.Update(review);
+            unitOfWork.Save();
+            return Json(new ReviewDTO
+            {
+                Id = review.ReviewId,
+                Author = review.Author,
+                CategoryName = review.Category.Name,
+                LocationId = review.Location.LocationId,
+                ReviewText = review.ReviewText,
+                Stars = review.Stars,
+                UpVotes = review.UpVotes,
+                DownVotes = review.DownVotes
+            });
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            unitOfWork.Dispose();
+            base.Dispose(disposing);
         }
     }
 }
