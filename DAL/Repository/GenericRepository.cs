@@ -9,10 +9,10 @@ namespace ReviewsJoy.DAL.Repository
 {
     public class GenericRepository<TEntity> where TEntity : class
     {
-        internal DatabaseContext context;
+        internal IDatabaseContext context;
         internal DbSet<TEntity> dbSet;
 
-        public GenericRepository(DatabaseContext context)
+        public GenericRepository(IDatabaseContext context)
         {
             this.context = context;
             this.dbSet = context.Set<TEntity>();
@@ -46,14 +46,14 @@ namespace ReviewsJoy.DAL.Repository
             }
         }
 
-        public virtual TEntity GetByID(object id)
-        {
-            return dbSet.Find(id);
-        }
+        //public virtual TEntity GetByID(object id)
+        //{
+        //    return dbSet.Find(id);
+        //}
 
-        public virtual void Insert(TEntity entity)
+        public virtual TEntity Insert(TEntity entity)
         {
-            dbSet.Add(entity);
+            return dbSet.Add(entity);
         }
 
         public virtual void Delete(object id)

@@ -6,11 +6,18 @@ using System.Web;
 using System.Threading.Tasks;
 using ReviewsJoy.DAL.DTO;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 
 namespace ReviewsJoy.DAL
 {
     public interface IDatabaseContext
     {
+        DbSet<Location> Locations { get; set; }
+        DbSet<Category> Categories { get; set; }
+        DbSet<Review> Reviews { get; set; }
+        DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
+        int SaveChanges();
+        DbSet<TEntity> Set<TEntity>() where TEntity : class;
         List<Location> LocationGetByAddress(string address);
         Location LocationGetById(int id);
         int LocationIdGetByPlaceId(string id);

@@ -21,7 +21,17 @@ namespace ReviewsJoyTests
         public void SetUp()
         {
             db = new TestDatabaseContext().GetMockDatabase();
-            //controller = new ReviewsController(db, null);
+            var unitOfWork = new UnitOfWork(db);
+            controller = new ReviewsController(unitOfWork);
+        }
+
+        [TestCase("a")]
+        [TestCase("b")]
+        public void GetMostRecentReviewsShouldGetReviews(string locationId)
+        {
+            var reviews = controller.GetMostRecentReviews("a");
+            Assert.NotNull(reviews);
+            Assert.True(reviews.Count > 0);
         }
 
         //[TestCase(1)]

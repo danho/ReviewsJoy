@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ReviewsJoy.Models;
 using Moq;
+using System.Data.Entity;
 
 namespace ReviewsJoyTests.TestDAL
 {
@@ -77,7 +78,8 @@ namespace ReviewsJoyTests.TestDAL
                 Category = c1,
                 Location = l1,
                 ReviewText = "Pretty good.",
-                Stars = 8
+                Stars = 8,
+                IsActive = true
             };
             var r2 = new Review
             {
@@ -86,7 +88,8 @@ namespace ReviewsJoyTests.TestDAL
                 Category = c2,
                 Location = l2,
                 ReviewText = "Plenty of parking spaces",
-                Stars = 10
+                Stars = 10,
+                IsActive = true
             };
             var r3 = new Review
             {
@@ -95,7 +98,8 @@ namespace ReviewsJoyTests.TestDAL
                 Category = c2,
                 Location = l2,
                 ReviewText = "Plenty of parking spaces",
-                Stars = 10
+                Stars = 10,
+                IsActive = true
             };
             var r4 = new Review
             {
@@ -116,13 +120,23 @@ namespace ReviewsJoyTests.TestDAL
 
         public IDatabaseContext GetMockDatabase()
         {
-            var mock = new Mock<IDatabaseContext>();
+            //var test = new Moq.Mock<DatabaseContext>();
+            //var mock = new Mock<IDatabaseContext>();
 
-            mock.Setup(m => m.CategoryGetAll()).Returns(() => categories.ToList());
-            mock.Setup(m => m.LocationGetByAddress(It.IsAny<string>()))
-                .Returns((string s) => locations.Where(l => l.Address.Contains(s)).ToList());
-            mock.Setup(m => m.LocationGetById(It.IsAny<int>()))
-                .Returns((int i) => locations.FirstOrDefault(l => l.LocationId == i));
+            var mockSet = new Mock<DbSet<Review>>();
+            mockSet.As<IQueryable<Review>>().Setup(r => r.Provider).Returns(reviews.AsQueryable().Provider);
+            mockSet.As<IQueryable<Review>>().Setup(m => m.Expression).Returns(reviews.AsQueryable().Expression);
+            mockSet.As<IQueryable<Review>>().Setup(m => m.ElementType).Returns(reviews.AsQueryable().ElementType);
+            mockSet.As<IQueryable<Review>>().Setup(m => m.GetEnumerator()).Returns(reviews.AsQueryable().GetEnumerator());
+            var mockContext = new Mock<IDatabaseContext>();
+            mockContext.Setup(m => m.Reviews).Returns(mockSet.Object);
+            mockContext.Setup(m => m.Set<Review>()).Returns(mockSet.Object);
+            return mockContext.Object;
+            //mock.Setup(m => m.CategoryGetAll()).Returns(() => categories.ToList());
+            //mock.Setup(m => m.LocationGetByAddress(It.IsAny<string>()))
+            //    .Returns((string s) => locations.Where(l => l.Address.Contains(s)).ToList());
+            //mock.Setup(m => m.LocationGetById(It.IsAny<int>()))
+            //    .Returns((int i) => locations.FirstOrDefault(l => l.LocationId == i));
             //mock.Setup(m => m.ReviewsGetByLocationId(It.IsAny<int>(), It.IsAny<int?>()))
             //    .Returns((int a, int? b) =>
             //        {
@@ -141,108 +155,108 @@ namespace ReviewsJoyTests.TestDAL
             //            }
             //        }
             //    );
-            mock.Setup(m => m.ReviewsGeneralGetByLocationId(It.IsAny<int>(), It.IsAny<int?>()))
-                .Returns((int a, int? b) =>
-                    {
-                        if (b == null)
-                            return reviews.Where(r => r.Location.LocationId == a
-                                    && r.Category.Name.Equals("general", StringComparison.InvariantCultureIgnoreCase))
-                                        .ToList();
-                        else
-                            return reviews.Where(r => r.Location.LocationId == a
-                                        && r.Category.Name.Equals("general", StringComparison.InvariantCultureIgnoreCase))
-                                            .Take(b.Value)
-                                                .ToList();
-                    }
-                );
-            mock.Setup(m => m.ReviewsCategorizedGetByLocationId(It.IsAny<int>(), It.IsAny<int?>()))
-                .Returns((int locationId, int? count) =>
-                    {
-                        if (count == null)
-                            return reviews.Where(r => r.Location.LocationId == locationId
-                                    && !r.Category.Name.Equals("general", StringComparison.InvariantCultureIgnoreCase))
-                                        .ToList();
-                        else
-                            return reviews.Where(r => r.Location.LocationId == locationId
-                                        && !r.Category.Name.Equals("general", StringComparison.InvariantCultureIgnoreCase))
-                                            .Take(count.Value)
-                                                .ToList();
-                    }
-                 );
-            mock.Setup(m => m.CategoryGetByName(It.IsAny<string>()))
-                .Returns((string name) =>
-                {
-                    Category cat = null;
-                    if (!String.IsNullOrEmpty(name))
-                    {
-                        name = name.Trim().ToUpper();
-                        cat = categories.FirstOrDefault(c => c.Name.ToUpper() == name);
-                    }
-                    return cat;
-                }
-            );
-            mock.Setup(m => m.ReviewsGetByCategoryName(It.IsAny<int>(), It.IsAny<string>()))
-                .Returns((int locationId, string categoryName) =>
-                {
-                    List<Review> catReviews = new List<Review>();
-                    if (!String.IsNullOrEmpty(categoryName))
-                    {
-                        categoryName = categoryName.Trim().ToUpper();
-                        var category = categories.FirstOrDefault(c => c.Name.ToUpper() == categoryName);
-                        if (category != null)
-                        {
-                            reviews = reviews.Where(r => r.Category.CategoryId == category.CategoryId)
-                                        .ToList();
-                        }
-                    }
-                    return catReviews;
-                }
-            );
-            mock.Setup(m => m.CategoryAdd(It.IsAny<string>()))
-                .Returns((string name) =>
-                {
-                    var id = categories.Last().CategoryId + 1;
-                    var newCat = new Category { CategoryId = id, Name = name };
-                    categories.Add(newCat);
-                    return newCat;
-                }
-            );
-            mock.Setup(m => m.LocationGetByPlaceId(It.IsAny<string>()))
-                .Returns((string placeId) =>
-                {
-                    return locations.FirstOrDefault(l => l.placeId == placeId);
-                }
-            );
-            mock.Setup(m => m.LocationAdd(It.IsAny<Location>()))
-                .Returns((Location location) =>
-                {
-                    location.LocationId = locations.Last().LocationId + 1;
-                    locations.Add(location);
-                    return location;
-                }
-            );
-            mock.Setup(m => m.AddReview(It.IsAny<Review>()))
-                .Returns((Review review) =>
-                {
-                    review.ReviewId = reviews.Last().ReviewId + 1;
-                    reviews.Add(review);
-                    return review;
-                }
-            );
-            mock.Setup(m => m.LocationIdGetByPlaceId(It.IsAny<string>()))
-                .Returns((string s) =>
-                {
-                    return locations.Where(l => l.placeId == s).Select(m => m.LocationId).FirstOrDefault();
-                }
-            );
-            mock.Setup(m => m.ReviewsGetAll(It.IsAny<string>()))
-                .Returns((string placeId) =>
-                {
-                    return reviews.Where(r => r.Location.placeId == placeId).ToList();
-                }
-            );
+            //mock.Setup(m => m.ReviewsGeneralGetByLocationId(It.IsAny<int>(), It.IsAny<int?>()))
+            //    .Returns((int a, int? b) =>
+            //        {
+            //            if (b == null)
+            //                return reviews.Where(r => r.Location.LocationId == a
+            //                        && r.Category.Name.Equals("general", StringComparison.InvariantCultureIgnoreCase))
+            //                            .ToList();
+            //            else
+            //                return reviews.Where(r => r.Location.LocationId == a
+            //                            && r.Category.Name.Equals("general", StringComparison.InvariantCultureIgnoreCase))
+            //                                .Take(b.Value)
+            //                                    .ToList();
+            //        }
+            //    );
+            //mock.Setup(m => m.ReviewsCategorizedGetByLocationId(It.IsAny<int>(), It.IsAny<int?>()))
+            //    .Returns((int locationId, int? count) =>
+            //        {
+            //            if (count == null)
+            //                return reviews.Where(r => r.Location.LocationId == locationId
+            //                        && !r.Category.Name.Equals("general", StringComparison.InvariantCultureIgnoreCase))
+            //                            .ToList();
+            //            else
+            //                return reviews.Where(r => r.Location.LocationId == locationId
+            //                            && !r.Category.Name.Equals("general", StringComparison.InvariantCultureIgnoreCase))
+            //                                .Take(count.Value)
+            //                                    .ToList();
+            //        }
+            //     );
+            //mock.Setup(m => m.CategoryGetByName(It.IsAny<string>()))
+            //    .Returns((string name) =>
+            //    {
+            //        Category cat = null;
+            //        if (!String.IsNullOrEmpty(name))
+            //        {
+            //            name = name.Trim().ToUpper();
+            //            cat = categories.FirstOrDefault(c => c.Name.ToUpper() == name);
+            //        }
+            //        return cat;
+            //    }
+            //);
+            //mock.Setup(m => m.ReviewsGetByCategoryName(It.IsAny<int>(), It.IsAny<string>()))
+            //    .Returns((int locationId, string categoryName) =>
+            //    {
+            //        List<Review> catReviews = new List<Review>();
+            //        if (!String.IsNullOrEmpty(categoryName))
+            //        {
+            //            categoryName = categoryName.Trim().ToUpper();
+            //            var category = categories.FirstOrDefault(c => c.Name.ToUpper() == categoryName);
+            //            if (category != null)
+            //            {
+            //                reviews = reviews.Where(r => r.Category.CategoryId == category.CategoryId)
+            //                            .ToList();
+            //            }
+            //        }
+            //        return catReviews;
+            //    }
+            //);
+            //mock.Setup(m => m.CategoryAdd(It.IsAny<string>()))
+            //    .Returns((string name) =>
+            //    {
+            //        var id = categories.Last().CategoryId + 1;
+            //        var newCat = new Category { CategoryId = id, Name = name };
+            //        categories.Add(newCat);
+            //        return newCat;
+            //    }
+            //);
+            //mock.Setup(m => m.LocationGetByPlaceId(It.IsAny<string>()))
+            //    .Returns((string placeId) =>
+            //    {
+            //        return locations.FirstOrDefault(l => l.placeId == placeId);
+            //    }
+            //);
+            //mock.Setup(m => m.LocationAdd(It.IsAny<Location>()))
+            //    .Returns((Location location) =>
+            //    {
+            //        location.LocationId = locations.Last().LocationId + 1;
+            //        locations.Add(location);
+            //        return location;
+            //    }
+            //);
+            //mock.Setup(m => m.AddReview(It.IsAny<Review>()))
+            //    .Returns((Review review) =>
+            //    {
+            //        review.ReviewId = reviews.Last().ReviewId + 1;
+            //        reviews.Add(review);
+            //        return review;
+            //    }
+            //);
+            //mock.Setup(m => m.LocationIdGetByPlaceId(It.IsAny<string>()))
+            //    .Returns((string s) =>
+            //    {
+            //        return locations.Where(l => l.placeId == s).Select(m => m.LocationId).FirstOrDefault();
+            //    }
+            //);
+            //mock.Setup(m => m.ReviewsGetAll(It.IsAny<string>()))
+            //    .Returns((string placeId) =>
+            //    {
+            //        return reviews.Where(r => r.Location.placeId == placeId).ToList();
+            //    }
+            //);
 
-            return mock.Object;
+            //return mock.Object;
         }
 
         //public List<Category> CategoryGetAll()

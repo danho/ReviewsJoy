@@ -22,12 +22,10 @@ namespace ReviewsJoy.Controllers
 {
     public class ReviewsController : Controller
     {
-        private IDatabaseContext db;
         private IUnitOfWork unitOfWork;
 
-        public ReviewsController(IDatabaseContext db, IUnitOfWork unitOfWork)
+        public ReviewsController(IUnitOfWork unitOfWork)
         {
-            this.db = db;
             this.unitOfWork = unitOfWork;
         }
 
@@ -155,7 +153,7 @@ namespace ReviewsJoy.Controllers
                 category = "GENERAL";
             }
             category = category.ToUpper();
-            var cat = db.CategoryGetByName(category);
+            var cat = unitOfWork.CategoryRepository.Get(c => c.Name.Equals(category, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
 
             try
             {
@@ -164,10 +162,10 @@ namespace ReviewsJoy.Controllers
                 if (locationId == 0 && !String.IsNullOrEmpty(placeId))
                 {
                     var newLoc = new Location { placeId = placeId, Name = locationName };
-                    var locCtrl = new LocationController(db);
                     using (var scope = new TransactionScope())
                     {
-                        newLoc = locCtrl.LocationAdd(newLoc);
+                        newLoc = unitOfWork.LocationRepository.Insert(newLoc);
+                        unitOfWork.Save();
                         var newReview = new Review
                         {
                             Location = newLoc,
@@ -186,7 +184,7 @@ namespace ReviewsJoy.Controllers
                 // Create review
                 else
                 {
-                    var location = db.LocationGetById(locationId);
+                    var location = unitOfWork.LocationRepository.Get(l => l.LocationId == locationId).FirstOrDefault();
                     if (location == null || String.IsNullOrEmpty(review))
                         return false;
 
@@ -194,7 +192,8 @@ namespace ReviewsJoy.Controllers
                     {
                         if (cat == null)
                         {
-                            cat = db.CategoryAdd(category);
+                            cat = unitOfWork.CategoryRepository.Insert(new Category { Name = category });
+                            unitOfWork.Save();
                         }
 
                         var newReview = new Review
@@ -212,7 +211,7 @@ namespace ReviewsJoy.Controllers
                 }
                 return true;
             }
-            catch (Exception e)
+            catch
             {
                 return false;
             }
@@ -247,7 +246,7 @@ namespace ReviewsJoy.Controllers
         [HttpPost]
         public JsonResult UpVote(int Id)
         {
-            var review = unitOfWork.ReviewsRepository.GetByID(Id);
+            var review = unitOfWork.ReviewsRepository.Get(r => r.ReviewId == Id).FirstOrDefault();
             review.UpVotes++;
             unitOfWork.ReviewsRepository.Update(review);
             unitOfWork.Save();
@@ -267,7 +266,7 @@ namespace ReviewsJoy.Controllers
         [HttpPost]
         public JsonResult DownVote(int Id)
         {
-            var review = unitOfWork.ReviewsRepository.GetByID(Id);
+            var review = unitOfWork.ReviewsRepository.Get(r => r.ReviewId == Id).FirstOrDefault();
             review.DownVotes++;
             unitOfWork.ReviewsRepository.Update(review);
             unitOfWork.Save();

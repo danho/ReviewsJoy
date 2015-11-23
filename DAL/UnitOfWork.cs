@@ -9,10 +9,12 @@ namespace ReviewsJoy.DAL
 {
     public class UnitOfWork : IUnitOfWork, IDisposable
     {
-        private DatabaseContext context;
+        private IDatabaseContext context;
         private GenericRepository<Review> reviewsRepository;
+        private GenericRepository<Category> categoryRepository;
+        private GenericRepository<Location> locationRepository;
 
-        public UnitOfWork(DatabaseContext context)
+        public UnitOfWork(IDatabaseContext context)
         {
             this.context = context;
         }
@@ -26,6 +28,30 @@ namespace ReviewsJoy.DAL
                     this.reviewsRepository = new GenericRepository<Review>(context);
                 }
                 return this.reviewsRepository;
+            }
+        }
+
+        public GenericRepository<Category> CategoryRepository
+        {
+            get
+            {
+                if (categoryRepository == null)
+                {
+                    this.categoryRepository = new GenericRepository<Category>(context);
+                }
+                return this.categoryRepository;
+            }
+        }
+
+        public GenericRepository<Location> LocationRepository
+        {
+            get
+            {
+                if (locationRepository == null)
+                {
+                    this.locationRepository = new GenericRepository<Location>(context);
+                }
+                return this.locationRepository;
             }
         }
 
